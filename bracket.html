@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acropolis Wolt Cup — Bracket &amp; Schedule</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <div class="brand">
+      <div class="ball"></div>
+      <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Table Tennis</span></h1>
+      <small>Group stage 22–23 · Final 24th</small></div>
+    </div>
+    <nav class="tabs">
+      <a href="index.html">Register</a>
+      <a href="bracket.html" class="active">Bracket &amp; Schedule</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <div id="status"></div>
+
+  <div class="card" id="scheduleCard">
+    <h2>Schedule</h2>
+    <p class="sub">Best of 5 games · handicaps applied per game. Days assigned by round.</p>
+    <div id="schedule"><span class="muted">Loading…</span></div>
+  </div>
+
+  <div class="card">
+    <h2>Bracket</h2>
+    <p class="sub">Live results. Winners advance automatically. Handicaps shown on each match.</p>
+    <div class="bracket" id="bracket"><span class="muted">Loading…</span></div>
+    <div class="legend">
+      <span><span class="badge b-novice">Novice</span></span>
+      <span><span class="badge b-intermediary">Intermediary</span></span>
+      <span><span class="badge b-advanced">Advanced</span></span>
+      <span>🏆 gold = winner · BYE = advanced seed skips round 1</span>
+    </div>
+  </div>
+
+  <div class="footer">Higher-level players are top seeds and receive any byes when the field isn’t a power of two.</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/tournament.js"></script>
+<script>
+(function(){
+  var statusEl=document.getElementById('status');
+  var bracketEl=document.getElementById('bracket');
+  var scheduleEl=document.getElementById('schedule');
+  var DAYS={ "22":"Wednesday 22nd", "23":"Thursday 23rd", "24":"Friday 24th — FINAL" };
+
+  function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function note(t,txt){statusEl.innerHTML='<div class="note '+t+'">'+txt+'</div>';}
+
+  if(!DB_READY){ note('err',DB_ERROR); bracketEl.innerHTML=''; scheduleEl.innerHTML=''; return; }
+
+  DB.ref('tournament').on('value', function(snap){
+    var t=snap.val();
+    if(!t || !t.matches){
+      note('info','The bracket hasn’t been generated yet. Once registration closes, the admin will draw it here.');
+      bracketEl.innerHTML='<span class="muted">Not drawn yet.</span>';
+      scheduleEl.innerHTML='<span class="muted">Available after the draw.</span>';
+      return;
+    }
+    statusEl.innerHTML='';
+    var matches=Object.keys(t.matches).map(function(k){return t.matches[k];});
+    render(matches, t.rounds);
+    renderSchedule(matches, t.rounds);
+  });
+
+  function roundName(r,total){
+    var fromEnd=total-r;
+    if(fromEnd===0)return 'Final';
+    if(fromEnd===1)return 'Semi-finals';
+    if(fromEnd===2)return 'Quarter-finals';
+    return 'Round '+r;
+  }
+
+  function seedRow(name,level,games,isWin,tbd){
+    var cls='seed'+(isWin?' win':'');
+    var nm = tbd ? '<span class="tbd">'+esc(name)+'</span>'
+                 : '<span class="badge b-'+level+'">'+(TT.LEVEL_LABEL[level]||'')+'</span> <span class="n">'+esc(name)+'</span>';
+    return '<div class="'+cls+'"><div class="nm">'+nm+'</div><div class="g">'+(games===''?'':games)+'</div></div>';
+  }
+
+  function render(matches, total){
+    var byRound={};
+    matches.forEach(function(m){(byRound[m.round]=byRound[m.round]||[]).push(m);});
+    var html='';
+    for(var r=1;r<=total;r++){
+      var list=(byRound[r]||[]).sort(function(a,b){return a.index-b.index;});
+      html+='<div class="round"><div class="round-title">'+roundName(r,total)+'</div>';
+      list.forEach(function(m){ html+=matchHtml(m); });
+      html+='</div>';
+    }
+    bracketEl.innerHTML=html;
+  }
+
+  function matchHtml(m){
+    if(m.isBye){
+      var byeName=m.p1Id?m.p1Name:m.p2Name, byeLvl=m.p1Id?m.p1Level:m.p2Level;
+      return '<div class="match bye">'+
+        seedRow(byeName,byeLvl,'',true,false)+
+        seedRow('BYE','', '',false,true)+
+        '<div class="meta"><span>Round auto-advance</span><span>Day '+m.day+'</span></div></div>';
+    }
+    var p1set=!!m.p1Id, p2set=!!m.p2Id, done=m.status==='done';
+    var w1=done&&m.winnerId===m.p1Id, w2=done&&m.winnerId===m.p2Id;
+    var h = (p1set&&p2set)?TT.handicap(m.p1Level,m.p2Level):null;
+    var hcap = (h&&h.points>0)?'<div class="hcap">⚖ '+esc(h.text)+'</div>':'';
+    return '<div class="match">'+
+      seedRow(p1set?m.p1Name:'TBD', m.p1Level, p1set?m.p1Games:'', w1, !p1set)+
+      seedRow(p2set?m.p2Name:'TBD', m.p2Level, p2set?m.p2Games:'', w2, !p2set)+
+      hcap+
+      '<div class="meta"><span>'+(done?'Final':(p1set&&p2set?'Scheduled':'Awaiting players'))+'</span><span>Day '+m.day+'</span></div></div>';
+  }
+
+  function renderSchedule(matches, total){
+    var days={"22":[],"23":[],"24":[]};
+    matches.forEach(function(m){ if(!m.isBye) (days[m.day]=days[m.day]||[]).push(m); });
+    var html='';
+    ["22","23","24"].forEach(function(d){
+      var list=(days[d]||[]).sort(function(a,b){return a.round-b.round||a.index-b.index;});
+      if(!list.length)return;
+      html+='<h3 class="day">'+DAYS[d]+'</h3>';
+      html+='<table class="tbl"><thead><tr><th>Round</th><th>Match</th><th>Handicap</th><th>Result</th></tr></thead><tbody>';
+      list.forEach(function(m){
+        var p1=m.p1Id?m.p1Name:'TBD', p2=m.p2Id?m.p2Name:'TBD';
+        var h=(m.p1Id&&m.p2Id)?TT.handicap(m.p1Level,m.p2Level):null;
+        var hc=(h&&h.points>0)?esc(h.text):'—';
+        var res=m.status==='done'?(m.p1Games+'–'+m.p2Games):'—';
+        html+='<tr><td class="muted">'+roundName(m.round,total)+'</td><td>'+esc(p1)+' vs '+esc(p2)+'</td><td class="muted">'+hc+'</td><td>'+res+'</td></tr>';
+      });
+      html+='</tbody></table>';
+    });
+    scheduleEl.innerHTML=html||'<span class="muted">No matches scheduled.</span>';
+  }
+})();
+</script>
+</body>
+</html>

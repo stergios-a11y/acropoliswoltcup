@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acropolis Wolt Cup — Admin</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <div class="brand">
+      <div class="ball"></div>
+      <div><h1>Acropolis Wolt Cup <span class="pill">Admin</span></h1>
+      <small>Draw the bracket · enter scores</small></div>
+    </div>
+    <nav class="tabs">
+      <a href="index.html">Register</a>
+      <a href="bracket.html">Bracket &amp; Schedule</a>
+      <a href="admin.html" class="active">Admin</a>
+    </nav>
+  </header>
+
+  <div id="status"></div>
+
+  <!-- Passcode gate -->
+  <div class="card" id="gate">
+    <h2>Admin access</h2>
+    <p class="sub">Enter the admin passcode to manage the tournament.</p>
+    <label for="pass">Passcode</label>
+    <input type="password" id="pass" placeholder="••••••••">
+    <button class="btn" id="unlock">Unlock</button>
+    <div id="gateMsg"></div>
+  </div>
+
+  <div id="panel" class="hidden">
+    <!-- Draw -->
+    <div class="card">
+      <h2>1 · Draw the bracket</h2>
+      <p class="sub">Seeds players by level (advanced first), assigns byes to the top seeds, and schedules rounds across the 22nd, 23rd and final on the 24th.</p>
+      <div id="drawInfo" class="muted">Loading players…</div>
+      <div style="margin-top:14px">
+        <button class="btn" id="drawBtn">Generate / redraw bracket</button>
+        <button class="btn ghost" id="resetBtn" style="margin-left:8px">Clear bracket</button>
+      </div>
+      <div id="drawMsg"></div>
+    </div>
+
+    <!-- Scores -->
+    <div class="card">
+      <h2>2 · Enter scores</h2>
+      <p class="sub">Best of 5 — enter games won by each player (winner must reach 3). Winners advance automatically.</p>
+      <div id="matches"><span class="muted">Draw the bracket first.</span></div>
+    </div>
+  </div>
+
+  <div class="footer">Tip: change the passcode in <code>js/firebase-config.js</code>.</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/tournament.js"></script>
+<script>
+(function(){
+  var statusEl=document.getElementById('status');
+  function note(t,txt){statusEl.innerHTML='<div class="note '+t+'">'+txt+'</div>';}
+  function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  if(!DB_READY){ note('err',DB_ERROR); document.getElementById('gate').classList.add('hidden'); return; }
+
+  var players=[]; // live registrations
+  var tourney=null; // {rounds, size, matches:[...]}
+
+  // ---- gate ----
+  document.getElementById('unlock').addEventListener('click', unlock);
+  document.getElementById('pass').addEventListener('keydown', function(e){ if(e.key==='Enter') unlock(); });
+  function unlock(){
+    var v=document.getElementById('pass').value;
+    if(v===ADMIN_PASSCODE){
+      document.getElementById('gate').classList.add('hidden');
+      document.getElementById('panel').classList.remove('hidden');
+      start();
+    } else {
+      document.getElementById('gateMsg').className='note err';
+      document.getElementById('gateMsg').textContent='Wrong passcode.';
+    }
+  }
+
+  function start(){
+    DB.ref('players').on('value', function(snap){
+      players=[]; snap.forEach(function(c){ var v=c.val(); v.id=c.key; players.push(v); });
+      updateDrawInfo();
+    });
+    DB.ref('tournament').on('value', function(snap){
+      var t=snap.val();
+      tourney = (t&&t.matches) ? { rounds:t.rounds, size:t.size, matches:objToArr(t.matches) } : null;
+      renderMatches();
+    });
+  }
+
+  function objToArr(o){ return Object.keys(o).map(function(k){return o[k];}); }
+  function arrToObj(a){ var o={}; a.forEach(function(m){o[m.id]=m;}); return o; }
+
+  function updateDrawInfo(){
+    var counts={advanced:0,intermediary:0,novice:0};
+    players.forEach(function(p){ counts[p.level]=(counts[p.level]||0)+1; });
+    var n=players.length, size=TT.nextPow2(Math.max(2,n)), byes=n<2?0:size-n;
+    document.getElementById('drawInfo').innerHTML=
+      '<b>'+n+' players</b> — '+counts.advanced+' advanced, '+counts.intermediary+
+      ' intermediary, '+counts.novice+' novice.<br>Bracket size <b>'+size+'</b> · <b>'+byes+
+      '</b> bye'+(byes===1?'':'s')+' to top seeds · '+Math.round(Math.log2(size))+' rounds.';
+  }
+
+  // ---- draw ----
+  document.getElementById('drawBtn').addEventListener('click', function(){
+    if(players.length<2){ drawMsg('err','Need at least 2 registered players.'); return; }
+    if(tourney && !confirm('Redraw? This wipes all current matches and scores.')) return;
+    var b=TT.buildBracket(players);
+    DB.ref('tournament').set({ rounds:b.rounds, size:b.size, matches:arrToObj(b.matches), drawnAt:Date.now() })
+      .then(function(){ drawMsg('ok','Bracket drawn — '+b.size+'-slot, '+b.rounds+' rounds.'); })
+      .catch(function(e){ drawMsg('err',e.message); });
+  });
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    if(!confirm('Clear the entire bracket?')) return;
+    DB.ref('tournament').remove().then(function(){ drawMsg('info','Bracket cleared.'); });
+  });
+  function drawMsg(t,txt){ var e=document.getElementById('drawMsg'); e.className='note '+t; e.textContent=txt; }
+
+  // ---- scores ----
+  function roundName(r,total){var f=total-r;return f===0?'Final':f===1?'Semi-finals':f===2?'Quarter-finals':'Round '+r;}
+
+  function renderMatches(){
+    var box=document.getElementById('matches');
+    if(!tourney){ box.innerHTML='<span class="muted">Draw the bracket first.</span>'; return; }
+    var byRound={};
+    tourney.matches.forEach(function(m){(byRound[m.round]=byRound[m.round]||[]).push(m);});
+    var html='';
+    for(var r=1;r<=tourney.rounds;r++){
+      var list=(byRound[r]||[]).sort(function(a,b){return a.index-b.index;});
+      html+='<h3 class="day">'+roundName(r,tourney.rounds)+' · Day '+(list[0]?list[0].day:'')+'</h3>';
+      list.forEach(function(m){ html+=matchRow(m); });
+    }
+    box.innerHTML=html;
+    tourney.matches.forEach(function(m){
+      var save=document.getElementById('save-'+m.id);
+      if(save) save.addEventListener('click', function(){ saveScore(m.id); });
+    });
+  }
+
+  function matchRow(m){
+    if(m.isBye){
+      var nm=m.p1Id?m.p1Name:m.p2Name;
+      return '<div class="match-admin"><div class="players">'+esc(nm)+' <span class="muted">— BYE (auto-advances)</span></div><div class="muted">—</div></div>';
+    }
+    var ready=m.p1Id&&m.p2Id;
+    if(!ready){
+      return '<div class="match-admin"><div class="players">'+
+        (m.p1Id?esc(m.p1Name):'<span class="tbd">TBD</span>')+' vs '+
+        (m.p2Id?esc(m.p2Name):'<span class="tbd">TBD</span>')+
+        '</div><div class="muted">waiting</div></div>';
+    }
+    var h=TT.handicap(m.p1Level,m.p2Level);
+    var hc=h.points>0?'<div class="muted" style="font-size:12px">⚖ '+esc(h.text)+'</div>':'';
+    var done=m.status==='done';
+    return '<div class="match-admin"><div class="players">'+
+      '<span class="badge b-'+m.p1Level+'">'+TT.LEVEL_LABEL[m.p1Level]+'</span> '+esc(m.p1Name)+
+      ' <span class="muted">vs</span> '+
+      '<span class="badge b-'+m.p2Level+'">'+TT.LEVEL_LABEL[m.p2Level]+'</span> '+esc(m.p2Name)+hc+
+      (done?'<div class="note ok" style="margin-top:6px;padding:6px 10px">Winner: '+esc(m.winnerId===m.p1Id?m.p1Name:m.p2Name)+'</div>':'')+
+      '</div>'+
+      '<div class="score-in"><input id="g1-'+m.id+'" type="text" inputmode="numeric" value="'+(done?m.p1Games:'')+'" placeholder="0">'+
+      '<span class="muted">–</span>'+
+      '<input id="g2-'+m.id+'" type="text" inputmode="numeric" value="'+(done?m.p2Games:'')+'" placeholder="0">'+
+      '<button class="btn sm" id="save-'+m.id+'">Save</button></div></div>';
+  }
+
+  function saveScore(matchId){
+    var g1=document.getElementById('g1-'+matchId).value;
+    var g2=document.getElementById('g2-'+matchId).value;
+    // work on a fresh copy so advancement is consistent
+    var arr=tourney.matches.map(function(m){return Object.assign({},m);});
+    var res=TT.recordResult(arr, matchId, g1, g2);
+    if(!res.ok){ note('err',res.error); return; }
+    DB.ref('tournament/matches').set(arrToObj(arr))
+      .then(function(){ note('ok','Saved '+g1+'–'+g2+'. Winner advanced.'); })
+      .catch(function(e){ note('err',e.message); });
+  }
+})();
+</script>
+</body>
+</html>

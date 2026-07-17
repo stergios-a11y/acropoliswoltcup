@@ -111,10 +111,10 @@
   <div class="card">
     <h2>🤝 Πώς παίζεται</h2>
     <p class="sub">Το τουρνουά τρέχει χαλαρά — εσείς κανονίζετε πότε παίζετε.</p>
-    <div class="sched-strip">
-      <div class="sday" style="border-top:4px solid #009de0"><span class="tag" style="background:#009de0">1</span><b>Βρες τον αντίπαλο</b><span class="rnd">Στείλ’ του μήνυμα στο <b>Slack</b> για να κανονίσετε πότε παίζετε.</span></div>
-      <div class="sday" style="border-top:4px solid #17b890"><span class="tag" style="background:#17b890">2</span><b>Παίξτε τον αγώνα</b><span class="rnd">Best of 5, με το προβάδισμα σε κάθε σετ.</span></div>
-      <div class="sday" style="border-top:4px solid #e0245e"><span class="tag" style="background:#e0245e">3</span><b>Δηλώστε το σκορ</b><span class="rnd">Πείτε το αποτέλεσμα στη διοργάνωση στο <b>Slack</b> για να μπει στο ταμπλό.</span></div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><b>Βρες τον αντίπαλο</b><p>Στείλ’ του μήνυμα στο <b>Slack</b> για να κανονίσετε πότε παίζετε.</p></div>
+      <div class="step"><div class="num">2</div><b>Παίξτε τον αγώνα</b><p>Best of 5, με το προβάδισμα σε κάθε σετ.</p></div>
+      <div class="step"><div class="num">3</div><b>Δηλώστε το σκορ</b><p>Πείτε το αποτέλεσμα στη διοργάνωση στο <b>Slack</b> για να μπει στο ταμπλό.</p></div>
     </div>
   </div>
 
@@ -132,7 +132,7 @@
       <label for="email">Email εργασίας</label>
       <input type="email" id="email" placeholder="you@wolt.com" required>
 
-      <label>Επίπεδο (χωρίς υπερβολές)</label>
+      <label>Διάλεξε το επίπεδό σου <span style="color:#e0245e">*</span></label>
       <div class="levels">
         <label>
           <input type="radio" name="level" value="novice" required>
@@ -147,6 +147,7 @@
           <div class="lvl-card"><span class="em">⚡</span><b>Προχωρημένος</b><span>Έχω σέρβις που τρομάζει</span></div>
         </label>
       </div>
+      <p class="levels-hint">👆 <b>Πάτησε</b> μία από τις τρεις κάρτες για να διαλέξεις επίπεδο.</p>
 
       <button type="submit" class="btn" id="submitBtn">Δήλωσε συμμετοχή 🏓</button>
       <div id="msg"></div>

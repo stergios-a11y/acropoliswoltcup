@@ -16,14 +16,14 @@
      level string that receives the head start ('' if none).            */
   function handicap(levelA, levelB) {
     var a = LEVELS[levelA], b = LEVELS[levelB];
-    if (!a || !b || a === b) return { favoredLevel: "", points: 0, text: "Χωρίς προβάδισμα — ισότιμη εκκίνηση." };
+    if (!a || !b || a === b) return { favoredLevel: "", points: 0, text: "Χωρίς προβάδισμα — καθαρή μάχη." };
     var lowLevel = a < b ? levelA : levelB; // lower rank = weaker = gets head start
     var pair = [Math.min(a, b), Math.max(a, b)].join("-");
     var pts = { "1-3": 3, "1-2": 2, "2-3": 1 }[pair] || 0;
     return {
       favoredLevel: lowLevel,
       points: pts,
-      text: LEVEL_LABEL[lowLevel] + ": ξεκινά κάθε game " + pts + "-0."
+      text: LEVEL_LABEL[lowLevel] + ": ξεκινά κάθε σετ " + pts + "-0."
     };
   }
 

@@ -154,3 +154,21 @@ body{
 /* level card icons */
 .lvl-card .em{font-size:22px;display:block;margin-bottom:4px}
 .b-strip{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:middle;margin-right:5px}
+
+/* simple starting-score list */
+.score-list{display:grid;gap:8px;margin-top:10px}
+.score-row{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 14px}
+.score-row .who{font-size:14.5px;color:var(--wolt-ink);font-weight:700}
+.score-row .who .lv{font-weight:400;color:var(--muted)}
+.score-row .sc{font-weight:800;font-size:19px;color:var(--wolt-dark);background:#eafaff;
+  border:1.5px solid #bfeeff;border-radius:10px;padding:4px 14px;min-width:64px;text-align:center;white-space:nowrap}
+.score-row.even .sc{background:var(--panel2);color:#9fb6c4;border-color:var(--line)}
+
+/* prize banner */
+.prize{display:flex;gap:15px;align-items:center;background:linear-gradient(135deg,#fff3d6,#ffe6a8);
+  border:1px solid #f0d089;border-radius:18px;padding:16px 20px;margin-bottom:20px;
+  box-shadow:0 8px 22px rgba(240,190,60,.22)}
+.prize .tp{font-size:38px;line-height:1}
+.prize b{color:#8a5a00;font-size:16.5px}
+.prize span{display:block;color:#7a5a1a;font-size:13.5px;margin-top:2px}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Acropolis Wolt Cup — Bracket &amp; Πρόγραμμα</title>
+<title>Acropolis Wolt Cup — Ταμπλό &amp; Πρόγραμμα</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,12 +11,12 @@
   <header class="site">
     <div class="brand">
       <div class="ball"></div>
-      <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Ping Pong</span></h1>
+      <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Πινγκ πονγκ</span></h1>
       <small>Γύροι 1–3 Τρίτη · Τελικοί γύροι Τετάρτη</small></div>
     </div>
     <nav class="tabs">
       <a href="index.html">Εγγραφή</a>
-      <a href="bracket.html" class="active">Bracket &amp; Πρόγραμμα</a>
+      <a href="bracket.html" class="active">Ταμπλό &amp; Πρόγραμμα</a>
       <a href="admin.html">Διαχείριση</a>
     </nav>
   </header>
@@ -24,11 +24,11 @@
   <section class="hero">
     <div class="htext">
       <h2>Το ταμπλό 🏓</h2>
-      <p>Ζωντανό bracket knockout. Οι νικητές προχωρούν αυτόματα μέχρι τον τελικό της Πέμπτης.</p>
+      <p>Ζωντανό ταμπλό απευθείας αποκλεισμού. Οι νικητές προχωρούν αυτόματα μέχρι τον μεγάλο τελικό της Τετάρτης.</p>
       <div class="chips">
-        <span class="chip">Best of 5</span>
-        <span class="chip">Handicap ανά game</span>
-        <span class="chip">Μονός αποκλεισμός</span>
+        <span class="chip">Στα 3 σετ</span>
+        <span class="chip">Προβάδισμα ανά σετ</span>
+        <span class="chip">Νοκ άουτ</span>
       </div>
     </div>
     <svg class="hero-art" viewBox="0 0 230 200" xmlns="http://www.w3.org/2000/svg">
@@ -58,24 +58,24 @@
   </div>
 
   <div class="card">
-    <h2>Bracket</h2>
-    <p class="sub">Ζωντανά αποτελέσματα. Οι νικητές προχωρούν αυτόματα. Τα προβαδίσματα φαίνονται σε κάθε αγώνα.</p>
+    <h2>Ταμπλό</h2>
+    <p class="sub">Ζωντανά αποτελέσματα. Οι νικητές προχωρούν αυτόματα. Το προβάδισμα φαίνεται σε κάθε αγώνα.</p>
     <div class="bracket-scroll" id="bracket"><span class="muted">Φόρτωση…</span></div>
     <div class="legend">
       <span><span class="badge b-novice">Αρχάριος</span></span>
       <span><span class="badge b-intermediary">Μέσος</span></span>
       <span><span class="badge b-advanced">Προχωρημένος</span></span>
-      <span>🔵 μπλε = νικητής · BYE = πρόκριση χωρίς αγώνα</span>
+      <span>🔵 μπλε = νικητής · ΡΕΠΟ = πρόκριση χωρίς αγώνα</span>
     </div>
   </div>
 
   <div class="card" id="scheduleCard">
     <h2>Πρόγραμμα</h2>
-    <p class="sub">Best of 5 · τα προβαδίσματα ισχύουν ανά game. Οι μέρες ανατίθενται ανά γύρο.</p>
+    <p class="sub">Στα 5 σετ · το προβάδισμα ισχύει ανά σετ. Οι μέρες ανατίθενται ανά γύρο.</p>
     <div id="schedule"><span class="muted">Φόρτωση…</span></div>
   </div>
 
-  <div class="footer">Οι παίκτες υψηλότερου επιπέδου είναι τα κορυφαία seed και παίρνουν τα bye όταν οι αριθμοί δεν βγαίνουν ακριβώς.</div>
+  <div class="footer">Οι παίκτες υψηλότερου επιπέδου είναι τα φαβορί και παίρνουν ρεπό όταν οι αριθμοί δεν βγαίνουν ακριβώς.</div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -105,7 +105,7 @@
   DB.ref('tournament').on('value', function(snap){
     var t=snap.val();
     if(!t || !t.matches){
-      note('info','Το bracket δεν έχει κληρωθεί ακόμα — φαίνεται η κενή κλήρωση 32 θέσεων. Μόλις κλείσουν οι εγγραφές, ο διαχειριστής θα κάνει την κλήρωση.');
+      note('info','Το ταμπλό δεν έχει κληρωθεί ακόμα — βλέπεις την κενή κλήρωση 32 θέσεων. Μόλις κλείσουν οι εγγραφές, ο διαχειριστής κάνει την κλήρωση.');
       bracketEl.innerHTML=buildSVG(32,{},5);
       scheduleEl.innerHTML='<span class="muted">Το πρόγραμμα εμφανίζεται μετά την κλήρωση.</span>';
       return;
@@ -177,13 +177,13 @@
     if(m.isBye){
       var bn=m.p1Id?m.p1Name:m.p2Name, bl=m.p1Id?m.p1Level:m.p2Level;
       top=slotSVG(x,y,w,h/2,bn,bl,'',true,false);
-      bot=slotSVG(x,y+h/2,w,h/2,'BYE','', '',false,true);
-      return rect+div+top+bot+'<text class="sv-tag" x="'+(x+w-9)+'" y="'+(y+h-6)+'" text-anchor="end" fill="#0079b3">BYE</text>';
+      bot=slotSVG(x,y+h/2,w,h/2,'ΡΕΠΟ','', '',false,true);
+      return rect+div+top+bot;
     }
     var p1=!!m.p1Id, p2=!!m.p2Id;
     var w1=done&&m.winnerId===m.p1Id, w2=done&&m.winnerId===m.p2Id;
-    top=slotSVG(x,y,w,h/2, p1?m.p1Name:'TBD', m.p1Level, p1?m.p1Games:'', w1, !p1);
-    bot=slotSVG(x,y+h/2,w,h/2, p2?m.p2Name:'TBD', m.p2Level, p2?m.p2Games:'', w2, !p2);
+    top=slotSVG(x,y,w,h/2, p1?m.p1Name:'—', m.p1Level, p1?m.p1Games:'', w1, !p1);
+    bot=slotSVG(x,y+h/2,w,h/2, p2?m.p2Name:'—', m.p2Level, p2?m.p2Games:'', w2, !p2);
     return rect+div+top+bot;
   }
 
@@ -198,11 +198,11 @@
       html+='<h3 class="day">'+DAYS[d]+'</h3>';
       html+='<table class="tbl"><thead><tr><th>Γύρος</th><th>Αγώνας</th><th>Προβάδισμα</th><th>Αποτέλεσμα</th></tr></thead><tbody>';
       list.forEach(function(m){
-        var p1=m.p1Id?m.p1Name:'TBD', p2=m.p2Id?m.p2Name:'TBD';
+        var p1=m.p1Id?m.p1Name:'Αναμονή', p2=m.p2Id?m.p2Name:'Αναμονή';
         var h=(m.p1Id&&m.p2Id)?TT.handicap(m.p1Level,m.p2Level):null;
         var hc=(h&&h.points>0)?esc(h.text):'—';
         var res=m.status==='done'?(m.p1Games+'–'+m.p2Games):'—';
-        html+='<tr><td class="muted">'+roundName(m.round,total)+'</td><td>'+esc(p1)+' vs '+esc(p2)+'</td><td class="muted">'+hc+'</td><td>'+res+'</td></tr>';
+        html+='<tr><td class="muted">'+roundName(m.round,total)+'</td><td>'+esc(p1)+' – '+esc(p2)+'</td><td class="muted">'+hc+'</td><td>'+res+'</td></tr>';
       });
       html+='</tbody></table>';
     });

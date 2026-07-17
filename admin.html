@@ -12,11 +12,11 @@
     <div class="brand">
       <div class="ball"></div>
       <div><h1>Acropolis Wolt Cup <span class="pill">Διαχείριση</span></h1>
-      <small>Κλήρωση bracket · καταχώρηση σκορ</small></div>
+      <small>Κλήρωση ταμπλό · καταχώρηση σκορ</small></div>
     </div>
     <nav class="tabs">
       <a href="index.html">Εγγραφή</a>
-      <a href="bracket.html">Bracket &amp; Πρόγραμμα</a>
+      <a href="bracket.html">Ταμπλό &amp; Πρόγραμμα</a>
       <a href="admin.html" class="active">Διαχείριση</a>
     </nav>
   </header>
@@ -34,19 +34,19 @@
 
   <div id="panel" class="hidden">
     <div class="card">
-      <h2>1 · Κλήρωση bracket</h2>
-      <p class="sub">Κατατάσσει τους παίκτες κατά επίπεδο (πρώτα οι προχωρημένοι), δίνει τα bye στα κορυφαία seed και μοιράζει τους γύρους στις 22, 23 και τον τελικό στις 24.</p>
+      <h2>1 · Κλήρωση ταμπλό</h2>
+      <p class="sub">Κατατάσσει τους παίκτες κατά επίπεδο (πρώτα οι προχωρημένοι), δίνει τα ρεπό στα φαβορί και μοιράζει τους γύρους: 1ος–3ος την Τρίτη, τελικοί γύροι την Τετάρτη.</p>
       <div id="drawInfo" class="muted">Φόρτωση παικτών…</div>
       <div style="margin-top:14px">
         <button class="btn" id="drawBtn">Κλήρωση / επανακλήρωση</button>
-        <button class="btn ghost" id="resetBtn" style="margin-left:8px">Καθαρισμός bracket</button>
+        <button class="btn ghost" id="resetBtn" style="margin-left:8px">Καθαρισμός ταμπλό</button>
       </div>
       <div id="drawMsg"></div>
     </div>
 
     <div class="card">
       <h2>2 · Καταχώρηση σκορ</h2>
-      <p class="sub">Best of 5 — γράψε τα game που κέρδισε ο καθένας (ο νικητής φτάνει τα 3). Οι νικητές προχωρούν αυτόματα.</p>
+      <p class="sub">Στα 5 σετ — γράψε τα σετ που κέρδισε ο καθένας (ο νικητής φτάνει τα 3). Οι νικητές προχωρούν αυτόματα.</p>
       <div id="matches"><span class="muted">Κάνε πρώτα την κλήρωση.</span></div>
     </div>
   </div>
@@ -104,8 +104,8 @@
     var n=players.length, size=TT.nextPow2(Math.max(2,n)), byes=n<2?0:size-n;
     document.getElementById('drawInfo').innerHTML=
       '<b>'+n+' παίκτες</b> — '+counts.advanced+' προχωρημένοι, '+counts.intermediary+
-      ' μέσοι, '+counts.novice+' αρχάριοι.<br>Μέγεθος bracket <b>'+size+'</b> · <b>'+byes+
-      '</b> bye στα κορυφαία seed · '+Math.round(Math.log2(size))+' γύροι.';
+      ' μέσοι, '+counts.novice+' αρχάριοι.<br>Μέγεθος ταμπλό <b>'+size+'</b> · <b>'+byes+
+      '</b> ρεπό στα φαβορί · '+Math.round(Math.log2(size))+' γύροι.';
   }
 
   document.getElementById('drawBtn').addEventListener('click', function(){
@@ -117,8 +117,8 @@
       .catch(function(e){ drawMsg('err',e.message); });
   });
   document.getElementById('resetBtn').addEventListener('click', function(){
-    if(!confirm('Καθαρισμός ολόκληρου του bracket;')) return;
-    DB.ref('tournament').remove().then(function(){ drawMsg('info','Το bracket καθαρίστηκε.'); });
+    if(!confirm('Καθαρισμός ολόκληρου του ταμπλό;')) return;
+    DB.ref('tournament').remove().then(function(){ drawMsg('info','Το ταμπλό καθαρίστηκε.'); });
   });
   function drawMsg(t,txt){ var e=document.getElementById('drawMsg'); e.className='note '+t; e.textContent=txt; }
 
@@ -145,13 +145,13 @@
   function matchRow(m){
     if(m.isBye){
       var nm=m.p1Id?m.p1Name:m.p2Name;
-      return '<div class="match-admin"><div class="players">'+esc(nm)+' <span class="muted">— BYE (αυτόματη πρόκριση)</span></div><div class="muted">—</div></div>';
+      return '<div class="match-admin"><div class="players">'+esc(nm)+' <span class="muted">— ΡΕΠΟ (αυτόματη πρόκριση)</span></div><div class="muted">—</div></div>';
     }
     var ready=m.p1Id&&m.p2Id;
     if(!ready){
       return '<div class="match-admin"><div class="players">'+
-        (m.p1Id?esc(m.p1Name):'<span class="muted">TBD</span>')+' vs '+
-        (m.p2Id?esc(m.p2Name):'<span class="muted">TBD</span>')+
+        (m.p1Id?esc(m.p1Name):'<span class="muted">Αναμονή</span>')+' – '+
+        (m.p2Id?esc(m.p2Name):'<span class="muted">Αναμονή</span>')+
         '</div><div class="muted">αναμονή</div></div>';
     }
     var h=TT.handicap(m.p1Level,m.p2Level);
@@ -159,7 +159,7 @@
     var done=m.status==='done';
     return '<div class="match-admin"><div class="players">'+
       '<span class="badge b-'+m.p1Level+'">'+TT.LEVEL_LABEL[m.p1Level]+'</span> '+esc(m.p1Name)+
-      ' <span class="muted">vs</span> '+
+      ' <span class="muted">εναντίον</span> '+
       '<span class="badge b-'+m.p2Level+'">'+TT.LEVEL_LABEL[m.p2Level]+'</span> '+esc(m.p2Name)+hc+
       (done?'<div class="note ok" style="margin-top:6px;padding:6px 10px">Νικητής: '+esc(m.winnerId===m.p1Id?m.p1Name:m.p2Name)+'</div>':'')+
       '</div>'+
@@ -175,7 +175,7 @@
     var arr=tourney.matches.map(function(m){return Object.assign({},m);});
     var res=TT.recordResult(arr, matchId, g1, g2);
     if(!res.ok){
-      var map={"Match not found.":"Ο αγώνας δεν βρέθηκε.","Both players not set yet.":"Δεν έχουν οριστεί και οι δύο παίκτες.","Best of 5 — the winner must reach 3 games.":"Best of 5 — ο νικητής πρέπει να φτάσει τα 3 game.","Games can't be tied.":"Τα game δεν γίνεται να είναι ισόπαλα."};
+      var map={"Match not found.":"Ο αγώνας δεν βρέθηκε.","Both players not set yet.":"Δεν έχουν οριστεί και οι δύο παίκτες.","Best of 5 — the winner must reach 3 games.":"Στα 5 σετ — ο νικητής πρέπει να φτάσει τα 3 σετ.","Games can't be tied.":"Τα σετ δεν γίνεται να είναι ισόπαλα."};
       note('err', map[res.error]||res.error); return;
     }
     DB.ref('tournament/matches').set(arrToObj(arr))

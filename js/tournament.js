@@ -63,8 +63,10 @@
   /* Assign rounds to tournament days.
      Final -> day 24. Earlier rounds split across 22 and 23.            */
   function dayForRound(round, totalRounds) {
-    // Rounds 1–3 on Tuesday; the final rounds (4+) on Wednesday.
-    return round <= 3 ? "Τρίτη" : "Τετάρτη";
+    // Round 1 → Tuesday, the final two rounds → Thursday, everything between → Wednesday.
+    if (round === 1) return "Τρίτη";
+    if (round > totalRounds - 2) return "Πέμπτη";
+    return "Τετάρτη";
   }
 
   /* Build the full bracket from a player list.

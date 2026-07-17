@@ -17,7 +17,7 @@ All shared data (registrations, bracket, scores) lives in a free **Firebase Real
   - Intermediary vs Advanced → **Intermediary starts 1–0**
   - Same level → even start.
 - **Seeding / byes:** players are seeded by level (advanced first, then intermediary, then novice; ties broken by who registered earlier). When the field isn't a power of two, the **top seeds get first-round byes** — i.e. higher-level players skip round 1 and start in round 2.
-- **Days:** rounds 1–3 are played on **Tuesday**; the final rounds (semi-finals and final) on **Wednesday**.
+- **Days:** round 1 on **Tuesday**, rounds 2–3 on **Wednesday**, and the final two rounds (semi-finals and final) on **Thursday**. Round titles on the bracket are colour-coded by day.
 
 ---
 

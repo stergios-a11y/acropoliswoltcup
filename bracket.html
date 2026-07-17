@@ -12,7 +12,7 @@
     <div class="brand">
       <div class="ball"></div>
       <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Πινγκ πονγκ</span></h1>
-      <small>Γύροι 1–3 Τρίτη · Τελικοί γύροι Τετάρτη</small></div>
+      <small>1ος γύρος Τρίτη · 2ος–3ος Τετάρτη · Τελικοί Πέμπτη</small></div>
     </div>
     <nav class="tabs">
       <a href="index.html">Εγγραφή</a>
@@ -50,10 +50,11 @@
 
   <div class="card">
     <h2>🗓️ Πρόγραμμα γύρων</h2>
-    <p class="sub">Πότε παίζεται κάθε φάση του τουρνουά.</p>
+    <p class="sub">Πότε παίζεται κάθε φάση — με τα χρώματα που βλέπεις στους τίτλους του ταμπλό.</p>
     <div class="rules-grid">
-      <div class="rule"><div class="ic">1️⃣</div><div><b>Τρίτη</b><span>1ος, 2ος &amp; 3ος γύρος.</span></div></div>
-      <div class="rule"><div class="ic">🏆</div><div><b>Τετάρτη</b><span>Τελικοί γύροι — ημιτελικοί &amp; τελικός.</span></div></div>
+      <div class="rule"><div class="ic">1️⃣</div><div><b><span class="b-strip" style="background:#009de0"></span>Τρίτη</b><span>1ος γύρος.</span></div></div>
+      <div class="rule"><div class="ic">2️⃣</div><div><b><span class="b-strip" style="background:#17b890"></span>Τετάρτη</b><span>2ος &amp; 3ος γύρος.</span></div></div>
+      <div class="rule"><div class="ic">🏆</div><div><b><span class="b-strip" style="background:#e0245e"></span>Πέμπτη</b><span>Τελικοί γύροι — ημιτελικοί &amp; τελικός.</span></div></div>
     </div>
   </div>
 
@@ -87,9 +88,11 @@
   var statusEl=document.getElementById('status');
   var bracketEl=document.getElementById('bracket');
   var scheduleEl=document.getElementById('schedule');
-  var DAYS={ "Τρίτη":"Τρίτη · Γύροι 1–3", "Τετάρτη":"Τετάρτη · Τελικοί γύροι" };
-  var DAY_ORDER=["Τρίτη","Τετάρτη"];
+  var DAYS={ "Τρίτη":"Τρίτη · 1ος γύρος", "Τετάρτη":"Τετάρτη · 2ος & 3ος γύρος", "Πέμπτη":"Πέμπτη · Τελικοί γύροι" };
+  var DAY_ORDER=["Τρίτη","Τετάρτη","Πέμπτη"];
+  var DAYCOLOR={ "Τρίτη":"#009de0", "Τετάρτη":"#17b890", "Πέμπτη":"#e0245e" };
   var LVLCOLOR={novice:"#00c2e8",intermediary:"#f5a623",advanced:"#e0245e"};
+  function dayForRound(r,total){ if(r===1)return "Τρίτη"; if(r>total-2)return "Πέμπτη"; return "Τετάρτη"; }
 
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function note(t,txt){statusEl.innerHTML='<div class="note '+t+'">'+txt+'</div>';}
@@ -120,7 +123,7 @@
 
   /* ---- SVG bracket graph ---- */
   function buildSVG(size, map, rounds){
-    var boxW=170, boxH=46, colGap=54, rowGap=16, topPad=34, leftPad=6;
+    var boxW=170, boxH=46, colGap=54, rowGap=16, topPad=52, leftPad=6;
     var firstMatches=size/2;
     var unit=boxH+rowGap;
     var totalH=firstMatches*unit;
@@ -135,7 +138,10 @@
 
     for(var r=1;r<=rounds;r++){
       var mInRound=firstMatches/Math.pow(2,r-1);
-      titles+='<text class="sv-round" x="'+(colX(r)+boxW/2)+'" y="20" text-anchor="middle">'+esc(roundName(r,rounds))+'</text>';
+      var day=dayForRound(r,rounds), col=DAYCOLOR[day], tx=colX(r)+boxW/2;
+      titles+='<text class="sv-round" x="'+tx+'" y="16" text-anchor="middle" fill="'+col+'">'+esc(roundName(r,rounds))+'</text>';
+      titles+='<text class="sv-day" x="'+tx+'" y="32" text-anchor="middle" fill="'+col+'">'+esc(day.toUpperCase())+'</text>';
+      titles+='<rect x="'+(tx-28)+'" y="39" width="56" height="3" rx="1.5" fill="'+col+'"/>';
       for(var i=0;i<mInRound;i++){
         var x=colX(r), y=cy(r,i)-boxH/2;
         var m=map[r+'_'+i];
@@ -189,7 +195,7 @@
 
   /* ---- schedule table ---- */
   function renderSchedule(matches, total){
-    var days={"Τρίτη":[],"Τετάρτη":[]};
+    var days={"Τρίτη":[],"Τετάρτη":[],"Πέμπτη":[]};
     matches.forEach(function(m){ if(!m.isBye) (days[m.day]=days[m.day]||[]).push(m); });
     var html='';
     DAY_ORDER.forEach(function(d){

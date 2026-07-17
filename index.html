@@ -62,35 +62,57 @@
     <span>Ο νικητής φεύγει με σοβαρό εξοπλισμό — πλέον καμία δικαιολογία ότι «φταίει η ρακέτα».</span></div>
   </div>
 
+  <!-- DEADLINE / STATUS -->
+  <div class="deadline" id="deadlineBox">
+    <div class="dl-txt">
+      <span class="cal">🗓️</span>
+      <div><b>Οι δηλώσεις γίνονται δεκτές μέχρι τη Δευτέρα, 19:00</b>
+      <span id="deadlineSub">Μετά τη λήξη το τραπέζι κλείνει για νέες εγγραφές.</span></div>
+    </div>
+    <span class="status-pill open" id="statusPill">Ανοιχτές</span>
+  </div>
+
   <!-- RULES -->
   <div class="card">
     <h2>📋 Κανόνες</h2>
     <p class="sub">Τα βασικά, πριν δηλώσεις συμμετοχή.</p>
     <div class="rules-grid">
-      <div class="rule"><div class="ic">🏓</div><div><b>Στα 5 σετ</b><span>Κάθε σετ παίζεται στους <b>11 πόντους</b>. Νικητής όποιος πάρει πρώτος 3 σετ. Απλά μαθηματικά, δύσκολη εκτέλεση.</span></div></div>
+      <div class="rule"><div class="ic">🏓</div><div><b>Στα 5 σετ</b><span>Κάθε σετ στους <b>11 πόντους</b>. Νικητής όποιος πάρει πρώτος 3 σετ.</span></div></div>
       <div class="rule"><div class="ic">🎯</div><div><b>Απευθείας αποκλεισμός</b><span>Χάνεις, βγαίνεις. Καμία δεύτερη ευκαιρία — μόνο δόξα ή δικαιολογίες.</span></div></div>
-      <div class="rule"><div class="ic">⚖️</div><div><b>Προβάδισμα</b><span>Οι λιγότερο έμπειροι ξεκινούν κάθε σετ μπροστά στο σκορ. Δες πόσο, πιο κάτω.</span></div></div>
-      <div class="rule"><div class="ic">🥇</div><div><b>Κατάταξη &amp; ρεπό</b><span>Κατάταξη κατά επίπεδο. Αν οι αριθμοί δεν βγαίνουν, τα φαβορί παίρνουν ρεπό στον πρώτο γύρο (τζάμπα πρόκριση, μη ζηλεύεις).</span></div></div>
-      <div class="rule"><div class="ic">🗓️</div><div><b>Πρόγραμμα</b><span>1ος γύρος την <b>Τρίτη</b>, 2ος &amp; 3ος την <b>Τετάρτη</b>, οι τελικοί γύροι (ημιτελικοί &amp; τελικός) την <b>Πέμπτη</b>.</span></div></div>
+      <div class="rule"><div class="ic">⚖️</div><div><b>Προβάδισμα</b><span>Οι λιγότερο έμπειροι ξεκινούν κάθε σετ μπροστά στο σκορ (δες πιο κάτω).</span></div></div>
+      <div class="rule"><div class="ic">🥇</div><div><b>Κατάταξη &amp; ρεπό</b><span>Κατάταξη κατά επίπεδο. Αν οι αριθμοί δεν βγαίνουν, τα φαβορί παίρνουν ρεπό στον 1ο γύρο.</span></div></div>
     </div>
 
     <hr class="net">
 
     <h2 style="font-size:16px">🏓 Σκορ εκκίνησης</h2>
-    <p class="sub">Ο πιο αδύναμος ξεκινάει κάθε σετ με προβάδισμα στο σκορ:</p>
+    <p class="sub">Ο πιο αδύναμος ξεκινάει κάθε σετ με προβάδισμα:</p>
     <div class="score-list">
-      <div class="score-row"><span class="who">Αρχάριος <span class="lv">εναντίον</span> Προχωρημένου</span><span class="sc">3–0</span></div>
-      <div class="score-row"><span class="who">Αρχάριος <span class="lv">εναντίον</span> Μέσου</span><span class="sc">2–0</span></div>
-      <div class="score-row"><span class="who">Μέσος <span class="lv">εναντίον</span> Προχωρημένου</span><span class="sc">1–0</span></div>
+      <div class="score-row"><span class="who">Αρχάριος <span class="lv">vs</span> Προχωρημένο</span><span class="sc">3–0</span></div>
+      <div class="score-row"><span class="who">Αρχάριος <span class="lv">vs</span> Μέσο</span><span class="sc">2–0</span></div>
+      <div class="score-row"><span class="who">Μέσος <span class="lv">vs</span> Προχωρημένο</span><span class="sc">1–0</span></div>
       <div class="score-row even"><span class="who">Ίδιο επίπεδο</span><span class="sc">0–0</span></div>
     </div>
-    <p class="muted" style="font-size:12.5px;margin-top:8px">Το προβάδισμα ισχύει σε <b>κάθε σετ</b>, όχι μία φορά. Ίδιο επίπεδο = καθαρή μάχη από το μηδέν.</p>
+    <p class="muted" style="font-size:12.5px;margin-top:10px">Το προβάδισμα ισχύει σε <b>κάθε σετ</b>, όχι μία φορά.</p>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="card">
+    <h2>🗓️ Πρόγραμμα</h2>
+    <p class="sub">Τρεις μέρες, με τα χρώματα που θα δεις και στο ταμπλό.</p>
+    <div class="sched-strip">
+      <div class="sday" style="border-top:4px solid #009de0"><span class="tag" style="background:#009de0">ΤΡΙΤΗ</span><b>1ος γύρος</b><span class="rnd">Η αρχή της περιπέτειας.</span></div>
+      <div class="sday" style="border-top:4px solid #17b890"><span class="tag" style="background:#17b890">ΤΕΤΑΡΤΗ</span><b>2ος &amp; 3ος γύρος</b><span class="rnd">Εδώ ξεχωρίζουν οι σοβαροί.</span></div>
+      <div class="sday" style="border-top:4px solid #e0245e"><span class="tag" style="background:#e0245e">ΠΕΜΠΤΗ</span><b>Τελικοί γύροι</b><span class="rnd">Ημιτελικοί &amp; τελικός.</span></div>
+    </div>
   </div>
 
   <!-- REGISTER -->
   <div class="card">
     <h2>✍️ Δήλωσε συμμετοχή</h2>
     <p class="sub">Πες μας ποιος είσαι και πόσο επικίνδυνος είσαι στο τραπέζι. Μία δήλωση ανά άτομο.</p>
+
+    <div id="closedBanner" class="note err hidden">🚫 Οι εγγραφές έκλεισαν. Τα λέμε στο τραπέζι!</div>
 
     <form id="regForm">
       <label for="name">Ονοματεπώνυμο</label>
@@ -149,8 +171,47 @@
     return;
   }
 
+  // ---- Registration open/closed state ----
+  var regClosed=false;
+  function fmtDeadline(){
+    try{ return new Date(REGISTRATION_DEADLINE).toLocaleString('el-GR',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}); }
+    catch(e){ return 'τη Δευτέρα, 19:00'; }
+  }
+  function applyRegState(open){
+    // open: true (forced open) / false (forced closed) / undefined (auto by deadline)
+    var pastDeadline = Date.now() > REGISTRATION_DEADLINE;
+    if(open===false) regClosed=true;
+    else if(open===true) regClosed=false;
+    else regClosed=pastDeadline;
+
+    var box=document.getElementById('deadlineBox');
+    var pill=document.getElementById('statusPill');
+    var sub=document.getElementById('deadlineSub');
+    var banner=document.getElementById('closedBanner');
+    if(regClosed){
+      box.classList.add('closed');
+      pill.className='status-pill closed'; pill.textContent='Έκλεισαν';
+      sub.textContent = (open===false) ? 'Οι εγγραφές έκλεισαν από τη διοργάνωση.' : 'Η προθεσμία (Δευτέρα 19:00) έληξε.';
+      banner.classList.remove('hidden');
+      form.classList.add('closed');
+      document.getElementById('submitBtn').disabled=true;
+    } else {
+      box.classList.remove('closed');
+      pill.className='status-pill open'; pill.textContent='Ανοιχτές';
+      sub.textContent='Μετά τη λήξη το τραπέζι κλείνει για νέες εγγραφές.';
+      banner.classList.add('hidden');
+      form.classList.remove('closed');
+      document.getElementById('submitBtn').disabled=false;
+    }
+  }
+  DB.ref('settings/registrationOpen').on('value', function(s){ applyRegState(s.val()); });
+  applyRegState(undefined);
+  // re-check the deadline every 30s so the page closes itself on time
+  setInterval(function(){ DB.ref('settings/registrationOpen').once('value').then(function(s){ applyRegState(s.val()); }); }, 30000);
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
+    if(regClosed){ show('err','Οι εγγραφές έκλεισαν.'); return; }
     var name=document.getElementById('name').value.trim();
     var email=document.getElementById('email').value.trim().toLowerCase();
     var levelEl=document.querySelector('input[name=level]:checked');

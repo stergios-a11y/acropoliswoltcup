@@ -37,10 +37,15 @@ In **Realtime Database → Rules**, paste this and Publish. It lets anyone regis
 {
   "rules": {
     "players":   { ".read": true, ".write": true, ".indexOn": ["email"] },
-    "tournament":{ ".read": true, ".write": true }
+    "tournament":{ ".read": true, ".write": true },
+    "settings":  { ".read": true, ".write": true }
   }
 }
 ```
+
+### Registration deadline & closing
+
+Applications auto-close at the time set in `REGISTRATION_DEADLINE` in `js/firebase-config.js` (default: Monday 19:00 Athens — edit it to your event week). The registration page shows an open/closed status live. From **Admin → 1 · Εγγραφές** you can also **close now**, **open / extend** (overrides the deadline), or switch back to **auto** (close at the deadline).
 
 > This is open write access, which is fine for a friendly internal cup. The admin passcode is a light gate on the score page, **not** real security — don't put anything sensitive here. If you want it locked down, enable Firebase Auth (out of scope for this simple build).
 

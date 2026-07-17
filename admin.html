@@ -36,7 +36,19 @@
 
   <div id="panel" class="hidden">
     <div class="card">
-      <h2>1 · Κλήρωση ταμπλό</h2>
+      <h2>1 · Εγγραφές</h2>
+      <p class="sub">Οι δηλώσεις κλείνουν αυτόματα τη Δευτέρα στις 19:00. Μπορείς να τις κλείσεις νωρίτερα ή να δώσεις παράταση εδώ.</p>
+      <div id="regState" class="muted">Φόρτωση…</div>
+      <div style="margin-top:14px">
+        <button class="btn" id="regCloseBtn">Κλείσε τώρα</button>
+        <button class="btn ghost" id="regOpenBtn" style="margin-left:8px">Άνοιξε / παράταση</button>
+        <button class="btn ghost" id="regAutoBtn" style="margin-left:8px">Αυτόματο (λήξη Δευτ. 19:00)</button>
+      </div>
+      <div id="regMsg"></div>
+    </div>
+
+    <div class="card">
+      <h2>2 · Κλήρωση ταμπλό</h2>
       <p class="sub">Κατατάσσει τους παίκτες κατά επίπεδο (πρώτα οι προχωρημένοι), δίνει τα ρεπό στα φαβορί και μοιράζει τους γύρους: 1ος την Τρίτη, 2ος &amp; 3ος την Τετάρτη, τελικοί γύροι την Πέμπτη.</p>
       <div id="drawInfo" class="muted">Φόρτωση παικτών…</div>
       <div style="margin-top:14px">
@@ -47,7 +59,7 @@
     </div>
 
     <div class="card">
-      <h2>2 · Καταχώρηση σκορ</h2>
+      <h2>3 · Καταχώρηση σκορ</h2>
       <p class="sub">Στα 5 σετ — γράψε τα σετ που κέρδισε ο καθένας (ο νικητής φτάνει τα 3). Οι νικητές προχωρούν αυτόματα.</p>
       <div id="matches"><span class="muted">Κάνε πρώτα την κλήρωση.</span></div>
     </div>
@@ -86,6 +98,7 @@
   }
 
   function start(){
+    setupRegControls();
     DB.ref('players').on('value', function(snap){
       players=[]; snap.forEach(function(c){ var v=c.val(); v.id=c.key; players.push(v); });
       updateDrawInfo();
@@ -99,6 +112,25 @@
 
   function objToArr(o){ return Object.keys(o).map(function(k){return o[k];}); }
   function arrToObj(a){ var o={}; a.forEach(function(m){o[m.id]=m;}); return o; }
+
+  // ---- registration open/close controls ----
+  function setupRegControls(){
+    document.getElementById('regCloseBtn').addEventListener('click', function(){ DB.ref('settings/registrationOpen').set(false); });
+    document.getElementById('regOpenBtn').addEventListener('click', function(){ DB.ref('settings/registrationOpen').set(true); });
+    document.getElementById('regAutoBtn').addEventListener('click', function(){ DB.ref('settings/registrationOpen').remove(); });
+    DB.ref('settings/registrationOpen').on('value', function(s){ renderRegState(s.val()); });
+    setInterval(function(){ DB.ref('settings/registrationOpen').once('value').then(function(s){ renderRegState(s.val()); }); }, 30000);
+  }
+  function renderRegState(open){
+    var past=Date.now()>REGISTRATION_DEADLINE, closed, mode;
+    if(open===false){ closed=true; mode='χειροκίνητα κλειστές'; }
+    else if(open===true){ closed=false; mode='χειροκίνητα ανοιχτές (παράταση)'; }
+    else { closed=past; mode= past?'έληξε η προθεσμία (αυτόματο)':'ανοιχτές μέχρι τη λήξη (αυτόματο)'; }
+    var pill='<span class="status-pill '+(closed?'closed':'open')+'">'+(closed?'Κλειστές':'Ανοιχτές')+'</span>';
+    var dl='';
+    try{ dl=new Date(REGISTRATION_DEADLINE).toLocaleString('el-GR',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}); }catch(e){}
+    document.getElementById('regState').innerHTML=pill+' <span style="margin-left:6px">'+mode+'</span><br><span class="muted" style="font-size:13px">Προθεσμία: '+dl+'</span>';
+  }
 
   function updateDrawInfo(){
     var counts={advanced:0,intermediary:0,novice:0};

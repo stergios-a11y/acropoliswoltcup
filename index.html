@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Acropolis Wolt Cup — Register</title>
+<title>Acropolis Wolt Cup — Εγγραφή</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,69 +11,69 @@
   <header class="site">
     <div class="brand">
       <div class="ball"></div>
-      <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Table Tennis</span></h1>
-      <small>Group stage 22–23 · Final 24th</small></div>
+      <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Ping Pong</span></h1>
+      <small>Όμιλοι 22–23 · Τελικός 24</small></div>
     </div>
     <nav class="tabs">
-      <a href="index.html" class="active">Register</a>
-      <a href="bracket.html">Bracket &amp; Schedule</a>
-      <a href="admin.html">Admin</a>
+      <a href="index.html" class="active">Εγγραφή</a>
+      <a href="bracket.html">Bracket &amp; Πρόγραμμα</a>
+      <a href="admin.html">Διαχείριση</a>
     </nav>
   </header>
 
   <div class="card">
-    <h2>Declare your participation</h2>
-    <p class="sub">Tell us your level and which days you can play. One entry per person.</p>
+    <h2>Δήλωσε συμμετοχή</h2>
+    <p class="sub">Πες μας το επίπεδό σου και τις μέρες που μπορείς να παίξεις. Μία δήλωση ανά άτομο.</p>
 
     <form id="regForm">
-      <label for="name">Full name</label>
-      <input type="text" id="name" placeholder="e.g. Stergios G." required>
+      <label for="name">Ονοματεπώνυμο</label>
+      <input type="text" id="name" placeholder="π.χ. Στέργιος Γ." required>
 
-      <label for="email">Work email</label>
+      <label for="email">Email εργασίας</label>
       <input type="email" id="email" placeholder="you@company.com" required>
 
-      <label>Your level</label>
+      <label>Επίπεδο</label>
       <div class="levels">
         <label>
           <input type="radio" name="level" value="novice" required>
-          <div class="lvl-card"><b>Novice</b><span>Occasional player</span></div>
+          <div class="lvl-card"><b>Αρχάριος</b><span>Παίζει περιστασιακά</span></div>
         </label>
         <label>
           <input type="radio" name="level" value="intermediary">
-          <div class="lvl-card"><b>Intermediary</b><span>Plays regularly</span></div>
+          <div class="lvl-card"><b>Μέσος</b><span>Παίζει τακτικά</span></div>
         </label>
         <label>
           <input type="radio" name="level" value="advanced">
-          <div class="lvl-card"><b>Advanced</b><span>Strong / competitive</span></div>
+          <div class="lvl-card"><b>Προχωρημένος</b><span>Δυνατός / αγωνιστικός</span></div>
         </label>
       </div>
 
-      <label>Availability</label>
+      <label>Διαθεσιμότητα</label>
       <div class="avail">
-        <label><input type="checkbox" id="d22"> Wed 22nd</label>
-        <label><input type="checkbox" id="d23"> Thu 23rd</label>
-        <span class="muted" style="align-self:center">Final is Fri 24th (finalists only)</span>
+        <label><input type="checkbox" id="d22"> Τετ 22</label>
+        <label><input type="checkbox" id="d23"> Πέμ 23</label>
+        <span class="muted" style="align-self:center">Ο τελικός είναι Παρ 24 (μόνο φιναλίστ)</span>
       </div>
 
-      <button type="submit" class="btn" id="submitBtn">Sign me up</button>
+      <button type="submit" class="btn" id="submitBtn">Δήλωσε συμμετοχή</button>
       <div id="msg"></div>
     </form>
 
     <div class="legend" style="margin-top:20px">
-      <span><span class="badge b-novice">Novice</span> +3 vs Advanced, +2 vs Intermediary</span>
-      <span><span class="badge b-intermediary">Intermediary</span> +1 vs Advanced</span>
-      <span><span class="badge b-advanced">Advanced</span> no head start</span>
+      <span><span class="badge b-novice">Αρχάριος</span> +3 vs Προχωρημένο, +2 vs Μέσο</span>
+      <span><span class="badge b-intermediary">Μέσος</span> +1 vs Προχωρημένο</span>
+      <span><span class="badge b-advanced">Προχωρημένος</span> χωρίς προβάδισμα</span>
     </div>
-    <p class="muted" style="font-size:13px;margin-top:8px">Handicaps are per game. All matches are best of 5 games.</p>
+    <p class="muted" style="font-size:13px;margin-top:8px">Τα προβαδίσματα ισχύουν ανά game. Όλοι οι αγώνες στα 3 νικηφόρα game (best of 5).</p>
   </div>
 
   <div class="card">
-    <h2>Registered players <span id="count" class="pill">…</span></h2>
-    <p class="sub">Live list of everyone who has signed up.</p>
-    <div id="playerList"><span class="muted">Loading…</span></div>
+    <h2>Δηλωμένοι παίκτες <span id="count" class="pill">…</span></h2>
+    <p class="sub">Ζωντανή λίστα όσων έχουν δηλώσει.</p>
+    <div id="playerList"><span class="muted">Φόρτωση…</span></div>
   </div>
 
-  <div class="footer">Acropolis Wolt Cup 2026 · handicap format · best of 5</div>
+  <div class="footer">Acropolis Wolt Cup 2026 · με προβάδισμα · best of 5</div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -92,7 +92,7 @@
   if(!DB_READY){
     show('err', DB_ERROR);
     document.getElementById('submitBtn').disabled=true;
-    listEl.innerHTML='<span class="muted">Player list will appear once Firebase is configured.</span>';
+    listEl.innerHTML='<span class="muted">Η λίστα θα εμφανιστεί μόλις ρυθμιστεί το Firebase.</span>';
     return;
   }
 
@@ -103,38 +103,36 @@
     var levelEl=document.querySelector('input[name=level]:checked');
     var d22=document.getElementById('d22').checked;
     var d23=document.getElementById('d23').checked;
-    if(!name||!email||!levelEl){ show('err','Please fill in name, email and level.'); return; }
-    if(!d22 && !d23){ show('err','Pick at least one day you can play.'); return; }
+    if(!name||!email||!levelEl){ show('err','Συμπλήρωσε όνομα, email και επίπεδο.'); return; }
+    if(!d22 && !d23){ show('err','Διάλεξε τουλάχιστον μία μέρα.'); return; }
 
     var btn=document.getElementById('submitBtn'); btn.disabled=true;
-    // prevent duplicate email
     DB.ref('players').orderByChild('email').equalTo(email).once('value').then(function(snap){
-      if(snap.exists()){ show('err','That email is already registered.'); btn.disabled=false; return; }
+      if(snap.exists()){ show('err','Αυτό το email έχει ήδη δηλωθεί.'); btn.disabled=false; return; }
       var ref=DB.ref('players').push();
       ref.set({
         name:name, email:email, level:levelEl.value,
         avail22:d22, avail23:d23, ts:Date.now()
       }).then(function(){
-        show('ok','You’re in, '+name+'! See you on the table. 🏓');
+        show('ok','Μπήκες, '+name+'! Τα λέμε στο τραπέζι. 🏓');
         form.reset();
         btn.disabled=false;
-      }).catch(function(err){ show('err','Could not save: '+err.message); btn.disabled=false; });
-    }).catch(function(err){ show('err','Error: '+err.message); btn.disabled=false; });
+      }).catch(function(err){ show('err','Αποτυχία αποθήκευσης: '+err.message); btn.disabled=false; });
+    }).catch(function(err){ show('err','Σφάλμα: '+err.message); btn.disabled=false; });
   });
 
-  // Live player list
   DB.ref('players').on('value', function(snap){
     var players=[];
     snap.forEach(function(c){ var v=c.val(); v.id=c.key; players.push(v); });
-    countEl.textContent=players.length+' signed up';
-    if(!players.length){ listEl.innerHTML='<span class="muted">No one yet — be the first!</span>'; return; }
+    countEl.textContent=players.length+' δηλώσεις';
+    if(!players.length){ listEl.innerHTML='<span class="muted">Κανείς ακόμα — γίνε ο πρώτος!</span>'; return; }
     players.sort(function(a,b){return (a.ts||0)-(b.ts||0);});
     var rows=players.map(function(p){
       var days=[]; if(p.avail22)days.push('22'); if(p.avail23)days.push('23');
       return '<tr><td>'+esc(p.name)+'</td><td><span class="badge b-'+p.level+'">'+
         TT.LEVEL_LABEL[p.level]+'</span></td><td class="muted">'+(days.join(', ')||'—')+'</td></tr>';
     }).join('');
-    listEl.innerHTML='<table class="tbl"><thead><tr><th>Name</th><th>Level</th><th>Days</th></tr></thead><tbody>'+rows+'</tbody></table>';
+    listEl.innerHTML='<table class="tbl"><thead><tr><th>Όνομα</th><th>Επίπεδο</th><th>Μέρες</th></tr></thead><tbody>'+rows+'</tbody></table>';
   });
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}

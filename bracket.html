@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Acropolis Wolt Cup — Bracket &amp; Schedule</title>
+<title>Acropolis Wolt Cup — Bracket &amp; Πρόγραμμα</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,37 +11,37 @@
   <header class="site">
     <div class="brand">
       <div class="ball"></div>
-      <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Table Tennis</span></h1>
-      <small>Group stage 22–23 · Final 24th</small></div>
+      <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Ping Pong</span></h1>
+      <small>Όμιλοι 22–23 · Τελικός 24</small></div>
     </div>
     <nav class="tabs">
-      <a href="index.html">Register</a>
-      <a href="bracket.html" class="active">Bracket &amp; Schedule</a>
-      <a href="admin.html">Admin</a>
+      <a href="index.html">Εγγραφή</a>
+      <a href="bracket.html" class="active">Bracket &amp; Πρόγραμμα</a>
+      <a href="admin.html">Διαχείριση</a>
     </nav>
   </header>
 
   <div id="status"></div>
 
-  <div class="card" id="scheduleCard">
-    <h2>Schedule</h2>
-    <p class="sub">Best of 5 games · handicaps applied per game. Days assigned by round.</p>
-    <div id="schedule"><span class="muted">Loading…</span></div>
-  </div>
-
   <div class="card">
     <h2>Bracket</h2>
-    <p class="sub">Live results. Winners advance automatically. Handicaps shown on each match.</p>
-    <div class="bracket" id="bracket"><span class="muted">Loading…</span></div>
+    <p class="sub">Ζωντανά αποτελέσματα. Οι νικητές προχωρούν αυτόματα. Τα προβαδίσματα φαίνονται σε κάθε αγώνα.</p>
+    <div class="bracket-scroll" id="bracket"><span class="muted">Φόρτωση…</span></div>
     <div class="legend">
-      <span><span class="badge b-novice">Novice</span></span>
-      <span><span class="badge b-intermediary">Intermediary</span></span>
-      <span><span class="badge b-advanced">Advanced</span></span>
-      <span>🏆 gold = winner · BYE = advanced seed skips round 1</span>
+      <span><span class="badge b-novice">Αρχάριος</span></span>
+      <span><span class="badge b-intermediary">Μέσος</span></span>
+      <span><span class="badge b-advanced">Προχωρημένος</span></span>
+      <span>🔵 μπλε = νικητής · BYE = πρόκριση χωρίς αγώνα</span>
     </div>
   </div>
 
-  <div class="footer">Higher-level players are top seeds and receive any byes when the field isn’t a power of two.</div>
+  <div class="card" id="scheduleCard">
+    <h2>Πρόγραμμα</h2>
+    <p class="sub">Best of 5 · τα προβαδίσματα ισχύουν ανά game. Οι μέρες ανατίθενται ανά γύρο.</p>
+    <div id="schedule"><span class="muted">Φόρτωση…</span></div>
+  </div>
+
+  <div class="footer">Οι παίκτες υψηλότερου επιπέδου είναι τα κορυφαία seed και παίρνουν τα bye όταν οι αριθμοί δεν βγαίνουν ακριβώς.</div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -53,74 +53,106 @@
   var statusEl=document.getElementById('status');
   var bracketEl=document.getElementById('bracket');
   var scheduleEl=document.getElementById('schedule');
-  var DAYS={ "22":"Wednesday 22nd", "23":"Thursday 23rd", "24":"Friday 24th — FINAL" };
+  var DAYS={ "22":"Τετάρτη 22", "23":"Πέμπτη 23", "24":"Παρασκευή 24 — ΤΕΛΙΚΟΣ" };
+  var LVLCOLOR={novice:"#00c2e8",intermediary:"#f5a623",advanced:"#e0245e"};
 
-  function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function note(t,txt){statusEl.innerHTML='<div class="note '+t+'">'+txt+'</div>';}
+  function roundName(r,total){var f=total-r;return f===0?'Τελικός':f===1?'Ημιτελικοί':f===2?'Προημιτελικοί':'Γύρος '+r;}
+  function trunc(s,n){s=String(s||'');return s.length>n?s.slice(0,n-1)+'…':s;}
 
   if(!DB_READY){ note('err',DB_ERROR); bracketEl.innerHTML=''; scheduleEl.innerHTML=''; return; }
+
+  // Draw an empty 32-slot skeleton immediately so the graph is always visible.
+  bracketEl.innerHTML=buildSVG(32,{},5);
+  scheduleEl.innerHTML='<span class="muted">Το πρόγραμμα εμφανίζεται μετά την κλήρωση.</span>';
 
   DB.ref('tournament').on('value', function(snap){
     var t=snap.val();
     if(!t || !t.matches){
-      note('info','The bracket hasn’t been generated yet. Once registration closes, the admin will draw it here.');
-      bracketEl.innerHTML='<span class="muted">Not drawn yet.</span>';
-      scheduleEl.innerHTML='<span class="muted">Available after the draw.</span>';
+      note('info','Το bracket δεν έχει κληρωθεί ακόμα — φαίνεται η κενή κλήρωση 32 θέσεων. Μόλις κλείσουν οι εγγραφές, ο διαχειριστής θα κάνει την κλήρωση.');
+      bracketEl.innerHTML=buildSVG(32,{},5);
+      scheduleEl.innerHTML='<span class="muted">Το πρόγραμμα εμφανίζεται μετά την κλήρωση.</span>';
       return;
     }
     statusEl.innerHTML='';
     var matches=Object.keys(t.matches).map(function(k){return t.matches[k];});
-    render(matches, t.rounds);
+    var map={};
+    matches.forEach(function(m){ map[m.round+'_'+m.index]=m; });
+    bracketEl.innerHTML=buildSVG(t.size, map, t.rounds);
     renderSchedule(matches, t.rounds);
   });
 
-  function roundName(r,total){
-    var fromEnd=total-r;
-    if(fromEnd===0)return 'Final';
-    if(fromEnd===1)return 'Semi-finals';
-    if(fromEnd===2)return 'Quarter-finals';
-    return 'Round '+r;
-  }
+  /* ---- SVG bracket graph ---- */
+  function buildSVG(size, map, rounds){
+    var boxW=170, boxH=46, colGap=54, rowGap=16, topPad=34, leftPad=6;
+    var firstMatches=size/2;
+    var unit=boxH+rowGap;
+    var totalH=firstMatches*unit;
+    var colStep=boxW+colGap;
+    var width=leftPad + rounds*colStep - colGap + leftPad;
+    var height=topPad + totalH + 10;
 
-  function seedRow(name,level,games,isWin,tbd){
-    var cls='seed'+(isWin?' win':'');
-    var nm = tbd ? '<span class="tbd">'+esc(name)+'</span>'
-                 : '<span class="badge b-'+level+'">'+(TT.LEVEL_LABEL[level]||'')+'</span> <span class="n">'+esc(name)+'</span>';
-    return '<div class="'+cls+'"><div class="nm">'+nm+'</div><div class="g">'+(games===''?'':games)+'</div></div>';
-  }
+    var conns='', boxes='', titles='';
+    function colX(r){ return leftPad + (r-1)*colStep; }
+    function blockH(r){ return unit*Math.pow(2,r-1); }
+    function cy(r,i){ return topPad + i*blockH(r) + blockH(r)/2; }
 
-  function render(matches, total){
-    var byRound={};
-    matches.forEach(function(m){(byRound[m.round]=byRound[m.round]||[]).push(m);});
-    var html='';
-    for(var r=1;r<=total;r++){
-      var list=(byRound[r]||[]).sort(function(a,b){return a.index-b.index;});
-      html+='<div class="round"><div class="round-title">'+roundName(r,total)+'</div>';
-      list.forEach(function(m){ html+=matchHtml(m); });
-      html+='</div>';
+    for(var r=1;r<=rounds;r++){
+      var mInRound=firstMatches/Math.pow(2,r-1);
+      titles+='<text class="sv-round" x="'+(colX(r)+boxW/2)+'" y="20" text-anchor="middle">'+esc(roundName(r,rounds))+'</text>';
+      for(var i=0;i<mInRound;i++){
+        var x=colX(r), y=cy(r,i)-boxH/2;
+        var m=map[r+'_'+i];
+        // connectors from children (r-1) to this box
+        if(r>1){
+          var childRight=colX(r-1)+boxW;
+          var midX=(childRight+x)/2;
+          var up=cy(r-1,2*i), dn=cy(r-1,2*i+1), pc=cy(r,i);
+          conns+='<path class="sv-conn" d="M'+childRight+' '+up+' L'+midX+' '+up+' L'+midX+' '+dn+' L'+childRight+' '+dn+' M'+midX+' '+pc+' L'+x+' '+pc+'"/>';
+        }
+        boxes+=boxSVG(x,y,boxW,boxH,m);
+      }
     }
-    bracketEl.innerHTML=html;
+    return '<svg width="'+width+'" height="'+height+'" viewBox="0 0 '+width+' '+height+'" xmlns="http://www.w3.org/2000/svg">'
+      + conns + titles + boxes + '</svg>';
   }
 
-  function matchHtml(m){
+  function slotSVG(x,y,w,h,name,level,score,isWin,tbd){
+    var barColor=level?LVLCOLOR[level]:'transparent';
+    var bar='<rect x="'+x+'" y="'+y+'" width="4" height="'+h+'" fill="'+barColor+'"/>';
+    var cls='sv-name'+(isWin?' win':'')+(tbd?' tbd':'');
+    var scls='sv-score'+(isWin?' win':'');
+    var nm='<text class="'+cls+'" x="'+(x+11)+'" y="'+(y+h/2+4)+'">'+esc(trunc(name,18))+'</text>';
+    var sc=(score===''||score==null)?'':'<text class="'+scls+'" x="'+(x+w-9)+'" y="'+(y+h/2+4)+'" text-anchor="end">'+score+'</text>';
+    return bar+nm+sc;
+  }
+
+  function boxSVG(x,y,w,h,m){
+    var done = m && m.status==='done';
+    var boxCls='sv-box'+(done?' done':'');
+    var rect='<rect class="'+boxCls+'" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="8"/>';
+    var div='<line class="sv-div" x1="'+x+'" y1="'+(y+h/2)+'" x2="'+(x+w)+'" y2="'+(y+h/2)+'"/>';
+    var top, bot;
+    if(!m){
+      top=slotSVG(x,y,w,h/2,'—','', '',false,true);
+      bot=slotSVG(x,y+h/2,w,h/2,'—','', '',false,true);
+      return rect+div+top+bot;
+    }
     if(m.isBye){
-      var byeName=m.p1Id?m.p1Name:m.p2Name, byeLvl=m.p1Id?m.p1Level:m.p2Level;
-      return '<div class="match bye">'+
-        seedRow(byeName,byeLvl,'',true,false)+
-        seedRow('BYE','', '',false,true)+
-        '<div class="meta"><span>Round auto-advance</span><span>Day '+m.day+'</span></div></div>';
+      var bn=m.p1Id?m.p1Name:m.p2Name, bl=m.p1Id?m.p1Level:m.p2Level;
+      top=slotSVG(x,y,w,h/2,bn,bl,'',true,false);
+      bot=slotSVG(x,y+h/2,w,h/2,'BYE','', '',false,true);
+      return rect+div+top+bot+'<text class="sv-tag" x="'+(x+w-9)+'" y="'+(y+h-6)+'" text-anchor="end" fill="#0079b3">BYE</text>';
     }
-    var p1set=!!m.p1Id, p2set=!!m.p2Id, done=m.status==='done';
+    var p1=!!m.p1Id, p2=!!m.p2Id;
     var w1=done&&m.winnerId===m.p1Id, w2=done&&m.winnerId===m.p2Id;
-    var h = (p1set&&p2set)?TT.handicap(m.p1Level,m.p2Level):null;
-    var hcap = (h&&h.points>0)?'<div class="hcap">⚖ '+esc(h.text)+'</div>':'';
-    return '<div class="match">'+
-      seedRow(p1set?m.p1Name:'TBD', m.p1Level, p1set?m.p1Games:'', w1, !p1set)+
-      seedRow(p2set?m.p2Name:'TBD', m.p2Level, p2set?m.p2Games:'', w2, !p2set)+
-      hcap+
-      '<div class="meta"><span>'+(done?'Final':(p1set&&p2set?'Scheduled':'Awaiting players'))+'</span><span>Day '+m.day+'</span></div></div>';
+    top=slotSVG(x,y,w,h/2, p1?m.p1Name:'TBD', m.p1Level, p1?m.p1Games:'', w1, !p1);
+    bot=slotSVG(x,y+h/2,w,h/2, p2?m.p2Name:'TBD', m.p2Level, p2?m.p2Games:'', w2, !p2);
+    return rect+div+top+bot;
   }
 
+  /* ---- schedule table ---- */
   function renderSchedule(matches, total){
     var days={"22":[],"23":[],"24":[]};
     matches.forEach(function(m){ if(!m.isBye) (days[m.day]=days[m.day]||[]).push(m); });
@@ -129,7 +161,7 @@
       var list=(days[d]||[]).sort(function(a,b){return a.round-b.round||a.index-b.index;});
       if(!list.length)return;
       html+='<h3 class="day">'+DAYS[d]+'</h3>';
-      html+='<table class="tbl"><thead><tr><th>Round</th><th>Match</th><th>Handicap</th><th>Result</th></tr></thead><tbody>';
+      html+='<table class="tbl"><thead><tr><th>Γύρος</th><th>Αγώνας</th><th>Προβάδισμα</th><th>Αποτέλεσμα</th></tr></thead><tbody>';
       list.forEach(function(m){
         var p1=m.p1Id?m.p1Name:'TBD', p2=m.p2Id?m.p2Name:'TBD';
         var h=(m.p1Id&&m.p2Id)?TT.handicap(m.p1Level,m.p2Level):null;
@@ -139,7 +171,7 @@
       });
       html+='</tbody></table>';
     });
-    scheduleEl.innerHTML=html||'<span class="muted">No matches scheduled.</span>';
+    scheduleEl.innerHTML=html||'<span class="muted">Δεν υπάρχουν προγραμματισμένοι αγώνες.</span>';
   }
 })();
 </script>

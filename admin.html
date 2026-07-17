@@ -132,7 +132,7 @@
     var html='';
     for(var r=1;r<=tourney.rounds;r++){
       var list=(byRound[r]||[]).sort(function(a,b){return a.index-b.index;});
-      html+='<h3 class="day">'+roundName(r,tourney.rounds)+' · Μέρα '+(list[0]?list[0].day:'')+'</h3>';
+      html+='<h3 class="day">'+roundName(r,tourney.rounds)+' · '+(list[0]?list[0].day:'')+'</h3>';
       list.forEach(function(m){ html+=matchRow(m); });
     }
     box.innerHTML=html;

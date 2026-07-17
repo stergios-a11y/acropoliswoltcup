@@ -12,7 +12,7 @@
     <div class="brand">
       <div class="ball"></div>
       <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Ping Pong</span></h1>
-      <small>Αγώνες Τετ 22 &amp; Πέμ 23 · Τελικός Πέμ 23</small></div>
+      <small>Γύροι 1–3 Τρίτη · Τελικοί γύροι Τετάρτη</small></div>
     </div>
     <nav class="tabs">
       <a href="index.html" class="active">Εγγραφή</a>
@@ -30,7 +30,7 @@
         <span class="chip">Best of 5</span>
         <span class="chip">Handicap</span>
         <span class="chip">Knockout</span>
-        <span class="chip">Τελικός Πέμ 23</span>
+        <span class="chip">Τρίτη &amp; Τετάρτη</span>
       </div>
     </div>
     <svg class="hero-art" viewBox="0 0 230 200" xmlns="http://www.w3.org/2000/svg">
@@ -62,6 +62,7 @@
       <div class="rule"><div class="ic">🎯</div><div><b>Σύστημα knockout</b><span>Μονός αποκλεισμός. Χάνεις — βγαίνεις. Οι νικητές προχωρούν αυτόματα.</span></div></div>
       <div class="rule"><div class="ic">⚖️</div><div><b>Προβάδισμα (handicap)</b><span>Οι λιγότερο έμπειροι ξεκινούν κάθε game με προβάδισμα. Δες τον πίνακα πιο κάτω.</span></div></div>
       <div class="rule"><div class="ic">🥇</div><div><b>Seeding &amp; bye</b><span>Κατάταξη κατά επίπεδο. Όταν οι αριθμοί δεν βγαίνουν, τα κορυφαία seed προκρίνονται χωρίς αγώνα (bye).</span></div></div>
+      <div class="rule"><div class="ic">🗓️</div><div><b>Πρόγραμμα</b><span>1ος, 2ος &amp; 3ος γύρος την <b>Τρίτη</b>. Οι τελικοί γύροι (ημιτελικοί &amp; τελικός) την <b>Τετάρτη</b>.</span></div></div>
     </div>
 
     <hr class="net">
@@ -107,13 +108,6 @@
         </label>
       </div>
 
-      <label>Διαθεσιμότητα</label>
-      <div class="avail">
-        <label><input type="checkbox" id="d22"> Τετάρτη 22</label>
-        <label><input type="checkbox" id="d23"> Πέμπτη 23</label>
-        <span class="muted" style="align-self:center">Ο τελικός γίνεται την Πέμπτη 23</span>
-      </div>
-
       <button type="submit" class="btn" id="submitBtn">Δήλωσε συμμετοχή 🏓</button>
       <div id="msg"></div>
     </form>
@@ -153,18 +147,14 @@
     var name=document.getElementById('name').value.trim();
     var email=document.getElementById('email').value.trim().toLowerCase();
     var levelEl=document.querySelector('input[name=level]:checked');
-    var d22=document.getElementById('d22').checked;
-    var d23=document.getElementById('d23').checked;
     if(!name||!email||!levelEl){ show('err','Συμπλήρωσε όνομα, email και επίπεδο.'); return; }
-    if(!d22 && !d23){ show('err','Διάλεξε τουλάχιστον μία μέρα.'); return; }
 
     var btn=document.getElementById('submitBtn'); btn.disabled=true;
     DB.ref('players').orderByChild('email').equalTo(email).once('value').then(function(snap){
       if(snap.exists()){ show('err','Αυτό το email έχει ήδη δηλωθεί.'); btn.disabled=false; return; }
       var ref=DB.ref('players').push();
       ref.set({
-        name:name, email:email, level:levelEl.value,
-        avail22:d22, avail23:d23, ts:Date.now()
+        name:name, email:email, level:levelEl.value, ts:Date.now()
       }).then(function(){
         show('ok','Μπήκες, '+name+'! Τα λέμε στο τραπέζι. 🏓');
         form.reset();
@@ -180,11 +170,10 @@
     if(!players.length){ listEl.innerHTML='<span class="muted">Κανείς ακόμα — γίνε ο πρώτος!</span>'; return; }
     players.sort(function(a,b){return (a.ts||0)-(b.ts||0);});
     var rows=players.map(function(p){
-      var days=[]; if(p.avail22)days.push('22'); if(p.avail23)days.push('23');
       return '<tr><td>'+esc(p.name)+'</td><td><span class="badge b-'+p.level+'">'+
-        TT.LEVEL_LABEL[p.level]+'</span></td><td class="muted">'+(days.join(', ')||'—')+'</td></tr>';
+        TT.LEVEL_LABEL[p.level]+'</span></td></tr>';
     }).join('');
-    listEl.innerHTML='<table class="tbl"><thead><tr><th>Όνομα</th><th>Επίπεδο</th><th>Μέρες</th></tr></thead><tbody>'+rows+'</tbody></table>';
+    listEl.innerHTML='<table class="tbl"><thead><tr><th>Όνομα</th><th>Επίπεδο</th></tr></thead><tbody>'+rows+'</tbody></table>';
   });
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}

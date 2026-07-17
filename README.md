@@ -2,7 +2,7 @@
 
 A three-page website for running a handicap table-tennis cup at work.
 
-- **`index.html`** — players declare participation: name, email, level (novice / intermediary / advanced) and availability for the 22nd & 23rd. Shows a live list of who's registered.
+- **`index.html`** — players declare participation: name, email, and level (novice / intermediary / advanced). Shows a live list of who's registered.
 - **`bracket.html`** — live single-elimination bracket + day-by-day schedule, fed by results.
 - **`admin.html`** — passcode-protected: draw the bracket and enter scores. Winners advance automatically.
 
@@ -17,7 +17,7 @@ All shared data (registrations, bracket, scores) lives in a free **Firebase Real
   - Intermediary vs Advanced → **Intermediary starts 1–0**
   - Same level → even start.
 - **Seeding / byes:** players are seeded by level (advanced first, then intermediary, then novice; ties broken by who registered earlier). When the field isn't a power of two, the **top seeds get first-round byes** — i.e. higher-level players skip round 1 and start in round 2.
-- **Days:** matches run Wednesday the 22nd and Thursday the 23rd; the **final is on Thursday the 23rd**.
+- **Days:** rounds 1–3 are played on **Tuesday**; the final rounds (semi-finals and final) on **Wednesday**.
 
 ---
 

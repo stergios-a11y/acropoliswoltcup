@@ -12,7 +12,7 @@
     <div class="brand">
       <div class="ball"></div>
       <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Ping Pong</span></h1>
-      <small>Αγώνες Τετ 22 &amp; Πέμ 23 · Τελικός Πέμ 23</small></div>
+      <small>Γύροι 1–3 Τρίτη · Τελικοί γύροι Τετάρτη</small></div>
     </div>
     <nav class="tabs">
       <a href="index.html">Εγγραφή</a>
@@ -49,6 +49,15 @@
   <div id="status"></div>
 
   <div class="card">
+    <h2>🗓️ Πρόγραμμα γύρων</h2>
+    <p class="sub">Πότε παίζεται κάθε φάση του τουρνουά.</p>
+    <div class="rules-grid">
+      <div class="rule"><div class="ic">1️⃣</div><div><b>Τρίτη</b><span>1ος, 2ος &amp; 3ος γύρος.</span></div></div>
+      <div class="rule"><div class="ic">🏆</div><div><b>Τετάρτη</b><span>Τελικοί γύροι — ημιτελικοί &amp; τελικός.</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
     <h2>Bracket</h2>
     <p class="sub">Ζωντανά αποτελέσματα. Οι νικητές προχωρούν αυτόματα. Τα προβαδίσματα φαίνονται σε κάθε αγώνα.</p>
     <div class="bracket-scroll" id="bracket"><span class="muted">Φόρτωση…</span></div>
@@ -78,7 +87,8 @@
   var statusEl=document.getElementById('status');
   var bracketEl=document.getElementById('bracket');
   var scheduleEl=document.getElementById('schedule');
-  var DAYS={ "22":"Τετάρτη 22", "23":"Πέμπτη 23 — ΤΕΛΙΚΟΣ" };
+  var DAYS={ "Τρίτη":"Τρίτη · Γύροι 1–3", "Τετάρτη":"Τετάρτη · Τελικοί γύροι" };
+  var DAY_ORDER=["Τρίτη","Τετάρτη"];
   var LVLCOLOR={novice:"#00c2e8",intermediary:"#f5a623",advanced:"#e0245e"};
 
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -179,10 +189,10 @@
 
   /* ---- schedule table ---- */
   function renderSchedule(matches, total){
-    var days={"22":[],"23":[]};
+    var days={"Τρίτη":[],"Τετάρτη":[]};
     matches.forEach(function(m){ if(!m.isBye) (days[m.day]=days[m.day]||[]).push(m); });
     var html='';
-    ["22","23"].forEach(function(d){
+    DAY_ORDER.forEach(function(d){
       var list=(days[d]||[]).sort(function(a,b){return a.round-b.round||a.index-b.index;});
       if(!list.length)return;
       html+='<h3 class="day">'+DAYS[d]+'</h3>';

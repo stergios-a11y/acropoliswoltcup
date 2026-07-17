@@ -63,10 +63,8 @@
   /* Assign rounds to tournament days.
      Final -> day 24. Earlier rounds split across 22 and 23.            */
   function dayForRound(round, totalRounds) {
-    if (round === totalRounds) return "23";      // final — Thursday 23
-    var nonFinal = totalRounds - 1;
-    // earlier rounds on Wednesday 22, later rounds + final on Thursday 23
-    return round <= Math.ceil(nonFinal / 2) ? "22" : "23";
+    // Rounds 1–3 on Tuesday; the final rounds (4+) on Wednesday.
+    return round <= 3 ? "Τρίτη" : "Τετάρτη";
   }
 
   /* Build the full bracket from a player list.

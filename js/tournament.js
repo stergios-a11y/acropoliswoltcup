@@ -63,9 +63,9 @@
   /* Assign rounds to tournament days.
      Final -> day 24. Earlier rounds split across 22 and 23.            */
   function dayForRound(round, totalRounds) {
-    if (round === totalRounds) return "24";      // final
+    if (round === totalRounds) return "23";      // final — Thursday 23
     var nonFinal = totalRounds - 1;
-    // first half of the non-final rounds on the 22nd, rest on the 23rd
+    // earlier rounds on Wednesday 22, later rounds + final on Thursday 23
     return round <= Math.ceil(nonFinal / 2) ? "22" : "23";
   }
 

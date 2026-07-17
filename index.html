@@ -12,7 +12,7 @@
     <div class="brand">
       <div class="ball"></div>
       <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Ping Pong</span></h1>
-      <small>Όμιλοι 22–23 · Τελικός 24</small></div>
+      <small>Αγώνες Τετ 22 &amp; Πέμ 23 · Τελικός Πέμ 23</small></div>
     </div>
     <nav class="tabs">
       <a href="index.html" class="active">Εγγραφή</a>
@@ -21,8 +21,67 @@
     </nav>
   </header>
 
+  <!-- HERO -->
+  <section class="hero">
+    <div class="htext">
+      <h2>Μπες στο τραπέζι. 🏓</h2>
+      <p>Το εταιρικό πρωτάθλημα ping pong με σύστημα προβαδίσματος — για να έχουν όλοι ευκαιρία, από αρχάριους μέχρι προχωρημένους.</p>
+      <div class="chips">
+        <span class="chip">Best of 5</span>
+        <span class="chip">Handicap</span>
+        <span class="chip">Knockout</span>
+        <span class="chip">Τελικός Πέμ 23</span>
+      </div>
+    </div>
+    <svg class="hero-art" viewBox="0 0 230 200" xmlns="http://www.w3.org/2000/svg">
+      <g transform="rotate(-22 92 108)">
+        <rect x="80" y="150" width="18" height="52" rx="8" fill="#f0b070"/>
+        <rect x="80" y="150" width="18" height="20" rx="8" fill="#d98f43"/>
+        <ellipse cx="89" cy="112" rx="46" ry="54" fill="#ffffff"/>
+        <ellipse cx="89" cy="112" rx="38" ry="46" fill="#e0245e"/>
+        <ellipse cx="76" cy="96" rx="12" ry="16" fill="#ffffff" opacity=".25"/>
+      </g>
+      <g transform="rotate(26 150 104)">
+        <rect x="141" y="146" width="18" height="52" rx="8" fill="#f0b070"/>
+        <rect x="141" y="146" width="18" height="20" rx="8" fill="#d98f43"/>
+        <ellipse cx="150" cy="108" rx="46" ry="54" fill="#ffffff"/>
+        <ellipse cx="150" cy="108" rx="38" ry="46" fill="#012a3a"/>
+        <ellipse cx="137" cy="92" rx="12" ry="16" fill="#ffffff" opacity=".18"/>
+      </g>
+      <circle class="ball" cx="176" cy="52" r="15" fill="#ffffff"/>
+      <circle class="ball" cx="176" cy="52" r="15" fill="none" stroke="#00c2e8" stroke-width="2" opacity=".5"/>
+    </svg>
+  </section>
+
+  <!-- RULES -->
   <div class="card">
-    <h2>Δήλωσε συμμετοχή</h2>
+    <h2>📋 Κανόνες</h2>
+    <p class="sub">Τα βασικά πριν δηλώσεις συμμετοχή.</p>
+    <div class="rules-grid">
+      <div class="rule"><div class="ic">🏓</div><div><b>Best of 5</b><span>Κάθε αγώνας στα 3 νικηφόρα game. Νικητής όποιος φτάσει πρώτος τα 3.</span></div></div>
+      <div class="rule"><div class="ic">🎯</div><div><b>Σύστημα knockout</b><span>Μονός αποκλεισμός. Χάνεις — βγαίνεις. Οι νικητές προχωρούν αυτόματα.</span></div></div>
+      <div class="rule"><div class="ic">⚖️</div><div><b>Προβάδισμα (handicap)</b><span>Οι λιγότερο έμπειροι ξεκινούν κάθε game με προβάδισμα. Δες τον πίνακα πιο κάτω.</span></div></div>
+      <div class="rule"><div class="ic">🥇</div><div><b>Seeding &amp; bye</b><span>Κατάταξη κατά επίπεδο. Όταν οι αριθμοί δεν βγαίνουν, τα κορυφαία seed προκρίνονται χωρίς αγώνα (bye).</span></div></div>
+    </div>
+
+    <hr class="net">
+
+    <h2 style="font-size:16px">⚖️ Πίνακας προβαδίσματος</h2>
+    <p class="sub">Πόσους πόντους προβάδισμα παίρνει ο πιο αδύναμος παίκτης, σε κάθε game.</p>
+    <table class="hmatrix">
+      <thead><tr><th></th><th><span class="b-strip" style="background:#00c2e8"></span>Αρχάριος</th><th><span class="b-strip" style="background:#f5a623"></span>Μέσος</th><th><span class="b-strip" style="background:#e0245e"></span>Προχωρημένος</th></tr></thead>
+      <tbody>
+        <tr><td class="rl">Αρχάριος</td><td class="self">—</td><td class="hc">+2</td><td class="hc big">+3</td></tr>
+        <tr><td class="rl">Μέσος</td><td class="hc">+2</td><td class="self">—</td><td class="hc">+1</td></tr>
+        <tr><td class="rl">Προχωρημένος</td><td class="hc big">+3</td><td class="hc">+1</td><td class="self">—</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="font-size:12.5px;margin-top:6px">Π.χ. Αρχάριος εναντίον Προχωρημένου ξεκινά κάθε game <b>3-0</b>. Ίδιο επίπεδο = ισότιμη εκκίνηση.</p>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="card">
+    <h2>✍️ Δήλωσε συμμετοχή</h2>
     <p class="sub">Πες μας το επίπεδό σου και τις μέρες που μπορείς να παίξεις. Μία δήλωση ανά άτομο.</p>
 
     <form id="regForm">
@@ -30,50 +89,43 @@
       <input type="text" id="name" placeholder="π.χ. Στέργιος Γ." required>
 
       <label for="email">Email εργασίας</label>
-      <input type="email" id="email" placeholder="you@company.com" required>
+      <input type="email" id="email" placeholder="you@wolt.com" required>
 
       <label>Επίπεδο</label>
       <div class="levels">
         <label>
           <input type="radio" name="level" value="novice" required>
-          <div class="lvl-card"><b>Αρχάριος</b><span>Παίζει περιστασιακά</span></div>
+          <div class="lvl-card"><span class="em">🌱</span><b>Αρχάριος</b><span>Παίζει περιστασιακά</span></div>
         </label>
         <label>
           <input type="radio" name="level" value="intermediary">
-          <div class="lvl-card"><b>Μέσος</b><span>Παίζει τακτικά</span></div>
+          <div class="lvl-card"><span class="em">🔥</span><b>Μέσος</b><span>Παίζει τακτικά</span></div>
         </label>
         <label>
           <input type="radio" name="level" value="advanced">
-          <div class="lvl-card"><b>Προχωρημένος</b><span>Δυνατός / αγωνιστικός</span></div>
+          <div class="lvl-card"><span class="em">⚡</span><b>Προχωρημένος</b><span>Δυνατός / αγωνιστικός</span></div>
         </label>
       </div>
 
       <label>Διαθεσιμότητα</label>
       <div class="avail">
-        <label><input type="checkbox" id="d22"> Τετ 22</label>
-        <label><input type="checkbox" id="d23"> Πέμ 23</label>
-        <span class="muted" style="align-self:center">Ο τελικός είναι Παρ 24 (μόνο φιναλίστ)</span>
+        <label><input type="checkbox" id="d22"> Τετάρτη 22</label>
+        <label><input type="checkbox" id="d23"> Πέμπτη 23</label>
+        <span class="muted" style="align-self:center">Ο τελικός γίνεται την Πέμπτη 23</span>
       </div>
 
-      <button type="submit" class="btn" id="submitBtn">Δήλωσε συμμετοχή</button>
+      <button type="submit" class="btn" id="submitBtn">Δήλωσε συμμετοχή 🏓</button>
       <div id="msg"></div>
     </form>
-
-    <div class="legend" style="margin-top:20px">
-      <span><span class="badge b-novice">Αρχάριος</span> +3 vs Προχωρημένο, +2 vs Μέσο</span>
-      <span><span class="badge b-intermediary">Μέσος</span> +1 vs Προχωρημένο</span>
-      <span><span class="badge b-advanced">Προχωρημένος</span> χωρίς προβάδισμα</span>
-    </div>
-    <p class="muted" style="font-size:13px;margin-top:8px">Τα προβαδίσματα ισχύουν ανά game. Όλοι οι αγώνες στα 3 νικηφόρα game (best of 5).</p>
   </div>
 
   <div class="card">
-    <h2>Δηλωμένοι παίκτες <span id="count" class="pill">…</span></h2>
+    <h2>👥 Δηλωμένοι παίκτες <span id="count" class="pill">…</span></h2>
     <p class="sub">Ζωντανή λίστα όσων έχουν δηλώσει.</p>
     <div id="playerList"><span class="muted">Φόρτωση…</span></div>
   </div>
 
-  <div class="footer">Acropolis Wolt Cup 2026 · με προβάδισμα · best of 5</div>
+  <div class="footer">Acropolis Wolt Cup 2026 · με προβάδισμα · best of 5 🏓</div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>

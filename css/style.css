@@ -99,3 +99,58 @@ table.tbl th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-s
 .footer{color:var(--muted);font-size:12px;text-align:center;margin-top:30px}
 h3.day{margin:22px 0 10px;font-size:15px;color:var(--wolt-dark)}
 code{background:var(--panel2);padding:2px 6px;border-radius:6px;font-size:13px}
+
+/* subtle ping-pong ball dot texture on the page */
+body{
+  background-image:
+    radial-gradient(circle at 12% 22%, rgba(0,157,224,.06) 0 7px, transparent 8px),
+    radial-gradient(circle at 88% 12%, rgba(245,166,35,.07) 0 6px, transparent 7px),
+    radial-gradient(circle at 78% 82%, rgba(0,194,232,.06) 0 9px, transparent 10px),
+    radial-gradient(circle at 22% 88%, rgba(224,36,94,.05) 0 6px, transparent 7px),
+    linear-gradient(180deg,#d6eefb 0,var(--bg) 240px);
+  background-attachment:fixed;
+}
+
+/* HERO */
+.hero{
+  position:relative;overflow:hidden;background:linear-gradient(135deg,var(--wolt) 0,var(--wolt-light) 100%);
+  border-radius:22px;padding:30px 32px;color:#fff;margin-bottom:22px;
+  box-shadow:0 18px 40px rgba(0,157,224,.3);
+}
+.hero .htext{position:relative;z-index:2;max-width:62%}
+.hero h2{margin:0 0 8px;font-size:30px;line-height:1.15;color:#fff;letter-spacing:.2px}
+.hero p{margin:0;color:#eafaff;font-size:15px}
+.hero .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.hero .chip{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;
+  font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px}
+.hero-art{position:absolute;right:-6px;bottom:-14px;width:230px;height:200px;z-index:1;opacity:.96}
+.hero-art .ball{animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@media(max-width:720px){.hero .htext{max-width:100%}.hero-art{opacity:.18;right:-30px}}
+
+/* NET divider */
+.net{height:0;border:0;border-top:3px dashed var(--wolt-light);opacity:.5;margin:18px 0}
+
+/* RULES */
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+@media(max-width:720px){.rules-grid{grid-template-columns:1fr}}
+.rule{display:flex;gap:12px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);
+  border-radius:13px;padding:14px}
+.rule .ic{flex:0 0 auto;width:38px;height:38px;border-radius:10px;background:#fff;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-size:20px}
+.rule b{display:block;font-size:14.5px;color:var(--wolt-ink);margin-bottom:2px}
+.rule span{font-size:13px;color:var(--muted)}
+
+/* HANDICAP MATRIX */
+.hmatrix{width:100%;border-collapse:separate;border-spacing:6px;margin-top:8px}
+.hmatrix th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);padding:4px;text-align:center;font-weight:700}
+.hmatrix td{text-align:center;border-radius:10px;padding:12px 8px;font-weight:800;font-size:15px}
+.hmatrix .rl{text-align:left;font-weight:700;color:var(--wolt-ink);background:transparent;font-size:13px}
+.hmatrix .hc{background:#eafaff;color:var(--wolt-dark);border:1.5px solid #bfeeff}
+.hmatrix .hc.big{background:#e7f9f1;color:#0a6b46;border-color:#a7e4c8}
+.hmatrix .zero{background:var(--panel2);color:#9fb6c4;border:1.5px dashed var(--line);font-weight:600;font-size:12px}
+.hmatrix .self{background:#f4f8fb;color:#c3d3dd}
+
+/* level card icons */
+.lvl-card .em{font-size:22px;display:block;margin-bottom:4px}
+.b-strip{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:middle;margin-right:5px}

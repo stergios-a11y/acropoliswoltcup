@@ -1,0 +1,56 @@
+<svg width="560" height="170" viewBox="0 0 560 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Acropolis Wolt Cup">
+  <defs>
+    <linearGradient id="blade" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00c2e8"/>
+      <stop offset="1" stop-color="#009de0"/>
+    </linearGradient>
+    <linearGradient id="handle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f0b070"/>
+      <stop offset="1" stop-color="#d98f43"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ICON: ping-pong paddle whose face is the Parthenon -->
+  <g transform="translate(6,8)">
+    <!-- handle (paddle tilted 45°, blade stays circular so the temple reads upright) -->
+    <g transform="rotate(45 59 55)">
+      <rect x="49" y="92" width="20" height="48" rx="10" fill="url(#handle)"/>
+      <rect x="49" y="92" width="20" height="16" rx="10" fill="#c67f37"/>
+    </g>
+    <!-- blade -->
+    <circle cx="59" cy="55" r="50" fill="#ffffff"/>
+    <circle cx="59" cy="55" r="45" fill="url(#blade)"/>
+
+    <!-- Parthenon (white) -->
+    <g fill="#ffffff">
+      <!-- pediment -->
+      <path d="M59 22 L30 44 L88 44 Z"/>
+      <!-- architrave -->
+      <rect x="31" y="45.5" width="56" height="6" rx="1.5"/>
+      <!-- columns -->
+      <rect x="33" y="53" width="6" height="27" rx="1"/>
+      <rect x="45" y="53" width="6" height="27" rx="1"/>
+      <rect x="56" y="53" width="6" height="27" rx="1"/>
+      <rect x="67" y="53" width="6" height="27" rx="1"/>
+      <rect x="79" y="53" width="6" height="27" rx="1"/>
+      <!-- steps -->
+      <rect x="30" y="81" width="58" height="5" rx="1.5"/>
+      <rect x="27" y="87" width="64" height="5" rx="1.5"/>
+    </g>
+
+    <!-- ping-pong ball (orange) -->
+    <circle cx="103" cy="24" r="13" fill="#ff8a00"/>
+    <circle cx="103" cy="24" r="13" fill="none" stroke="#d96f00" stroke-width="2.2" opacity=".65"/>
+    <ellipse cx="98.5" cy="19.5" rx="3.4" ry="4.4" fill="#ffffff" opacity=".75"/>
+  </g>
+
+  <!-- WORDMARK -->
+  <g font-family="'Segoe UI',Helvetica,Arial,sans-serif">
+    <text x="150" y="66" font-size="40" font-weight="800" letter-spacing="1" fill="#012a3a">ACROPOLIS</text>
+    <text x="150" y="112" font-size="40" font-weight="800" letter-spacing="1">
+      <tspan fill="#009de0">WOLT</tspan><tspan fill="#012a3a"> CUP</tspan>
+    </text>
+    <circle cx="157" cy="133" r="4.5" fill="#009de0"/>
+    <text x="169" y="138" font-size="15" font-weight="700" letter-spacing="3" fill="#5d7c8f">ΠΙΝΓΚ ΠΟΝΓΚ · 2026</text>
+  </g>
+</svg>

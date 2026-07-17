@@ -22,6 +22,7 @@ header.site{
 }
 .brand{display:flex;align-items:center;gap:13px}
 .brand .ball{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#fff,#bfeeff);box-shadow:0 0 0 4px rgba(255,255,255,.25)}
+.brand .emblem{width:50px;height:auto;display:block;filter:drop-shadow(0 2px 5px rgba(0,20,40,.2))}
 .brand h1{font-size:21px;margin:0;letter-spacing:.2px;color:#fff}
 .brand small{display:block;color:#d6f2ff;font-weight:400;font-size:12px;margin-top:2px}
 .brand .pill{background:rgba(255,255,255,.18);color:#fff;border:0}

@@ -17,7 +17,8 @@ All shared data (registrations, bracket, scores) lives in a free **Firebase Real
   - Intermediary vs Advanced → **Intermediary starts 1–0**
   - Same level → even start.
 - **Seeding / byes:** players are seeded by level (advanced first, then intermediary, then novice; ties broken by who registered earlier). When the field isn't a power of two, the **top seeds get first-round byes** — i.e. higher-level players skip round 1 and start in round 2.
-- **Days:** round 1 on **Tuesday**, rounds 2–3 on **Wednesday**, and the final two rounds (semi-finals and final) on **Thursday**. Round titles on the bracket are colour-coded by day.
+- **Days:** round 1 is the biggest and is played across **Monday & Tuesday**; rounds 2–3 on **Wednesday**; the final two rounds (semi-finals and final) on **Thursday**. Round titles on the bracket are colour-coded by day.
+- **Slack:** everyone who registers is added to the **#2026-acropolis-wolt-cup** Slack channel, where players schedule their own matches and post scores.
 
 ---
 
@@ -45,7 +46,7 @@ In **Realtime Database → Rules**, paste this and Publish. It lets anyone regis
 
 ### Registration deadline & closing
 
-Applications auto-close at the time set in `REGISTRATION_DEADLINE` in `js/firebase-config.js` (default: Monday 19:00 Athens — edit it to your event week). The registration page shows an open/closed status live. From **Admin → 1 · Εγγραφές** you can also **close now**, **open / extend** (overrides the deadline), or switch back to **auto** (close at the deadline).
+Applications auto-close at the time set in `REGISTRATION_DEADLINE` in `js/firebase-config.js` (default: Monday 17:00 Athens — edit it to your event week). The registration page shows an open/closed status live. From **Admin → 1 · Εγγραφές** you can also **close now**, **open / extend** (overrides the deadline), or switch back to **auto** (close at the deadline).
 
 > This is open write access, which is fine for a friendly internal cup. The admin passcode is a light gate on the score page, **not** real security — don't put anything sensitive here. If you want it locked down, enable Firebase Auth (out of scope for this simple build).
 

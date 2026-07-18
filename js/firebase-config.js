@@ -17,11 +17,11 @@ var firebaseConfig = {
 };
 
 // 2) Admin passcode for the score-entry page (change this!):
-var ADMIN_PASSCODE = "acropolis2026";
+var ADMIN_PASSCODE = "ssss";
 
 // 3) Registration deadline — applications auto-close at this time.
-//    (Monday 19:00 Athens time. Edit the date to match your event week.)
-var REGISTRATION_DEADLINE = new Date("2026-07-20T19:00:00+03:00").getTime();
+//    (Monday 17:00 Athens time. Edit the date to match your event week.)
+var REGISTRATION_DEADLINE = new Date("2026-07-20T17:00:00+03:00").getTime();
 
 // --- init (leave as-is) ---
 var DB = null, DB_READY = false, DB_ERROR = "";

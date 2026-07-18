@@ -14,7 +14,7 @@
     <div class="brand">
       <img class="emblem" src="assets/emblem.svg" alt="Acropolis Wolt Cup" width="50" height="53">
       <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Πινγκ πονγκ</span></h1>
-      <small>1ος γύρος Τρίτη · 2ος–3ος Τετάρτη · Τελικοί Πέμπτη</small></div>
+      <small>1ος γύρος Δευτ–Τρί · 2ος–3ος Τετ · Τελικοί Πέμ</small></div>
     </div>
     <nav class="tabs">
       <a href="index.html" class="active">Εγγραφή</a>
@@ -31,7 +31,7 @@
       <div class="chips">
         <span class="chip">Στα 3 σετ</span>
         <span class="chip">Προβάδισμα</span>
-        <span class="chip">Τρ · Τετ · Πέμ</span>
+        <span class="chip">Δευτ → Πέμ</span>
         <span class="chip">Έπαθλο: ρακέτα 🏆</span>
       </div>
     </div>
@@ -66,7 +66,7 @@
   <div class="deadline" id="deadlineBox">
     <div class="dl-txt">
       <span class="cal">🗓️</span>
-      <div><b>Οι δηλώσεις γίνονται δεκτές μέχρι τη Δευτέρα, 19:00</b>
+      <div><b>Οι δηλώσεις γίνονται δεκτές μέχρι τη Δευτέρα, 17:00</b>
       <span id="deadlineSub">Μετά τη λήξη το τραπέζι κλείνει για νέες εγγραφές.</span></div>
     </div>
     <span class="status-pill open" id="statusPill">Ανοιχτές</span>
@@ -101,7 +101,7 @@
     <h2>🗓️ Πρόγραμμα</h2>
     <p class="sub">Τρεις μέρες, με τα χρώματα που θα δεις και στο ταμπλό.</p>
     <div class="sched-strip">
-      <div class="sday" style="border-top:4px solid #009de0"><span class="tag" style="background:#009de0">ΤΡΙΤΗ</span><b>1ος γύρος</b><span class="rnd">Η αρχή της περιπέτειας.</span></div>
+      <div class="sday" style="border-top:4px solid #009de0"><span class="tag" style="background:#009de0">ΔΕΥΤ &amp; ΤΡΙ</span><b>1ος γύρος</b><span class="rnd">Ο μεγαλύτερος γύρος — σε δύο μέρες.</span></div>
       <div class="sday" style="border-top:4px solid #17b890"><span class="tag" style="background:#17b890">ΤΕΤΑΡΤΗ</span><b>2ος &amp; 3ος γύρος</b><span class="rnd">Εδώ ξεχωρίζουν οι σοβαροί.</span></div>
       <div class="sday" style="border-top:4px solid #e0245e"><span class="tag" style="background:#e0245e">ΠΕΜΠΤΗ</span><b>Τελικοί γύροι</b><span class="rnd">Ημιτελικοί &amp; τελικός.</span></div>
     </div>
@@ -110,11 +110,11 @@
   <!-- HOW IT WORKS -->
   <div class="card">
     <h2>🤝 Πώς παίζεται</h2>
-    <p class="sub">Το τουρνουά τρέχει χαλαρά — εσείς κανονίζετε πότε παίζετε.</p>
+    <p class="sub">Όλα γίνονται στο Slack — εσείς κανονίζετε πότε παίζετε.</p>
     <div class="steps">
-      <div class="step"><div class="num">1</div><b>Βρες τον αντίπαλο</b><p>Στείλ’ του μήνυμα στο <b>Slack</b> για να κανονίσετε πότε παίζετε.</p></div>
-      <div class="step"><div class="num">2</div><b>Παίξτε τον αγώνα</b><p>Best of 5, με το προβάδισμα σε κάθε σετ.</p></div>
-      <div class="step"><div class="num">3</div><b>Δηλώστε το σκορ</b><p>Πείτε το αποτέλεσμα στη διοργάνωση στο <b>Slack</b> για να μπει στο ταμπλό.</p></div>
+      <div class="step"><div class="num">1</div><b>Μπαίνεις στο κανάλι</b><p>Όλοι όσοι δηλώνουν προστίθενται στο κανάλι <b>#2026-acropolis-wolt-cup</b> στο Slack.</p></div>
+      <div class="step"><div class="num">2</div><b>Κανονίζεις το ματς</b><p>Βρες τον αντίπαλό σου στο κανάλι και κλείστε <b>μόνοι σας</b> πότε παίζετε (best of 5).</p></div>
+      <div class="step"><div class="num">3</div><b>Ποστάρεις το σκορ</b><p>Γράψε το αποτέλεσμα στο κανάλι για να ενημερωθεί το ταμπλό.</p></div>
     </div>
   </div>
 
@@ -187,7 +187,7 @@
   var regClosed=false;
   function fmtDeadline(){
     try{ return new Date(REGISTRATION_DEADLINE).toLocaleString('el-GR',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}); }
-    catch(e){ return 'τη Δευτέρα, 19:00'; }
+    catch(e){ return 'τη Δευτέρα, 17:00'; }
   }
   function applyRegState(open){
     // open: true (forced open) / false (forced closed) / undefined (auto by deadline)
@@ -203,7 +203,7 @@
     if(regClosed){
       box.classList.add('closed');
       pill.className='status-pill closed'; pill.textContent='Έκλεισαν';
-      sub.textContent = (open===false) ? 'Οι εγγραφές έκλεισαν από τη διοργάνωση.' : 'Η προθεσμία (Δευτέρα 19:00) έληξε.';
+      sub.textContent = (open===false) ? 'Οι εγγραφές έκλεισαν από τη διοργάνωση.' : 'Η προθεσμία (Δευτέρα 17:00) έληξε.';
       banner.classList.remove('hidden');
       form.classList.add('closed');
       document.getElementById('submitBtn').disabled=true;
@@ -236,7 +236,7 @@
       ref.set({
         name:name, email:email, level:levelEl.value, ts:Date.now()
       }).then(function(){
-        show('ok','Μέσα, '+name+'! Ξεκίνα προπόνηση — η ρακέτα δεν κερδίζεται μόνη της. 🏓');
+        show('ok','Μέσα, '+name+'! Θα σε προσθέσουμε στο κανάλι #2026-acropolis-wolt-cup στο Slack — εκεί κανονίζεις τα ματς και ποστάρεις τα σκορ. 🏓');
         form.reset();
         btn.disabled=false;
       }).catch(function(err){ show('err','Αποτυχία αποθήκευσης: '+err.message); btn.disabled=false; });

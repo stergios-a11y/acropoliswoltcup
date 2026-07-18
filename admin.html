@@ -48,7 +48,13 @@
     </div>
 
     <div class="card">
-      <h2>2 · Κλήρωση ταμπλό</h2>
+      <h2>2 · Παίκτες</h2>
+      <p class="sub">Διόρθωσε όνομα, email ή επίπεδο, ή διέγραψε μια δήλωση. Οι αλλαγές ισχύουν για την επόμενη κλήρωση — αν το ταμπλό έχει ήδη κληρωθεί, κάνε ξανά κλήρωση για να εφαρμοστούν.</p>
+      <div class="padmin" id="playersAdmin"><span class="muted">Φόρτωση…</span></div>
+    </div>
+
+    <div class="card">
+      <h2>3 · Κλήρωση ταμπλό</h2>
       <p class="sub">Κατατάσσει τους παίκτες κατά επίπεδο (πρώτα οι προχωρημένοι), δίνει τα ρεπό στα φαβορί και μοιράζει τους γύρους: 1ος την Τρίτη, 2ος &amp; 3ος την Τετάρτη, τελικοί γύροι την Πέμπτη.</p>
       <div id="drawInfo" class="muted">Φόρτωση παικτών…</div>
       <div style="margin-top:14px">
@@ -59,7 +65,7 @@
     </div>
 
     <div class="card">
-      <h2>3 · Καταχώρηση σκορ</h2>
+      <h2>4 · Καταχώρηση σκορ</h2>
       <p class="sub">Στα 5 σετ — γράψε τα σετ που κέρδισε ο καθένας (ο νικητής φτάνει τα 3). Οι νικητές προχωρούν αυτόματα.</p>
       <div id="matches"><span class="muted">Κάνε πρώτα την κλήρωση.</span></div>
     </div>
@@ -102,6 +108,7 @@
     DB.ref('players').on('value', function(snap){
       players=[]; snap.forEach(function(c){ var v=c.val(); v.id=c.key; players.push(v); });
       updateDrawInfo();
+      renderPlayersAdmin();
     });
     DB.ref('tournament').on('value', function(snap){
       var t=snap.val();
@@ -130,6 +137,42 @@
     var dl='';
     try{ dl=new Date(REGISTRATION_DEADLINE).toLocaleString('el-GR',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}); }catch(e){}
     document.getElementById('regState').innerHTML=pill+' <span style="margin-left:6px">'+mode+'</span><br><span class="muted" style="font-size:13px">Προθεσμία: '+dl+'</span>';
+  }
+
+  // ---- players table: edit name / email / level, or delete ----
+  function attr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+  function opt(v,label,cur){ return '<option value="'+v+'"'+(cur===v?' selected':'')+'>'+label+'</option>'; }
+  function renderPlayersAdmin(){
+    var box=document.getElementById('playersAdmin');
+    if(!box) return;
+    if(!players.length){ box.innerHTML='<span class="muted">Καμία δήλωση ακόμα.</span>'; return; }
+    var sorted=players.slice().sort(function(a,b){return (a.ts||0)-(b.ts||0);});
+    var rows=sorted.map(function(p){
+      return '<tr data-id="'+p.id+'">'+
+        '<td><input class="nm" type="text" value="'+attr(p.name)+'"></td>'+
+        '<td><input class="em" type="email" value="'+attr(p.email)+'"></td>'+
+        '<td><select class="lv">'+opt('novice','Αρχάριος',p.level)+opt('intermediary','Μέσος',p.level)+opt('advanced','Προχωρημένος',p.level)+'</select></td>'+
+        '<td class="row-actions"><button class="btn sm psave">Αποθήκευση</button><button class="btn sm ghost pdel" title="Διαγραφή">✕</button></td>'+
+      '</tr>';
+    }).join('');
+    box.innerHTML='<table><thead><tr><th>Όνομα</th><th>Email</th><th>Επίπεδο</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
+    Array.prototype.forEach.call(box.querySelectorAll('tr[data-id]'), function(tr){
+      var id=tr.getAttribute('data-id');
+      tr.querySelector('.psave').addEventListener('click', function(){
+        var name=tr.querySelector('.nm').value.trim();
+        var email=tr.querySelector('.em').value.trim().toLowerCase();
+        var level=tr.querySelector('.lv').value;
+        if(!name||!email){ note('err','Όνομα και email είναι υποχρεωτικά.'); return; }
+        DB.ref('players/'+id).update({name:name,email:email,level:level})
+          .then(function(){ note('ok','Αποθηκεύτηκε: '+name+'.'); })
+          .catch(function(e){ note('err',e.message); });
+      });
+      tr.querySelector('.pdel').addEventListener('click', function(){
+        var p=players.filter(function(x){return x.id===id;})[0];
+        if(!confirm('Διαγραφή της δήλωσης'+(p?' του/της '+p.name:'')+';')) return;
+        DB.ref('players/'+id).remove().then(function(){ note('ok','Η δήλωση διαγράφηκε.'); }).catch(function(e){ note('err',e.message); });
+      });
+    });
   }
 
   function updateDrawInfo(){

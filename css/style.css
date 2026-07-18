@@ -106,6 +106,16 @@ table.tbl th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-s
 .match-admin .score-in{display:flex;gap:6px;align-items:center}
 .match-admin .score-in input{width:52px;text-align:center;padding:8px}
 .hidden{display:none!important}
+/* players admin table */
+.padmin{overflow-x:auto}
+.padmin table{width:100%;border-collapse:collapse;font-size:14px}
+.padmin th{text-align:left;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.3px;padding:6px 8px;border-bottom:1px solid var(--line)}
+.padmin td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.padmin input,.padmin select{padding:8px 10px;font-size:14px;border-radius:9px}
+.padmin input.nm{min-width:130px}
+.padmin input.em{min-width:170px}
+.padmin .row-actions{display:flex;gap:6px;white-space:nowrap}
+.padmin .pdel{color:#b3123f;border-color:#f5b8c9}
 .footer{color:var(--muted);font-size:12px;text-align:center;margin-top:30px}
 h3.day{margin:22px 0 10px;font-size:15px;color:var(--wolt-dark)}
 code{background:var(--panel2);padding:2px 6px;border-radius:6px;font-size:13px}

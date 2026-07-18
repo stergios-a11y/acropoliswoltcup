@@ -19,9 +19,11 @@
     <nav class="tabs">
       <a href="index.html" class="active">Εγγραφή</a>
       <a href="bracket.html">Ταμπλό &amp; Πρόγραμμα</a>
-      <a href="admin.html">Διαχείριση</a>
+      <a href="admin.html" class="lock" title="Διαχείριση" aria-label="Διαχείριση">🔒</a>
     </nav>
   </header>
+
+  <div id="connLost" class="note err hidden">⚠️ Χάθηκε η σύνδεση με τον server… προσπάθεια επανασύνδεσης.</div>
 
   <!-- HERO -->
   <section class="hero">
@@ -119,21 +121,18 @@
   </div>
 
   <!-- REGISTER -->
-  <div class="card">
+  <div class="card register">
     <h2>✍️ Δήλωσε συμμετοχή</h2>
     <p class="sub">Πες μας ποιος είσαι και πόσο επικίνδυνος είσαι στο τραπέζι. Μία δήλωση ανά άτομο.</p>
 
     <div id="closedBanner" class="note err hidden">🚫 Οι εγγραφές έκλεισαν. Τα λέμε στο τραπέζι!</div>
 
     <form id="regForm">
-      <label for="name">Ονοματεπώνυμο</label>
-      <input type="text" id="name" placeholder="π.χ. Στέργιος Γ." required>
+      <label for="name">Το όνομά σου στο Slack</label>
+      <input type="text" id="name" placeholder="π.χ. Στέργιος Γ." maxlength="40" autocomplete="off" required>
 
-      <label for="email">Email εργασίας</label>
-      <input type="email" id="email" placeholder="you@wolt.com" required>
-
-      <label>Διάλεξε το επίπεδό σου <span style="color:#e0245e">*</span></label>
-      <div class="levels">
+      <label id="levelLabel">Διάλεξε το επίπεδό σου <span style="color:#e0245e">*</span></label>
+      <div class="levels" role="radiogroup" aria-labelledby="levelLabel">
         <label>
           <input type="radio" name="level" value="novice" required>
           <div class="lvl-card"><span class="em">🌱</span><b>Αρχάριος</b><span>Κρατάω ρακέτα, τα υπόλοιπα τύχη</span></div>
@@ -216,25 +215,34 @@
       document.getElementById('submitBtn').disabled=false;
     }
   }
-  DB.ref('settings/registrationOpen').on('value', function(s){ applyRegState(s.val()); });
+  var lastOpen; // cache latest setting so the timer re-checks the deadline without a DB read
+  DB.ref('settings/registrationOpen').on('value', function(s){ lastOpen=s.val(); applyRegState(lastOpen); });
   applyRegState(undefined);
-  // re-check the deadline every 30s so the page closes itself on time
-  setInterval(function(){ DB.ref('settings/registrationOpen').once('value').then(function(s){ applyRegState(s.val()); }); }, 30000);
+  // re-evaluate locally every 30s so the page closes itself when the deadline passes
+  setInterval(function(){ applyRegState(lastOpen); }, 30000);
+
+  // connection indicator
+  (function(){
+    var el=document.getElementById('connLost'), wasConnected=false;
+    DB.ref('.info/connected').on('value', function(s){
+      if(s.val()===true){ wasConnected=true; el.classList.add('hidden'); }
+      else if(wasConnected){ el.classList.remove('hidden'); }
+    });
+  })();
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
     if(regClosed){ show('err','Οι εγγραφές έκλεισαν.'); return; }
     var name=document.getElementById('name').value.trim();
-    var email=document.getElementById('email').value.trim().toLowerCase();
     var levelEl=document.querySelector('input[name=level]:checked');
-    if(!name||!email||!levelEl){ show('err','Συμπλήρωσε όνομα, email και επίπεδο.'); return; }
+    if(!name||!levelEl){ show('err','Συμπλήρωσε το όνομά σου στο Slack και το επίπεδο.'); return; }
 
     var btn=document.getElementById('submitBtn'); btn.disabled=true;
-    DB.ref('players').orderByChild('email').equalTo(email).once('value').then(function(snap){
-      if(snap.exists()){ show('err','Αυτό το email έχει ήδη δηλωθεί. Μία ευκαιρία για δόξα ανά άτομο.'); btn.disabled=false; return; }
+    DB.ref('players').orderByChild('name').equalTo(name).once('value').then(function(snap){
+      if(snap.exists()){ show('err','Αυτό το όνομα έχει ήδη δηλωθεί. Μία ευκαιρία για δόξα ανά άτομο.'); btn.disabled=false; return; }
       var ref=DB.ref('players').push();
       ref.set({
-        name:name, email:email, level:levelEl.value, ts:Date.now()
+        name:name, level:levelEl.value, ts:Date.now()
       }).then(function(){
         show('ok','Μέσα, '+name+'! Θα σε προσθέσουμε στο κανάλι #2026-acropolis-wolt-cup στο Slack — εκεί κανονίζεις τα ματς και ποστάρεις τα σκορ. 🏓');
         form.reset();

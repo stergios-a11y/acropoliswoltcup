@@ -19,10 +19,11 @@
     <nav class="tabs">
       <a href="index.html">Εγγραφή</a>
       <a href="bracket.html">Ταμπλό &amp; Πρόγραμμα</a>
-      <a href="admin.html" class="active">Διαχείριση</a>
+      <a href="admin.html" class="active lock" title="Διαχείριση" aria-label="Διαχείριση">🔒</a>
     </nav>
   </header>
 
+  <div id="connLost" class="note err hidden">⚠️ Χάθηκε η σύνδεση με τον server… προσπάθεια επανασύνδεσης.</div>
   <div id="status"></div>
 
   <div class="card" id="gate">
@@ -81,10 +82,13 @@
 <script>
 (function(){
   var statusEl=document.getElementById('status');
-  function note(t,txt){statusEl.innerHTML='<div class="note '+t+'">'+txt+'</div>';}
+  function note(t,txt){statusEl.innerHTML='<div class="note '+t+'">'+esc(txt)+'</div>';}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 
   if(!DB_READY){ note('err',DB_ERROR); document.getElementById('gate').classList.add('hidden'); return; }
+
+  (function(){ var el=document.getElementById('connLost'),was=false;
+    DB.ref('.info/connected').on('value',function(s){ if(s.val()===true){was=true;el.classList.add('hidden');} else if(was){el.classList.remove('hidden');} }); })();
 
   var players=[];
   var tourney=null;
@@ -125,8 +129,9 @@
     document.getElementById('regCloseBtn').addEventListener('click', function(){ DB.ref('settings/registrationOpen').set(false); });
     document.getElementById('regOpenBtn').addEventListener('click', function(){ DB.ref('settings/registrationOpen').set(true); });
     document.getElementById('regAutoBtn').addEventListener('click', function(){ DB.ref('settings/registrationOpen').remove(); });
-    DB.ref('settings/registrationOpen').on('value', function(s){ renderRegState(s.val()); });
-    setInterval(function(){ DB.ref('settings/registrationOpen').once('value').then(function(s){ renderRegState(s.val()); }); }, 30000);
+    var lastOpen;
+    DB.ref('settings/registrationOpen').on('value', function(s){ lastOpen=s.val(); renderRegState(lastOpen); });
+    setInterval(function(){ renderRegState(lastOpen); }, 30000);
   }
   function renderRegState(open){
     var past=Date.now()>REGISTRATION_DEADLINE, closed, mode;
@@ -139,7 +144,7 @@
     document.getElementById('regState').innerHTML=pill+' <span style="margin-left:6px">'+mode+'</span><br><span class="muted" style="font-size:13px">Προθεσμία: '+dl+'</span>';
   }
 
-  // ---- players table: edit name / email / level, or delete ----
+  // ---- players table: edit Slack name / level, or delete ----
   function attr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
   function opt(v,label,cur){ return '<option value="'+v+'"'+(cur===v?' selected':'')+'>'+label+'</option>'; }
   function renderPlayersAdmin(){
@@ -149,21 +154,21 @@
     var sorted=players.slice().sort(function(a,b){return (a.ts||0)-(b.ts||0);});
     var rows=sorted.map(function(p){
       return '<tr data-id="'+p.id+'">'+
-        '<td><input class="nm" type="text" value="'+attr(p.name)+'"></td>'+
-        '<td><input class="em" type="email" value="'+attr(p.email)+'"></td>'+
+        '<td><input class="nm" type="text" maxlength="40" value="'+attr(p.name)+'"></td>'+
         '<td><select class="lv">'+opt('novice','Αρχάριος',p.level)+opt('intermediary','Μέσος',p.level)+opt('advanced','Προχωρημένος',p.level)+'</select></td>'+
         '<td class="row-actions"><button class="btn sm psave">Αποθήκευση</button><button class="btn sm ghost pdel" title="Διαγραφή">✕</button></td>'+
       '</tr>';
     }).join('');
-    box.innerHTML='<table><thead><tr><th>Όνομα</th><th>Email</th><th>Επίπεδο</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
+    box.innerHTML='<table><thead><tr><th>Όνομα στο Slack</th><th>Επίπεδο</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
     Array.prototype.forEach.call(box.querySelectorAll('tr[data-id]'), function(tr){
       var id=tr.getAttribute('data-id');
       tr.querySelector('.psave').addEventListener('click', function(){
         var name=tr.querySelector('.nm').value.trim();
-        var email=tr.querySelector('.em').value.trim().toLowerCase();
         var level=tr.querySelector('.lv').value;
-        if(!name||!email){ note('err','Όνομα και email είναι υποχρεωτικά.'); return; }
-        DB.ref('players/'+id).update({name:name,email:email,level:level})
+        if(!name){ note('err','Το όνομα στο Slack είναι υποχρεωτικό.'); return; }
+        var dup=players.some(function(x){ return x.id!==id && (x.name||'').toLowerCase()===name.toLowerCase(); });
+        if(dup){ note('err','Υπάρχει ήδη παίκτης με αυτό το όνομα.'); return; }
+        DB.ref('players/'+id).update({name:name,level:level})
           .then(function(){ note('ok','Αποθηκεύτηκε: '+name+'.'); })
           .catch(function(e){ note('err',e.message); });
       });

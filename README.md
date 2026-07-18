@@ -2,7 +2,7 @@
 
 A three-page website for running a handicap table-tennis cup at work.
 
-- **`index.html`** — players declare participation: name, email, and level (novice / intermediary / advanced). Shows a live list of who's registered.
+- **`index.html`** — players declare participation: their **Slack name** and level (novice / intermediary / advanced). Shows a live list of who's registered. No email is collected.
 - **`bracket.html`** — live single-elimination bracket + day-by-day schedule, fed by results.
 - **`admin.html`** — passcode-protected: draw the bracket and enter scores. Winners advance automatically.
 
@@ -37,7 +37,7 @@ In **Realtime Database → Rules**, paste this and Publish. It lets anyone regis
 ```json
 {
   "rules": {
-    "players":   { ".read": true, ".write": true, ".indexOn": ["email"] },
+    "players":   { ".read": true, ".write": true, ".indexOn": ["name"] },
     "tournament":{ ".read": true, ".write": true },
     "settings":  { ".read": true, ".write": true }
   }

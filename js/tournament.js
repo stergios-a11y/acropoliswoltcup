@@ -61,7 +61,8 @@
   }
 
   /* Assign rounds to tournament days.
-     Final -> day 24. Earlier rounds split across 22 and 23.            */
+     Round 1 (biggest) → Monday & Tuesday, final two rounds → Thursday,
+     everything in between → Wednesday.                                  */
   function dayForRound(round, totalRounds) {
     // Round 1 is the biggest → spans Monday & Tuesday. Final two rounds → Thursday. Middle → Wednesday.
     if (round === 1) return "Δευτέρα & Τρίτη";

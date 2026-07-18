@@ -33,8 +33,13 @@ nav.tabs a{
 }
 nav.tabs a:hover{background:rgba(255,255,255,.15)}
 nav.tabs a.active{background:#fff;color:var(--wolt);border-color:#fff}
+nav.tabs a.lock{padding:8px 13px;font-size:15px;line-height:1}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:20px;box-shadow:0 4px 18px rgba(1,42,58,.05)}
 .card h2{margin:0 0 4px;font-size:18px;color:var(--wolt-ink)}
+/* prominent registration card */
+.card.register{background:linear-gradient(180deg,#e3f4ff 0,#ffffff 72%);border:2px solid var(--wolt);
+  box-shadow:0 14px 36px rgba(0,157,224,.22)}
+.card.register > h2{color:var(--wolt-dark);font-size:20px}
 .card .sub{color:var(--muted);font-size:14px;margin:0 0 18px}
 label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 6px}
 input[type=text],input[type=email],input[type=password],select{
@@ -44,7 +49,7 @@ input[type=text],input[type=email],input[type=password],select{
 input:focus,select:focus{border-color:var(--wolt);box-shadow:0 0 0 3px rgba(0,157,224,.15)}
 .levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
 .levels label{margin:0;cursor:pointer}
-.levels input{display:none}
+.levels input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 .lvl-card{position:relative;border:2px solid var(--line);border-radius:12px;padding:16px 13px 13px;text-align:center;background:#fff;transition:.15s;cursor:pointer}
 .lvl-card:hover{border-color:#9fd4ef;background:#f7fcff}
 .lvl-card b{display:block;font-size:15px;color:var(--text)}

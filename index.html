@@ -31,7 +31,7 @@
       <h2>Ώρα για πινγκ πονγκ. 🏓</h2>
       <p>Το εταιρικό πρωτάθλημα όπου το «δεν έχω ξαναπαίξει» δεν πιάνει: το σύστημα προβαδίσματος δίνει σε όλους ελπίδα — από τους εντελώς αρχάριους μέχρι τους σκληροπυρηνικούς του διαλείμματος.</p>
       <div class="chips">
-        <span class="chip">Στα 3 σετ</span>
+        <span class="chip">Πρώτος στις 3 νίκες</span>
         <span class="chip">Προβάδισμα</span>
         <span class="chip">Δευτ → Πέμ</span>
         <span class="chip">Έπαθλο: ρακέτα 🏆</span>
@@ -90,9 +90,9 @@
     <h2 style="font-size:16px">🏓 Σκορ εκκίνησης</h2>
     <p class="sub">Ο πιο αδύναμος ξεκινάει κάθε σετ με προβάδισμα:</p>
     <div class="score-list">
-      <div class="score-row"><span class="who">Αρχάριος <span class="lv">vs</span> Προχωρημένο</span><span class="sc">3–0</span></div>
+      <div class="score-row"><span class="who">Αρχάριος <span class="lv">vs</span> Προχωρημένο</span><span class="sc">4–0</span></div>
       <div class="score-row"><span class="who">Αρχάριος <span class="lv">vs</span> Μέσο</span><span class="sc">2–0</span></div>
-      <div class="score-row"><span class="who">Μέσος <span class="lv">vs</span> Προχωρημένο</span><span class="sc">1–0</span></div>
+      <div class="score-row"><span class="who">Μέσος <span class="lv">vs</span> Προχωρημένο</span><span class="sc">2–0</span></div>
       <div class="score-row even"><span class="who">Ίδιο επίπεδο</span><span class="sc">0–0</span></div>
     </div>
     <p class="muted" style="font-size:12.5px;margin-top:10px">Το προβάδισμα ισχύει σε <b>κάθε σετ</b>, όχι μία φορά.</p>
@@ -146,7 +146,7 @@
           <div class="lvl-card"><span class="em">⚡</span><b>Προχωρημένος</b><span>Έχω σέρβις που τρομάζει</span></div>
         </label>
       </div>
-      <p class="levels-hint">👆 <b>Πάτησε</b> μία από τις τρεις κάρτες για να διαλέξεις επίπεδο.</p>
+      <p class="levels-hint">👆 <b>Διάλεξε</b> μία από τις τρεις κάρτες (με κλικ ή πληκτρολόγιο).</p>
 
       <button type="submit" class="btn" id="submitBtn">Δήλωσε συμμετοχή 🏓</button>
       <div id="msg"></div>
@@ -238,8 +238,10 @@
     if(!name||!levelEl){ show('err','Συμπλήρωσε το όνομά σου στο Slack και το επίπεδο.'); return; }
 
     var btn=document.getElementById('submitBtn'); btn.disabled=true;
-    DB.ref('players').orderByChild('name').equalTo(name).once('value').then(function(snap){
-      if(snap.exists()){ show('err','Αυτό το όνομα έχει ήδη δηλωθεί. Μία ευκαιρία για δόξα ανά άτομο.'); btn.disabled=false; return; }
+    DB.ref('players').once('value').then(function(snap){
+      var dup=false, low=name.toLowerCase();
+      snap.forEach(function(c){ if(((c.val().name||'')+'').toLowerCase()===low){ dup=true; return true; } });
+      if(dup){ show('err','Αυτό το όνομα έχει ήδη δηλωθεί. Μία ευκαιρία για δόξα ανά άτομο.'); btn.disabled=false; return; }
       var ref=DB.ref('players').push();
       ref.set({
         name:name, level:levelEl.value, ts:Date.now()

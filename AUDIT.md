@@ -1,5 +1,28 @@
 # Acropolis Wolt Cup — Site Audit
 
+## Re-audit (latest state)
+
+Re-ran the full sweep after the Slack-name/lock/a11y changes.
+
+**Verified clean ✅**
+- Engine regression: n=2…64 all pass (placement, byes to favourites, champion always reached, score validation).
+- All pages parse; no email fields or email data left in any form or JS; assets all present.
+- XSS: admin `note()` escaped; public pages escape names (`esc`/`attr`/SVG `esc(trunc())`); bracket `note()` only ever receives app strings.
+- Deadline copy consistent everywhere (Δευτέρα 17:00); day copy consistent (Δευτ–Τρί / Τετ / Πέμ); rules `.indexOn` updated to `name`.
+- Keyboard: level radios now focusable; lock nav link has `aria-label`.
+
+**New minor findings 🟡**
+1. `admin.html` players-card subtitle still says "όνομα, **email** ή επίπεδο" — stale word, the email column is gone.
+2. Hero chips say **«Στα 3 σετ»** while rules/cards say **«Στα 5 σετ»** — both defensible in Greek (first to 3 vs best of 5) but inconsistent side by side.
+3. Name dedupe is **case-sensitive at registration** (`equalTo`) but **case-insensitive in admin edit** — «Στέργιος» and «στέργιος» could both register.
+4. Levels hint says only «Πάτησε» — keyboard selection also works now (cosmetic).
+
+All four are cosmetic/low-risk. Known accepted risks unchanged: DB world-read/write, client-side passcode.
+
+---
+
+# Original audit
+
 _Comprehensive review of logic, security, privacy, accessibility, UX and code quality._
 
 **Overall verdict:** Solid for a friendly internal cup. The tournament engine is correct and well-tested. The main real risks are **privacy/security from wide-open database rules** and a couple of small **XSS / accessibility** bugs. None block launch for an internal audience, but the items marked 🔴/🟠 are worth addressing.

@@ -9,9 +9,9 @@
   var LEVEL_LABEL = { novice: "Αρχάριος", intermediary: "Μέσος", advanced: "Προχωρημένος" };
 
   /* ---- Handicap: head-start points for the lower-level player ----
-     novice vs advanced      -> novice starts +3
+     novice vs advanced      -> novice starts +4
      novice vs intermediary   -> novice starts +2
-     intermediary vs advanced -> intermediary starts +1
+     intermediary vs advanced -> intermediary starts +2
      Returns { favoredLevel, points, text } where favoredLevel is the
      level string that receives the head start ('' if none).            */
   function handicap(levelA, levelB) {
@@ -19,7 +19,7 @@
     if (!a || !b || a === b) return { favoredLevel: "", points: 0, text: "Χωρίς προβάδισμα — καθαρή μάχη." };
     var lowLevel = a < b ? levelA : levelB; // lower rank = weaker = gets head start
     var pair = [Math.min(a, b), Math.max(a, b)].join("-");
-    var pts = { "1-3": 3, "1-2": 2, "2-3": 1 }[pair] || 0;
+    var pts = { "1-3": 4, "1-2": 2, "2-3": 2 }[pair] || 0;
     return {
       favoredLevel: lowLevel,
       points: pts,

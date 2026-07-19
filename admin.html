@@ -67,7 +67,7 @@
 
     <div class="card">
       <h2>4 · Καταχώρηση σκορ</h2>
-      <p class="sub">Στα 5 σετ — γράψε τα σετ που κέρδισε ο καθένας (ο νικητής φτάνει τα 3). Οι νικητές προχωρούν αυτόματα.</p>
+      <p class="sub">Στα 3 νικηφόρα σετ — γράψε τα σετ που κέρδισε ο καθένας (ο νικητής φτάνει τα 3). Οι νικητές προχωρούν αυτόματα.</p>
       <div id="matches"><span class="muted">Κάνε πρώτα την κλήρωση.</span></div>
     </div>
   </div>
@@ -257,7 +257,7 @@
     var arr=tourney.matches.map(function(m){return Object.assign({},m);});
     var res=TT.recordResult(arr, matchId, g1, g2);
     if(!res.ok){
-      var map={"Match not found.":"Ο αγώνας δεν βρέθηκε.","Both players not set yet.":"Δεν έχουν οριστεί και οι δύο παίκτες.","Best of 5 — the winner must reach 3 games.":"Στα 5 σετ — ο νικητής πρέπει να φτάσει τα 3 σετ.","Games can't be tied.":"Τα σετ δεν γίνεται να είναι ισόπαλα."};
+      var map={"Match not found.":"Ο αγώνας δεν βρέθηκε.","Both players not set yet.":"Δεν έχουν οριστεί και οι δύο παίκτες.","Best of 5 — the winner must reach 3 games.":"Στα 3 νικηφόρα — ο νικητής πρέπει να φτάσει τα 3 σετ.","Games can't be tied.":"Τα σετ δεν γίνεται να είναι ισόπαλα."};
       note('err', map[res.error]||res.error); return;
     }
     DB.ref('tournament/matches').set(arrToObj(arr))

@@ -63,6 +63,17 @@
         <button class="btn ghost" id="resetBtn" style="margin-left:8px">Καθαρισμός ταμπλό</button>
       </div>
       <div id="drawMsg"></div>
+
+      <div id="swapBox" class="hidden" style="margin-top:18px;padding-top:16px;border-top:1px solid var(--line)">
+        <h2 style="font-size:15px">🔄 Ανταλλαγή θέσεων</h2>
+        <p class="sub">Αντάλλαξε τις θέσεις δύο παικτών στο ταμπλό (π.χ. για να παίξουν άλλη μέρα). Επιτρέπεται μόνο όσο δεν έχει καταχωρηθεί κανένα σκορ.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <select id="swapA" style="flex:1;min-width:160px"></select>
+          <span class="muted">⇄</span>
+          <select id="swapB" style="flex:1;min-width:160px"></select>
+          <button class="btn sm" id="swapBtn">Ανταλλαγή</button>
+        </div>
+      </div>
     </div>
 
     <div class="card">
@@ -118,7 +129,56 @@
       var t=snap.val();
       tourney = (t&&t.matches) ? { rounds:t.rounds, size:t.size, matches:objToArr(t.matches) } : null;
       renderMatches();
+      renderSwap();
     });
+    document.getElementById('swapBtn').addEventListener('click', doSwap);
+  }
+
+  // ---- swap two players' bracket slots (only before any result) ----
+  function anyResults(){ return tourney && tourney.matches.some(function(m){return m.status==='done';}); }
+  function r1Slots(){
+    var slots=[];
+    if(!tourney) return slots;
+    tourney.matches.filter(function(m){return m.round===1;}).forEach(function(m){
+      if(m.p1Id) slots.push({id:m.p1Id,name:m.p1Name,mid:m.id,slot:'p1'});
+      if(m.p2Id) slots.push({id:m.p2Id,name:m.p2Name,mid:m.id,slot:'p2'});
+    });
+    return slots;
+  }
+  function renderSwap(){
+    var box=document.getElementById('swapBox');
+    if(!tourney || anyResults()){ box.classList.add('hidden'); return; }
+    box.classList.remove('hidden');
+    var opts=r1Slots().sort(function(a,b){return a.name.localeCompare(b.name,'el');})
+      .map(function(s){return '<option value="'+s.id+'">'+esc(s.name)+'</option>';}).join('');
+    document.getElementById('swapA').innerHTML=opts;
+    document.getElementById('swapB').innerHTML=opts;
+  }
+  function doSwap(){
+    if(!tourney) return;
+    if(anyResults()){ note('err','Έχουν ήδη καταχωρηθεί σκορ — δεν επιτρέπεται ανταλλαγή. Κάνε επανακλήρωση αν χρειάζεται.'); return; }
+    var aId=document.getElementById('swapA').value, bId=document.getElementById('swapB').value;
+    if(!aId||!bId||aId===bId){ note('err','Διάλεξε δύο διαφορετικούς παίκτες.'); return; }
+    var slots=r1Slots();
+    var A=slots.filter(function(s){return s.id===aId;})[0], B=slots.filter(function(s){return s.id===bId;})[0];
+    if(!A||!B){ note('err','Δεν βρέθηκαν οι παίκτες στο ταμπλό.'); return; }
+    var arr=tourney.matches.map(function(m){return Object.assign({},m);});
+    function get(mid){ return arr.filter(function(m){return m.id===mid;})[0]; }
+    var mA=get(A.mid), mB=get(B.mid);
+    var pa={id:mA[A.slot+'Id'],name:mA[A.slot+'Name'],level:mA[A.slot+'Level']};
+    var pb={id:mB[B.slot+'Id'],name:mB[B.slot+'Name'],level:mB[B.slot+'Level']};
+    mA[A.slot+'Id']=pb.id; mA[A.slot+'Name']=pb.name; mA[A.slot+'Level']=pb.level;
+    mB[B.slot+'Id']=pa.id; mB[B.slot+'Name']=pa.name; mB[B.slot+'Level']=pa.level;
+    // refresh bye winners + re-propagate into round 2
+    [mA,mB].forEach(function(m){
+      if(m.isBye){
+        m.winnerId = m.p1Id || m.p2Id;
+        TT.advanceWinner(arr, m);
+      }
+    });
+    DB.ref('tournament/matches').set(arrToObj(arr))
+      .then(function(){ note('ok','Έγινε ανταλλαγή: '+pa.name+' ⇄ '+pb.name+'.'); })
+      .catch(function(e){ note('err',e.message); });
   }
 
   function objToArr(o){ return Object.keys(o).map(function(k){return o[k];}); }

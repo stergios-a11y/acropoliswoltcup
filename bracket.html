@@ -14,7 +14,7 @@
     <div class="brand">
       <img class="emblem" src="assets/emblem.svg" alt="Acropolis Wolt Cup" width="50" height="53">
       <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Πινγκ πονγκ</span></h1>
-      <small>1ος γύρος Δευτ–Τρί · 2ος–3ος Τετ · Τελικοί Πέμ</small></div>
+      <small>1ος γύρος 20–21/7 · 2ος–3ος 22/7 · Τελικοί 23/7</small></div>
     </div>
     <nav class="tabs">
       <a href="index.html">Εγγραφή</a>
@@ -56,9 +56,9 @@
     <h2>🗓️ Πρόγραμμα γύρων</h2>
     <p class="sub">Πότε παίζεται κάθε φάση — με τα χρώματα που βλέπεις στους τίτλους του ταμπλό.</p>
     <div class="rules-grid">
-      <div class="rule"><div class="ic">1️⃣</div><div><b><span class="b-strip" style="background:#009de0"></span>Δευτέρα &amp; Τρίτη</b><span>1ος γύρος (ο μεγαλύτερος).</span></div></div>
-      <div class="rule"><div class="ic">2️⃣</div><div><b><span class="b-strip" style="background:#17b890"></span>Τετάρτη</b><span>2ος &amp; 3ος γύρος.</span></div></div>
-      <div class="rule"><div class="ic">🏆</div><div><b><span class="b-strip" style="background:#e0245e"></span>Πέμπτη</b><span>Τελικοί γύροι — ημιτελικοί &amp; τελικός.</span></div></div>
+      <div class="rule"><div class="ic">1️⃣</div><div><b><span class="b-strip" style="background:#009de0"></span>Δευτέρα 20 &amp; Τρίτη 21 Ιουλίου</b><span>1ος γύρος (ο μεγαλύτερος).</span></div></div>
+      <div class="rule"><div class="ic">2️⃣</div><div><b><span class="b-strip" style="background:#17b890"></span>Τετάρτη 22 Ιουλίου</b><span>2ος &amp; 3ος γύρος.</span></div></div>
+      <div class="rule"><div class="ic">🏆</div><div><b><span class="b-strip" style="background:#e0245e"></span>Πέμπτη 23 Ιουλίου</b><span>Τελικοί γύροι — ημιτελικοί &amp; τελικός.</span></div></div>
     </div>
   </div>
 
@@ -93,10 +93,10 @@
   var statusEl=document.getElementById('status');
   var bracketEl=document.getElementById('bracket');
   var scheduleEl=document.getElementById('schedule');
-  var DAYS={ "Δευτέρα & Τρίτη":"Δευτέρα & Τρίτη · 1ος γύρος", "Τετάρτη":"Τετάρτη · 2ος & 3ος γύρος", "Πέμπτη":"Πέμπτη · Τελικοί γύροι" };
+  var DAYS={ "Δευτέρα & Τρίτη":"Δευτέρα 20 & Τρίτη 21 Ιουλίου · 1ος γύρος", "Τετάρτη":"Τετάρτη 22 Ιουλίου · 2ος & 3ος γύρος", "Πέμπτη":"Πέμπτη 23 Ιουλίου · Τελικοί γύροι" };
   var DAY_ORDER=["Δευτέρα & Τρίτη","Τετάρτη","Πέμπτη"];
   var DAYCOLOR={ "Δευτέρα & Τρίτη":"#009de0", "Τετάρτη":"#17b890", "Πέμπτη":"#e0245e" };
-  var DAYSHORT={ "Δευτέρα & Τρίτη":"ΔΕΥΤ & ΤΡΙ", "Τετάρτη":"ΤΕΤΑΡΤΗ", "Πέμπτη":"ΠΕΜΠΤΗ" };
+  var DAYSHORT={ "Δευτέρα & Τρίτη":"ΔΕΥΤ 20 & ΤΡΙ 21", "Τετάρτη":"ΤΕΤΑΡΤΗ 22", "Πέμπτη":"ΠΕΜΠΤΗ 23" };
   var LVLCOLOR={novice:"#00c2e8",intermediary:"#f5a623",advanced:"#e0245e"};
   function dayForRound(r,total){ if(r===1)return "Δευτέρα & Τρίτη"; if(r>total-2)return "Πέμπτη"; return "Τετάρτη"; }
 

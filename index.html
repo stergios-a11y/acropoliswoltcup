@@ -14,7 +14,7 @@
     <div class="brand">
       <img class="emblem" src="assets/emblem.svg" alt="Acropolis Wolt Cup" width="50" height="53">
       <div><h1>Acropolis Wolt Cup <span class="pill">🏓 Πινγκ πονγκ</span></h1>
-      <small>1ος γύρος Δευτ–Τρί · 2ος–3ος Τετ · Τελικοί Πέμ</small></div>
+      <small>1ος γύρος 20–21/7 · 2ος–3ος 22/7 · Τελικοί 23/7</small></div>
     </div>
     <nav class="tabs">
       <a href="index.html" class="active">Εγγραφή</a>
@@ -33,7 +33,7 @@
       <div class="chips">
         <span class="chip">Πρώτος στις 3 νίκες</span>
         <span class="chip">Προβάδισμα</span>
-        <span class="chip">Δευτ → Πέμ</span>
+        <span class="chip">20–23 Ιουλίου</span>
         <span class="chip">Έπαθλο: ρακέτα 🏆</span>
       </div>
     </div>
@@ -69,7 +69,7 @@
   <div class="deadline" id="deadlineBox">
     <div class="dl-txt">
       <span class="cal">🗓️</span>
-      <div><b>Οι δηλώσεις γίνονται δεκτές μέχρι τη Δευτέρα, 17:00</b>
+      <div><b>Οι δηλώσεις γίνονται δεκτές μέχρι τη Δευτέρα 20 Ιουλίου, 17:00</b>
       <span id="deadlineSub">Μετά τη λήξη το τραπέζι κλείνει για νέες εγγραφές.</span></div>
     </div>
     <span class="status-pill open" id="statusPill">Ανοιχτές</span>
@@ -104,9 +104,9 @@
     <h2>🗓️ Πρόγραμμα</h2>
     <p class="sub">Τρεις μέρες, με τα χρώματα που θα δεις και στο ταμπλό.</p>
     <div class="sched-strip">
-      <div class="sday" style="border-top:4px solid #009de0"><span class="tag" style="background:#009de0">ΔΕΥΤ &amp; ΤΡΙ</span><b>1ος γύρος</b><span class="rnd">Ο μεγαλύτερος γύρος — σε δύο μέρες.</span></div>
-      <div class="sday" style="border-top:4px solid #17b890"><span class="tag" style="background:#17b890">ΤΕΤΑΡΤΗ</span><b>2ος &amp; 3ος γύρος</b><span class="rnd">Εδώ ξεχωρίζουν οι σοβαροί.</span></div>
-      <div class="sday" style="border-top:4px solid #e0245e"><span class="tag" style="background:#e0245e">ΠΕΜΠΤΗ</span><b>Τελικοί γύροι</b><span class="rnd">Ημιτελικοί &amp; τελικός.</span></div>
+      <div class="sday" style="border-top:4px solid #009de0"><span class="tag" style="background:#009de0">ΔΕΥΤ 20 &amp; ΤΡΙ 21 ΙΟΥΛ</span><b>1ος γύρος</b><span class="rnd">Ο μεγαλύτερος γύρος — σε δύο μέρες.</span></div>
+      <div class="sday" style="border-top:4px solid #17b890"><span class="tag" style="background:#17b890">ΤΕΤΑΡΤΗ 22 ΙΟΥΛ</span><b>2ος &amp; 3ος γύρος</b><span class="rnd">Εδώ ξεχωρίζουν οι σοβαροί.</span></div>
+      <div class="sday" style="border-top:4px solid #e0245e"><span class="tag" style="background:#e0245e">ΠΕΜΠΤΗ 23 ΙΟΥΛ</span><b>Τελικοί γύροι</b><span class="rnd">Ημιτελικοί &amp; τελικός.</span></div>
     </div>
   </div>
 
@@ -203,7 +203,7 @@
     if(regClosed){
       box.classList.add('closed');
       pill.className='status-pill closed'; pill.textContent='Έκλεισαν';
-      sub.textContent = (open===false) ? 'Οι εγγραφές έκλεισαν από τη διοργάνωση.' : 'Η προθεσμία (Δευτέρα 17:00) έληξε.';
+      sub.textContent = (open===false) ? 'Οι εγγραφές έκλεισαν από τη διοργάνωση.' : 'Η προθεσμία (Δευτέρα 20/7, 17:00) έληξε.';
       banner.classList.remove('hidden');
       form.classList.add('closed');
       document.getElementById('submitBtn').disabled=true;

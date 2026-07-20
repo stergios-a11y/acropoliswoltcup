@@ -18,7 +18,7 @@ All shared data (registrations, bracket, scores) lives in a free **Firebase Real
   - Same level → even start.
 - **Seeding / byes:** players are seeded by level (advanced first, then intermediary, then novice; ties broken by who registered earlier). When the field isn't a power of two, the **top seeds get first-round byes** — i.e. higher-level players skip round 1 and start in round 2.
 - **Days:** round 1 is the biggest and is played across **Monday & Tuesday**; rounds 2–3 on **Wednesday**; the final two rounds (semi-finals and final) on **Thursday**. Round titles on the bracket are colour-coded by day.
-- **Slack:** everyone who registers is added to the **#2026-acropolis-wolt-cup** Slack channel, where players schedule their own matches and post scores.
+- **Slack:** everyone who registers is added to the **#1st-acropolis-world-cup** Slack channel, where players schedule their own matches and post scores.
 
 ---
 

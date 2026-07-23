@@ -1,4 +1,4 @@
-# 🏓 Acropolis Wolt Cup
+# 🏓 1st Acropolis Wolt Cup
 
 A three-page website for running a handicap table-tennis cup at work.
 

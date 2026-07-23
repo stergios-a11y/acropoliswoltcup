@@ -1,4 +1,4 @@
-<svg width="560" height="170" viewBox="0 0 560 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Acropolis Wolt Cup">
+<svg width="560" height="170" viewBox="0 0 560 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="1st Acropolis Wolt Cup">
   <defs>
     <linearGradient id="blade" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#00c2e8"/>
@@ -51,6 +51,6 @@
       <tspan fill="#009de0">WOLT</tspan><tspan fill="#012a3a"> CUP</tspan>
     </text>
     <circle cx="157" cy="133" r="4.5" fill="#009de0"/>
-    <text x="169" y="138" font-size="15" font-weight="700" letter-spacing="3" fill="#5d7c8f">ΠΙΝΓΚ ΠΟΝΓΚ · 2026</text>
+    <text x="169" y="138" font-size="15" font-weight="700" letter-spacing="3" fill="#5d7c8f">1ST · ΠΙΝΓΚ ΠΟΝΓΚ · 2026</text>
   </g>
 </svg>

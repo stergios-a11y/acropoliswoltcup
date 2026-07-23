@@ -95,13 +95,13 @@ table.tbl th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-s
 .sv-box.done{fill:#f6fbfe}
 .sv-div{stroke:var(--line);stroke-width:1}
 .sv-conn{fill:none;stroke:#b9d7e6;stroke-width:1.6}
-.sv-name{font:600 12.5px -apple-system,Segoe UI,Roboto,sans-serif;fill:var(--text)}
+.sv-name{font:600 10.5px -apple-system,Segoe UI,Roboto,sans-serif;fill:var(--text)}
 .sv-name.tbd{fill:#9fb6c4;font-style:italic;font-weight:400}
 .sv-name.win{fill:var(--wolt-dark);font-weight:800}
-.sv-score{font:800 13px -apple-system,Segoe UI,Roboto,sans-serif;fill:var(--muted)}
+.sv-score{font:800 11px -apple-system,Segoe UI,Roboto,sans-serif;fill:var(--muted)}
 .sv-score.win{fill:var(--wolt)}
-.sv-round{font:700 12px -apple-system,Segoe UI,Roboto,sans-serif;fill:var(--wolt-dark);text-transform:uppercase;letter-spacing:.5px}
-.sv-day{font:800 10px -apple-system,Segoe UI,Roboto,sans-serif;letter-spacing:.6px}
+.sv-round{font:700 11px -apple-system,Segoe UI,Roboto,sans-serif;fill:var(--wolt-dark);text-transform:uppercase;letter-spacing:.4px}
+.sv-day{font:800 8.5px -apple-system,Segoe UI,Roboto,sans-serif;letter-spacing:.5px}
 .sv-tag{font:700 9px -apple-system,Segoe UI,Roboto,sans-serif}
 .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:12px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}

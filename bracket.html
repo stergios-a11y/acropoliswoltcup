@@ -132,7 +132,7 @@
 
   /* ---- SVG bracket graph ---- */
   function buildSVG(size, map, rounds){
-    var boxW=170, boxH=46, colGap=54, rowGap=16, topPad=52, leftPad=6;
+    var boxW=128, boxH=34, colGap=26, rowGap=8, topPad=46, leftPad=4;
     var firstMatches=size/2;
     var unit=boxH+rowGap;
     var totalH=firstMatches*unit;
@@ -148,9 +148,9 @@
     for(var r=1;r<=rounds;r++){
       var mInRound=firstMatches/Math.pow(2,r-1);
       var day=dayForRound(r,rounds), col=DAYCOLOR[day], tx=colX(r)+boxW/2;
-      titles+='<text class="sv-round" x="'+tx+'" y="16" text-anchor="middle" fill="'+col+'">'+esc(roundName(r,rounds))+'</text>';
-      titles+='<text class="sv-day" x="'+tx+'" y="32" text-anchor="middle" fill="'+col+'">'+esc(DAYSHORT[day]||day.toUpperCase())+'</text>';
-      titles+='<rect x="'+(tx-28)+'" y="39" width="56" height="3" rx="1.5" fill="'+col+'"/>';
+      titles+='<text class="sv-round" x="'+tx+'" y="14" text-anchor="middle" fill="'+col+'">'+esc(roundName(r,rounds))+'</text>';
+      titles+='<text class="sv-day" x="'+tx+'" y="28" text-anchor="middle" fill="'+col+'">'+esc(DAYSHORT[day]||day.toUpperCase())+'</text>';
+      titles+='<rect x="'+(tx-22)+'" y="34" width="44" height="2.5" rx="1.25" fill="'+col+'"/>';
       for(var i=0;i<mInRound;i++){
         var x=colX(r), y=cy(r,i)-boxH/2;
         var m=map[r+'_'+i];
@@ -164,24 +164,24 @@
         boxes+=boxSVG(x,y,boxW,boxH,m);
       }
     }
-    return '<svg width="'+width+'" height="'+height+'" viewBox="0 0 '+width+' '+height+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ταμπλό τουρνουά, '+rounds+' γύροι">'
+    return '<svg viewBox="0 0 '+width+' '+height+'" style="width:100%;max-width:'+width+'px;height:auto;display:block;margin:0 auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ταμπλό τουρνουά, '+rounds+' γύροι">'
       + conns + titles + boxes + '</svg>';
   }
 
   function slotSVG(x,y,w,h,name,level,score,isWin,tbd){
     var barColor=level?LVLCOLOR[level]:'transparent';
-    var bar='<rect x="'+x+'" y="'+y+'" width="4" height="'+h+'" fill="'+barColor+'"/>';
+    var bar='<rect x="'+x+'" y="'+y+'" width="3" height="'+h+'" fill="'+barColor+'"/>';
     var cls='sv-name'+(isWin?' win':'')+(tbd?' tbd':'');
     var scls='sv-score'+(isWin?' win':'');
-    var nm='<text class="'+cls+'" x="'+(x+11)+'" y="'+(y+h/2+4)+'">'+esc(trunc(name,18))+'</text>';
-    var sc=(score===''||score==null)?'':'<text class="'+scls+'" x="'+(x+w-9)+'" y="'+(y+h/2+4)+'" text-anchor="end">'+score+'</text>';
+    var nm='<text class="'+cls+'" x="'+(x+8)+'" y="'+(y+h/2+3.5)+'">'+esc(trunc(name,13))+'</text>';
+    var sc=(score===''||score==null)?'':'<text class="'+scls+'" x="'+(x+w-7)+'" y="'+(y+h/2+3.5)+'" text-anchor="end">'+score+'</text>';
     return bar+nm+sc;
   }
 
   function boxSVG(x,y,w,h,m){
     var done = m && m.status==='done';
     var boxCls='sv-box'+(done?' done':'');
-    var rect='<rect class="'+boxCls+'" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="8"/>';
+    var rect='<rect class="'+boxCls+'" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="6"/>';
     var div='<line class="sv-div" x1="'+x+'" y1="'+(y+h/2)+'" x2="'+(x+w)+'" y2="'+(y+h/2)+'"/>';
     var top, bot;
     if(!m){

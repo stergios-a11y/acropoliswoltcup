@@ -51,6 +51,7 @@
   </section>
 
   <div id="status"></div>
+  <div id="champBox" class="hidden"></div>
 
   <div class="card">
     <h2>🗓️ Πρόγραμμα γύρων</h2>
@@ -128,7 +129,32 @@
     matches.forEach(function(m){ map[m.round+'_'+m.index]=m; });
     bracketEl.innerHTML=buildSVG(t.size, map, t.rounds);
     renderSchedule(matches, t.rounds);
+    renderChampion(matches, t.rounds);
   });
+
+  /* ---- champion announcement ---- */
+  function renderChampion(matches, total){
+    var box=document.getElementById('champBox');
+    var fin=null;
+    for(var i=0;i<matches.length;i++) if(matches[i].round===total){ fin=matches[i]; break; }
+    if(!fin || fin.status!=='done' || !fin.winnerId){ box.classList.add('hidden'); box.innerHTML=''; return; }
+    var wName = fin.winnerId===fin.p1Id ? fin.p1Name : fin.p2Name;
+    var wLvl  = fin.winnerId===fin.p1Id ? fin.p1Level : fin.p2Level;
+    var score = fin.winnerId===fin.p1Id ? (fin.p1Games+'–'+fin.p2Games) : (fin.p2Games+'–'+fin.p1Games);
+    var colors=['#e0245e','#009de0','#17b890','#f5a623','#ffffff'];
+    var confetti='';
+    for(var c=0;c<26;c++){
+      confetti+='<span class="cf" style="left:'+(2+c*3.8)+'%;background:'+colors[c%5]+
+        ';animation-duration:'+(2.4+(c%7)*.35)+'s;animation-delay:'+((c%9)*.4)+'s"></span>';
+    }
+    box.innerHTML='<div class="champ">'+confetti+
+      '<span class="cup">🏆</span>'+
+      '<div class="lbl">Ο μεγάλος νικητής</div>'+
+      '<div class="nm">'+esc(wName)+'</div>'+
+      '<div class="sub"><span class="badge b-'+wLvl+'">'+(TT.LEVEL_LABEL[wLvl]||'')+'</span> · κέρδισε τον τελικό '+score+
+      ' · η Butterfly Ovtcharov Prime C έχει νέο αφεντικό 🏓</div></div>';
+    box.classList.remove('hidden');
+  }
 
   /* ---- SVG bracket graph ---- */
   function buildSVG(size, map, rounds){

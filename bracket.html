@@ -158,7 +158,7 @@
 
   /* ---- SVG bracket graph ---- */
   function buildSVG(size, map, rounds){
-    var boxW=128, boxH=34, colGap=26, rowGap=8, topPad=46, leftPad=4;
+    var boxW=158, boxH=34, colGap=26, rowGap=8, topPad=46, leftPad=4;
     var firstMatches=size/2;
     var unit=boxH+rowGap;
     var totalH=firstMatches*unit;
@@ -199,9 +199,12 @@
     var bar='<rect x="'+x+'" y="'+y+'" width="3" height="'+h+'" fill="'+barColor+'"/>';
     var cls='sv-name'+(isWin?' win':'')+(tbd?' tbd':'');
     var scls='sv-score'+(isWin?' win':'');
-    var nm='<text class="'+cls+'" x="'+(x+8)+'" y="'+(y+h/2+3.5)+'">'+esc(trunc(name,13))+'</text>';
-    var sc=(score===''||score==null)?'':'<text class="'+scls+'" x="'+(x+w-7)+'" y="'+(y+h/2+3.5)+'" text-anchor="end">'+score+'</text>';
-    return bar+nm+sc;
+    var hasScore=!(score===''||score==null);
+    var scoreW=16; // reserved width for the score column right after the bar
+    var sc=hasScore?'<text class="'+scls+'" x="'+(x+8)+'" y="'+(y+h/2+3.5)+'">'+score+'</text>':'';
+    var nameX=x+(hasScore?8+scoreW:8);
+    var nm='<text class="'+cls+'" x="'+nameX+'" y="'+(y+h/2+3.5)+'">'+esc(trunc(name,hasScore?17:20))+'</text>';
+    return bar+sc+nm;
   }
 
   function boxSVG(x,y,w,h,m){

@@ -158,7 +158,7 @@
 
   /* ---- SVG bracket graph ---- */
   function buildSVG(size, map, rounds){
-    var boxW=158, boxH=34, colGap=26, rowGap=8, topPad=46, leftPad=4;
+    var boxW=205, boxH=34, colGap=24, rowGap=8, topPad=46, leftPad=4;
     var firstMatches=size/2;
     var unit=boxH+rowGap;
     var totalH=firstMatches*unit;
@@ -203,7 +203,8 @@
     var scoreW=16; // reserved width for the score column right after the bar
     var sc=hasScore?'<text class="'+scls+'" x="'+(x+8)+'" y="'+(y+h/2+3.5)+'">'+score+'</text>':'';
     var nameX=x+(hasScore?8+scoreW:8);
-    var nm='<text class="'+cls+'" x="'+nameX+'" y="'+(y+h/2+3.5)+'">'+esc(trunc(name,hasScore?17:20))+'</text>';
+    var nameAreaChars=Math.floor((w-(hasScore?8+scoreW:8)-6)/5.4); // ~5.4px/char at this font size
+    var nm='<text class="'+cls+'" x="'+nameX+'" y="'+(y+h/2+3.5)+'">'+esc(trunc(name,nameAreaChars))+'</text>';
     return bar+sc+nm;
   }
 

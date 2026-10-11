@@ -88,7 +88,6 @@
     return '<section class="cup-arch">'+hof+
       '<div class="card">'+
         '<h2>📊 '+esc(c.name)+' σε αριθμούς</h2>'+stats+upsHTML+
-        (c.referees&&c.referees.length?'<p class="muted" style="font-size:13px;margin:14px 0 0">⚖️ Αλυτάρχες: '+c.referees.map(esc).join(' &amp; ')+'</p>':'')+
       '</div>'+
       '<div class="card"><h2>Τελικό ταμπλό</h2><p class="sub">Όπως έκλεισε — με τα σκορ κάθε αγώνα.</p>'+
         '<div class="bracket-scroll">'+BV.buildSVG(c.size,BV.toMap(ms),c.rounds,{dayShort:c.dayShort})+'</div>'+

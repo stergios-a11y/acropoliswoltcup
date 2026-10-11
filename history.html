@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="archive">
 <div class="wrap">
   <header class="site">
     <div class="brand">
@@ -53,9 +53,6 @@
   root.innerHTML=H.map(function(c){
     var ms=c.matches, played=ms.filter(function(m){return !m.isBye && m.status==='done';});
     var f=BV.finalResult(ms,c.rounds);
-    var semis=ms.filter(function(m){return m.round===c.rounds-1 && m.status==='done';}).map(function(m){
-      return m.winnerId===m.p1Id ? {name:m.p2Name,level:m.p2Level} : {name:m.p1Name,level:m.p1Level};
-    });
     var cnt={advanced:0,intermediary:0,novice:0}; c.players.forEach(function(p){cnt[p.level]++;});
     var sets=played.reduce(function(s,m){return s+(+m.p1Games)+(+m.p2Games);},0);
 
@@ -74,11 +71,6 @@
         '<div class="lbl">🏆 Ο νικητής</div>'+
         '<div class="nm">'+esc(f?f.winner:'—')+'</div>'+
         (f?'<div class="sub">'+badge(f.winnerLevel)+' · κέρδισε τον τελικό <b>'+esc(f.score)+'</b>'+(c.prize?' και πήρε σπίτι τη '+esc(c.prize):'')+'</div>':'')+
-        '<div class="podium">'+
-          (f?'<div class="pd p1"><span>🥇</span><b>'+esc(f.winner)+'</b>'+badge(f.winnerLevel)+'</div>'+
-             '<div class="pd p2"><span>🥈</span><b>'+esc(f.runnerUp)+'</b>'+badge(f.runnerUpLevel)+'</div>':'')+
-          semis.map(function(s){return '<div class="pd p3"><span>🥉</span><b>'+esc(s.name)+'</b>'+badge(s.level)+'</div>';}).join('')+
-        '</div>'+
       '</div></div>';
 
     var stats='<div class="hstats">'+
@@ -100,11 +92,8 @@
       '</div>'+
       '<div class="card"><h2>Τελικό ταμπλό</h2><p class="sub">Όπως έκλεισε — με τα σκορ κάθε αγώνα.</p>'+
         '<div class="bracket-scroll">'+BV.buildSVG(c.size,BV.toMap(ms),c.rounds,{dayShort:c.dayShort})+'</div>'+
-        '<div class="legend"><span>'+badge('novice')+'</span><span>'+badge('intermediary')+'</span><span>'+badge('advanced')+'</span><span>🔵 μπλε = νικητής · ΡΕΠΟ = πρόκριση χωρίς αγώνα</span></div>'+
+        '<div class="legend"><span>'+badge('novice')+'</span><span>'+badge('intermediary')+'</span><span>'+badge('advanced')+'</span><span>έντονο = νικητής · ΡΕΠΟ = πρόκριση χωρίς αγώνα</span></div>'+
       '</div>'+
-      '<details class="card results"><summary><h2 style="display:inline">📋 Όλα τα αποτελέσματα</h2></summary>'+
-        BV.scheduleHTML(ms,c.rounds,{dayLong:c.dayLong,handicap:false})+
-      '</details>'+
     '</section>';
   }).join('');
 })();

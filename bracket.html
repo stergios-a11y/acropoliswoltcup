@@ -135,10 +135,10 @@
     box.innerHTML='<div class="champ">'+BV.confettiHTML()+
       '<span class="cup">🏆</span>'+
       '<div class="lbl">Ο μεγάλος νικητής του '+esc(CUP.name)+'</div>'+
-      (CUP.winnerPhoto?'<img class="winner-photo" src="'+esc(CUP.winnerPhoto)+'" alt="Ο νικητής με τη νέα του ρακέτα" loading="lazy">':'')+
+      (CUP.winnerPhoto?'<img class="winner-photo" src="'+esc(CUP.winnerPhoto)+'" alt="Ο νικητής" loading="lazy">':'')+
       '<div class="nm">'+esc(f.winner)+'</div>'+
       '<div class="sub"><span class="badge b-'+f.winnerLevel+'">'+(TT.LEVEL_LABEL[f.winnerLevel]||'')+'</span> · κέρδισε τον τελικό '+f.score+
-      ' · ο θρόνος έχει νέο ένοικο 🏓</div></div>';
+      ' · κερδίζει τη δωροκάρτα Wolt 50€ 🎁</div></div>';
     box.classList.remove('hidden');
   }
 })();

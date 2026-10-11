@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acropolis Wolt Cup — Ιστορικό</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <div class="brand">
+      <img class="emblem" src="assets/emblem.svg" alt="Acropolis Wolt Cup" width="50" height="53">
+      <div><h1>Acropolis Wolt Cup <span class="edition">Ιστορικό</span></h1>
+      <small>Όλα τα cups, όλοι οι νικητές, όλα τα σκορ</small></div>
+    </div>
+    <nav class="tabs">
+      <a href="index.html">Εγγραφή</a>
+      <a href="bracket.html">Ταμπλό &amp; Πρόγραμμα</a>
+      <a href="history.html" class="active">🏛️ Ιστορικό</a>
+      <a href="admin.html" class="lock" title="Διαχείριση" aria-label="Διαχείριση">🔒</a>
+    </nav>
+  </header>
+
+  <section class="hero hero-archive">
+    <span class="hero-mark" aria-hidden="true">🏛️</span>
+    <div class="htext">
+      <h2>Το Πάνθεον του πινγκ πονγκ</h2>
+      <p>Εδώ μένουν για πάντα οι νικητές — μαζί με τα σκορ που κάποιοι θα προτιμούσαν να ξεχάσουμε.</p>
+      <div class="chips"><a class="chip" href="index.html" style="text-decoration:none">➜ Δήλωσε στο 2nd Acropolis Wolt Cup</a></div>
+    </div>
+  </section>
+
+  <div id="cups"><span class="muted">Φόρτωση…</span></div>
+
+  <div class="footer">Τα αποτελέσματα είναι αρχειοθετημένα και δεν αλλάζουν.</div>
+</div>
+
+<script src="js/tournament.js"></script>
+<script src="js/bracket-view.js"></script>
+<script src="data/cup1.js"></script>
+<script>
+(function(){
+  var esc=BV.esc, L=TT.LEVEL_LABEL, LV=TT.LEVELS;
+  var H=(window.CUP_HISTORY||[]).slice().sort(function(a,b){return b.n-a.n;});
+  var root=document.getElementById('cups');
+  if(!H.length){ root.innerHTML='<div class="card muted">Δεν υπάρχουν ακόμα ολοκληρωμένα cups.</div>'; return; }
+
+  function badge(l){ return '<span class="badge b-'+l+'">'+(L[l]||'')+'</span>'; }
+
+  root.innerHTML=H.map(function(c){
+    var ms=c.matches, played=ms.filter(function(m){return !m.isBye && m.status==='done';});
+    var f=BV.finalResult(ms,c.rounds);
+    var semis=ms.filter(function(m){return m.round===c.rounds-1 && m.status==='done';}).map(function(m){
+      return m.winnerId===m.p1Id ? {name:m.p2Name,level:m.p2Level} : {name:m.p1Name,level:m.p1Level};
+    });
+    var cnt={advanced:0,intermediary:0,novice:0}; c.players.forEach(function(p){cnt[p.level]++;});
+    var sets=played.reduce(function(s,m){return s+(+m.p1Games)+(+m.p2Games);},0);
+
+    // upsets: lower level beat higher level (biggest gap first)
+    var ups=played.map(function(m){
+      var wP1=m.winnerId===m.p1Id;
+      var w={n:wP1?m.p1Name:m.p2Name,l:wP1?m.p1Level:m.p2Level,g:wP1?m.p1Games:m.p2Games};
+      var lo={n:wP1?m.p2Name:m.p1Name,l:wP1?m.p2Level:m.p1Level,g:wP1?m.p2Games:m.p1Games};
+      return {w:w,lo:lo,gap:LV[lo.l]-LV[w.l],round:m.round};
+    }).filter(function(u){return u.gap>0;}).sort(function(a,b){return b.gap-a.gap||a.lo.g-b.lo.g;});
+
+    var hof='<div class="hof">'+BV.confettiHTML(18)+
+      (c.photo?'<img class="hof-photo" src="'+esc(c.photo)+'" alt="'+esc(f?f.winner:'')+' με τη νέα του ρακέτα">':'<div class="hof-photo ph">🏆</div>')+
+      '<div class="hof-txt">'+
+        '<span class="hof-ed">'+esc(c.name)+' · '+esc(c.dates)+'</span>'+
+        '<div class="lbl">🏆 Ο νικητής</div>'+
+        '<div class="nm">'+esc(f?f.winner:'—')+'</div>'+
+        (f?'<div class="sub">'+badge(f.winnerLevel)+' · κέρδισε τον τελικό <b>'+esc(f.score)+'</b>'+(c.prize?' και πήρε σπίτι τη '+esc(c.prize):'')+'</div>':'')+
+        '<div class="podium">'+
+          (f?'<div class="pd p1"><span>🥇</span><b>'+esc(f.winner)+'</b>'+badge(f.winnerLevel)+'</div>'+
+             '<div class="pd p2"><span>🥈</span><b>'+esc(f.runnerUp)+'</b>'+badge(f.runnerUpLevel)+'</div>':'')+
+          semis.map(function(s){return '<div class="pd p3"><span>🥉</span><b>'+esc(s.name)+'</b>'+badge(s.level)+'</div>';}).join('')+
+        '</div>'+
+      '</div></div>';
+
+    var stats='<div class="hstats">'+
+      '<div><b>'+c.players.length+'</b><span>παίκτες</span></div>'+
+      '<div><b>'+played.length+'</b><span>αγώνες</span></div>'+
+      '<div><b>'+sets+'</b><span>σετ</span></div>'+
+      '<div><b>'+cnt.advanced+' / '+cnt.intermediary+' / '+cnt.novice+'</b><span>προχ. / μέσοι / αρχ.</span></div>'+
+    '</div>';
+
+    var upsHTML = ups.length ? '<h3 class="day">⚡ Οι εκπλήξεις</h3><div class="upsets">'+ups.map(function(u){
+      return '<div class="ups"><b>'+esc(u.w.n)+'</b> '+badge(u.w.l)+' <span class="muted">νίκησε</span> '+esc(u.lo.n)+' '+badge(u.lo.l)+
+        ' <span class="ups-sc">'+u.w.g+'–'+u.lo.g+'</span> <span class="muted">· '+BV.roundName(u.round,c.rounds)+'</span></div>';
+    }).join('')+'</div>' : '';
+
+    return '<section class="cup-arch">'+hof+
+      '<div class="card">'+
+        '<h2>📊 '+esc(c.name)+' σε αριθμούς</h2>'+stats+upsHTML+
+        (c.referees&&c.referees.length?'<p class="muted" style="font-size:13px;margin:14px 0 0">⚖️ Αλυτάρχες: '+c.referees.map(esc).join(' &amp; ')+'</p>':'')+
+      '</div>'+
+      '<div class="card"><h2>Τελικό ταμπλό</h2><p class="sub">Όπως έκλεισε — με τα σκορ κάθε αγώνα.</p>'+
+        '<div class="bracket-scroll">'+BV.buildSVG(c.size,BV.toMap(ms),c.rounds,{dayShort:c.dayShort})+'</div>'+
+        '<div class="legend"><span>'+badge('novice')+'</span><span>'+badge('intermediary')+'</span><span>'+badge('advanced')+'</span><span>🔵 μπλε = νικητής · ΡΕΠΟ = πρόκριση χωρίς αγώνα</span></div>'+
+      '</div>'+
+      '<details class="card results"><summary><h2 style="display:inline">📋 Όλα τα αποτελέσματα</h2></summary>'+
+        BV.scheduleHTML(ms,c.rounds,{dayLong:c.dayLong,handicap:false})+
+      '</details>'+
+    '</section>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

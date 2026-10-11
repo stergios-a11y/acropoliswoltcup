@@ -1,8 +1,8 @@
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="1st Acropolis Wolt Cup">
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="2nd Acropolis Wolt Cup">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#00c2e8"/>
-      <stop offset="1" stop-color="#009de0"/>
+      <stop offset="0" stop-color="#009de0"/>
+      <stop offset="1" stop-color="#03466b"/>
     </linearGradient>
   </defs>
   <rect x="0" y="0" width="64" height="64" rx="15" fill="url(#bg)"/>
@@ -19,6 +19,6 @@
     <rect x="10" y="54" width="42" height="3.6" rx="1.2"/>
   </g>
   <!-- orange ball -->
-  <circle cx="52" cy="13" r="8" fill="#ff8a00"/>
-  <ellipse cx="49" cy="10" rx="2.2" ry="2.8" fill="#ffffff" opacity=".75"/>
+  <circle cx="51" cy="13" r="10" fill="#ff8a00" stroke="#ffffff" stroke-width="1.8"/>
+  <text x="51" y="17.6" font-size="13.5" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-weight="900" fill="#ffffff" text-anchor="middle">2</text>
 </svg>

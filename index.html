@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>1st Acropolis Wolt Cup — Εγγραφή</title>
+<title>2nd Acropolis Wolt Cup — Εγγραφή</title>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="css/style.css">
@@ -12,13 +12,14 @@
 <div class="wrap">
   <header class="site">
     <div class="brand">
-      <img class="emblem" src="assets/emblem.svg" alt="1st Acropolis Wolt Cup" width="50" height="53">
-      <div><h1>1st Acropolis Wolt Cup <span class="pill">🏓 Πινγκ πονγκ</span></h1>
-      <small>1ος γύρος 20–21/7 · 2ος–3ος 22/7 · Τελικοί 23/7</small></div>
+      <img class="emblem" src="assets/emblem.svg" alt="2nd Acropolis Wolt Cup" width="50" height="53">
+      <div><h1>2nd Acropolis Wolt Cup <span class="edition">2η έκδοση</span></h1>
+      <small>1ος γύρος 19–20/10 · 2ος–3ος 21/10 · Τελικοί 22/10</small></div>
     </div>
     <nav class="tabs">
       <a href="index.html" class="active">Εγγραφή</a>
       <a href="bracket.html">Ταμπλό &amp; Πρόγραμμα</a>
+      <a href="history.html">🏛️ Ιστορικό</a>
       <a href="admin.html" class="lock" title="Διαχείριση" aria-label="Διαχείριση">🔒</a>
     </nav>
   </header>
@@ -27,13 +28,14 @@
 
   <!-- HERO -->
   <section class="hero">
+    <span class="hero-mark" aria-hidden="true">II</span>
     <div class="htext">
-      <h2>Ώρα για πινγκ πονγκ. 🏓</h2>
-      <p>Το εταιρικό πρωτάθλημα όπου το «δεν έχω ξαναπαίξει» δεν πιάνει: το σύστημα προβαδίσματος δίνει σε όλους ελπίδα — από τους εντελώς αρχάριους μέχρι τους σκληροπυρηνικούς του διαλείμματος.</p>
+      <h2>Επιστρέφει. Και θέλει ρεβάνς. 🏓</h2>
+      <p>Το Acropolis Wolt Cup ξαναστήνει τραπέζι. Ίδιο προβάδισμα, ίδιοι κανόνες, νέος θρόνος προς κατάκτηση — όσοι έχασαν τον Ιούλιο έχουν ήδη έτοιμες τις δικαιολογίες τους (και ίσως καλύτερο σέρβις).</p>
       <div class="chips">
+        <span class="chip accent">2η έκδοση</span>
         <span class="chip">Πρώτος στις 3 νίκες</span>
-        <span class="chip">Προβάδισμα</span>
-        <span class="chip">20–23 Ιουλίου</span>
+        <span class="chip">19–22 Οκτωβρίου</span>
         <span class="chip">Έπαθλο: ρακέτα 🏆</span>
       </div>
     </div>
@@ -52,10 +54,12 @@
         <ellipse cx="150" cy="108" rx="38" ry="46" fill="#012a3a"/>
         <ellipse cx="137" cy="92" rx="12" ry="16" fill="#ffffff" opacity=".18"/>
       </g>
-      <circle class="ball" cx="176" cy="52" r="15" fill="#ffffff"/>
-      <circle class="ball" cx="176" cy="52" r="15" fill="none" stroke="#00c2e8" stroke-width="2" opacity=".5"/>
+      <g class="ball"><circle cx="176" cy="52" r="15" fill="#ff8a00"/><text x="176" y="58.5" text-anchor="middle" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="18" font-weight="900" fill="#fff">2</text></g>
     </svg>
   </section>
+
+  <!-- DEFENDING CHAMPION (from the archive) -->
+  <a class="defender hidden" id="defender" href="history.html"></a>
 
   <!-- PRIZE -->
   <div class="prize">
@@ -69,7 +73,7 @@
   <div class="deadline" id="deadlineBox">
     <div class="dl-txt">
       <span class="cal">🗓️</span>
-      <div><b>Οι δηλώσεις γίνονται δεκτές μέχρι τη Δευτέρα 20 Ιουλίου, 17:00</b>
+      <div><b>Οι δηλώσεις γίνονται δεκτές μέχρι τη Δευτέρα 19 Οκτωβρίου, 17:00</b>
       <span id="deadlineSub">Μετά τη λήξη το τραπέζι κλείνει για νέες εγγραφές.</span></div>
     </div>
     <span class="status-pill open" id="statusPill">Ανοιχτές</span>
@@ -104,9 +108,9 @@
     <h2>🗓️ Πρόγραμμα</h2>
     <p class="sub">Τρεις μέρες, με τα χρώματα που θα δεις και στο ταμπλό.</p>
     <div class="sched-strip">
-      <div class="sday" style="border-top:4px solid #009de0"><span class="tag" style="background:#009de0">ΔΕΥΤ 20 &amp; ΤΡΙ 21 ΙΟΥΛ</span><b>1ος γύρος</b><span class="rnd">Ο μεγαλύτερος γύρος — σε δύο μέρες.</span></div>
-      <div class="sday" style="border-top:4px solid #17b890"><span class="tag" style="background:#17b890">ΤΕΤΑΡΤΗ 22 ΙΟΥΛ</span><b>2ος &amp; 3ος γύρος</b><span class="rnd">Εδώ ξεχωρίζουν οι σοβαροί.</span></div>
-      <div class="sday" style="border-top:4px solid #e0245e"><span class="tag" style="background:#e0245e">ΠΕΜΠΤΗ 23 ΙΟΥΛ</span><b>Τελικοί γύροι</b><span class="rnd">Ημιτελικοί &amp; τελικός.</span></div>
+      <div class="sday" style="border-top:4px solid #009de0"><span class="tag" style="background:#009de0">ΔΕΥΤ 19 &amp; ΤΡΙ 20 ΟΚΤ</span><b>1ος γύρος</b><span class="rnd">Ο μεγαλύτερος γύρος — σε δύο μέρες.</span></div>
+      <div class="sday" style="border-top:4px solid #17b890"><span class="tag" style="background:#17b890">ΤΕΤΑΡΤΗ 21 ΟΚΤ</span><b>2ος &amp; 3ος γύρος</b><span class="rnd">Εδώ ξεχωρίζουν οι σοβαροί.</span></div>
+      <div class="sday" style="border-top:4px solid #e0245e"><span class="tag" style="background:#e0245e">ΠΕΜΠΤΗ 22 ΟΚΤ</span><b>Τελικοί γύροι</b><span class="rnd">Ημιτελικοί &amp; τελικός.</span></div>
     </div>
   </div>
 
@@ -115,7 +119,7 @@
     <h2>🤝 Πώς παίζεται</h2>
     <p class="sub">Όλα γίνονται στο Slack — εσείς κανονίζετε πότε παίζετε.</p>
     <div class="steps">
-      <div class="step"><div class="num">1</div><b>Μπαίνεις στο κανάλι</b><p>Όλοι όσοι δηλώνουν προστίθενται στο κανάλι <b>#1st-acropolis-world-cup</b> στο Slack.</p></div>
+      <div class="step"><div class="num">1</div><b>Μπαίνεις στο κανάλι</b><p>Όλοι όσοι δηλώνουν προστίθενται στο κανάλι <b class="slackch">#2nd-acropolis-wolt-cup</b> στο Slack.</p></div>
       <div class="step"><div class="num">2</div><b>Κανονίζεις το ματς</b><p>Βρες τον αντίπαλό σου στο κανάλι και κλείστε <b>μόνοι σας</b> πότε παίζετε (στα 3 νικηφόρα σετ).</p></div>
       <div class="step"><div class="num">3</div><b>Ποστάρεις το σκορ</b><p>Γράψε το αποτέλεσμα στο κανάλι για να ενημερωθεί το ταμπλό.</p></div>
     </div>
@@ -124,7 +128,7 @@
   <!-- REGISTER -->
   <div class="card register">
     <h2>✍️ Δήλωσε συμμετοχή</h2>
-    <p class="sub">Πες μας ποιος είσαι και πόσο επικίνδυνος είσαι στο τραπέζι. Μία δήλωση ανά άτομο.</p>
+    <p class="sub">Πες μας ποιος είσαι και πόσο επικίνδυνος είσαι στο τραπέζι. Μία δήλωση ανά άτομο — <b>και όσοι έπαιξαν στο 1ο cup δηλώνουν ξανά</b>.</p>
 
     <div id="closedBanner" class="note err hidden">🚫 Οι εγγραφές έκλεισαν. Τα λέμε στο τραπέζι!</div>
 
@@ -160,13 +164,15 @@
     <div id="playerList"><span class="muted">Φόρτωση…</span></div>
   </div>
 
-  <div class="footer">1st Acropolis Wolt Cup 2026 · με προβάδισμα · στα 3 νικηφόρα σετ 🏓</div>
+  <div class="footer">2nd Acropolis Wolt Cup · Οκτώβριος 2026 · με προβάδισμα · στα 3 νικηφόρα σετ 🏓 · <a href="history.html">Ιστορικό</a></div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="js/firebase-config.js"></script>
 <script src="js/tournament.js"></script>
+<script src="js/bracket-view.js"></script>
+<script src="data/cup1.js"></script>
 <script>
 (function(){
   var msg=document.getElementById('msg');
@@ -175,6 +181,21 @@
   var countEl=document.getElementById('count');
 
   function show(type,text){ msg.className='note '+type; msg.textContent=text; }
+
+  // Slack channel name from config
+  Array.prototype.forEach.call(document.querySelectorAll('.slackch'), function(el){ el.textContent=CUP.slack; });
+
+  // Defending champion = winner of the most recent archived cup
+  (function(){
+    var H=window.CUP_HISTORY||[]; if(!H.length) return;
+    var last=H[H.length-1], f=BV.finalResult(last.matches,last.rounds); if(!f) return;
+    var el=document.getElementById('defender');
+    el.innerHTML=(last.photo?'<img src="'+last.photo+'" alt="'+esc(f.winner)+'">':'<span class="dcup">🏆</span>')+
+      '<div><span class="dlbl">👑 Κάτοχος του τίτλου</span><b>'+esc(f.winner)+'</b>'+
+      '<span>Κατέκτησε το '+esc(last.name)+' με '+esc(f.score)+' στον τελικό. Ποιος θα τον ρίξει από τον θρόνο;</span></div>'+
+      '<span class="dgo">Ιστορικό →</span>';
+    el.classList.remove('hidden');
+  })();
 
   if(!DB_READY){
     show('err', DB_ERROR);
@@ -203,7 +224,7 @@
     if(regClosed){
       box.classList.add('closed');
       pill.className='status-pill closed'; pill.textContent='Έκλεισαν';
-      sub.textContent = (open===false) ? 'Οι εγγραφές έκλεισαν από τη διοργάνωση.' : 'Η προθεσμία (Δευτέρα 20/7, 17:00) έληξε.';
+      sub.textContent = (open===false) ? 'Οι εγγραφές έκλεισαν από τη διοργάνωση.' : 'Η προθεσμία (Δευτέρα 19/10, 17:00) έληξε.';
       banner.classList.remove('hidden');
       form.classList.add('closed');
       document.getElementById('submitBtn').disabled=true;
@@ -217,7 +238,7 @@
     }
   }
   var lastOpen; // cache latest setting so the timer re-checks the deadline without a DB read
-  DB.ref('settings/registrationOpen').on('value', function(s){ lastOpen=s.val(); applyRegState(lastOpen); });
+  R('settings/registrationOpen').on('value', function(s){ lastOpen=s.val(); applyRegState(lastOpen); });
   applyRegState(undefined);
   // re-evaluate locally every 30s so the page closes itself when the deadline passes
   setInterval(function(){ applyRegState(lastOpen); }, 30000);
@@ -239,22 +260,22 @@
     if(!name||!levelEl){ show('err','Συμπλήρωσε το όνομά σου στο Slack και το επίπεδο.'); return; }
 
     var btn=document.getElementById('submitBtn'); btn.disabled=true;
-    DB.ref('players').once('value').then(function(snap){
+    R('players').once('value').then(function(snap){
       var dup=false, low=name.toLowerCase();
       snap.forEach(function(c){ if(((c.val().name||'')+'').toLowerCase()===low){ dup=true; return true; } });
       if(dup){ show('err','Αυτό το όνομα έχει ήδη δηλωθεί. Μία ευκαιρία για δόξα ανά άτομο.'); btn.disabled=false; return; }
-      var ref=DB.ref('players').push();
+      var ref=R('players').push();
       ref.set({
         name:name, level:levelEl.value, ts:Date.now()
       }).then(function(){
-        show('ok','Μέσα, '+name+'! Θα σε προσθέσουμε στο κανάλι #1st-acropolis-world-cup στο Slack — εκεί κανονίζεις τα ματς και ποστάρεις τα σκορ. 🏓');
+        show('ok','Μέσα, '+name+'! Θα σε προσθέσουμε στο κανάλι '+CUP.slack+' στο Slack — εκεί κανονίζεις τα ματς και ποστάρεις τα σκορ. 🏓');
         form.reset();
         btn.disabled=false;
       }).catch(function(err){ show('err','Αποτυχία αποθήκευσης: '+err.message); btn.disabled=false; });
     }).catch(function(err){ show('err','Σφάλμα: '+err.message); btn.disabled=false; });
   });
 
-  DB.ref('players').on('value', function(snap){
+  R('players').on('value', function(snap){
     var players=[];
     snap.forEach(function(c){ var v=c.val(); v.id=c.key; players.push(v); });
     countEl.textContent=players.length+' δηλώσεις';

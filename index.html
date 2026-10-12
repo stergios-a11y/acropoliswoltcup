@@ -19,7 +19,7 @@
     <nav class="tabs">
       <a href="index.html" class="active">Εγγραφή</a>
       <a href="bracket.html">Ταμπλό &amp; Πρόγραμμα</a>
-      <a href="history.html">🏛️ Ιστορικό</a>
+      <a href="history.html">🏛️ Πάνθεον</a>
       <a href="admin.html" class="lock" title="Διαχείριση" aria-label="Διαχείριση">🔒</a>
     </nav>
   </header>
@@ -162,7 +162,7 @@
     <div id="playerList"><span class="muted">Φόρτωση…</span></div>
   </div>
 
-  <div class="footer">2nd Acropolis Wolt Cup · Οκτώβριος 2026 · με προβάδισμα · στα 3 νικηφόρα σετ 🏓 · <a href="history.html">Ιστορικό</a></div>
+  <div class="footer">2nd Acropolis Wolt Cup · Οκτώβριος 2026 · με προβάδισμα · στα 3 νικηφόρα σετ 🏓 · <a href="history.html">Πάνθεον</a></div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -191,7 +191,7 @@
     el.innerHTML=(last.photo?'<img src="'+last.photo+'" alt="'+esc(f.winner)+'">':'<span class="dcup">🏆</span>')+
       '<div><span class="dlbl">👑 Κάτοχος του τίτλου</span><b>'+esc(f.winner)+'</b>'+
       '<span>Κατέκτησε το '+esc(last.name)+' με '+esc(f.score)+' στον τελικό. Ποιος θα τον ρίξει από τον θρόνο;</span></div>'+
-      '<span class="dgo">Ιστορικό →</span>';
+      '<span class="dgo">Πάνθεον →</span>';
     el.classList.remove('hidden');
   })();
 

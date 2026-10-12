@@ -55,18 +55,20 @@
       conns + titles + boxes + "</svg>";
   }
 
-  function slotSVG(x, y, w, h, name, level, score, isWin, tbd) {
+  function slotSVG(x, y, w, h, name, level, score, isWin, tbd, state) {
     var barColor = level ? LVLCOLOR[level] : "transparent";
     var bar = '<rect x="' + x + '" y="' + y + '" width="3" height="' + h + '" fill="' + barColor + '"/>';
-    var cls = "sv-name" + (isWin ? " win" : "") + (tbd ? " tbd" : "");
-    var scls = "sv-score" + (isWin ? " win" : "");
+    // state: "win" (won a played match) -> highlighted row, "lose" -> greyed out
+    var bg = state === "win" ? '<rect class="sv-winbg" x="' + (x + 3) + '" y="' + (y + 1) + '" width="' + (w - 4) + '" height="' + (h - 2) + '" rx="3"/>' : "";
+    var cls = "sv-name" + (isWin ? " win" : "") + (tbd ? " tbd" : "") + (state === "lose" ? " lose" : "");
+    var scls = "sv-score" + (isWin ? " win" : "") + (state === "lose" ? " lose" : "");
     var hasScore = !(score === "" || score == null);
     var scoreW = 16;
     var sc = hasScore ? '<text class="' + scls + '" x="' + (x + 8) + '" y="' + (y + h / 2 + 3.5) + '">' + score + "</text>" : "";
     var nameX = x + (hasScore ? 8 + scoreW : 8);
     var nameAreaChars = Math.floor((w - (hasScore ? 8 + scoreW : 8) - 6) / 5.4);
     var nm = '<text class="' + cls + '" x="' + nameX + '" y="' + (y + h / 2 + 3.5) + '">' + esc(trunc(name, nameAreaChars)) + "</text>";
-    return bar + sc + nm;
+    return bg + bar + sc + nm;
   }
 
   function boxSVG(x, y, w, h, m) {
@@ -83,8 +85,8 @@
     var p1 = !!m.p1Id, p2 = !!m.p2Id;
     var w1 = done && m.winnerId === m.p1Id, w2 = done && m.winnerId === m.p2Id;
     return rect + div +
-      slotSVG(x, y, w, h / 2, p1 ? m.p1Name : "—", m.p1Level, p1 ? m.p1Games : "", w1, !p1) +
-      slotSVG(x, y + h / 2, w, h / 2, p2 ? m.p2Name : "—", m.p2Level, p2 ? m.p2Games : "", w2, !p2);
+      slotSVG(x, y, w, h / 2, p1 ? m.p1Name : "—", m.p1Level, p1 ? m.p1Games : "", w1, !p1, done ? (w1 ? "win" : "lose") : "") +
+      slotSVG(x, y + h / 2, w, h / 2, p2 ? m.p2Name : "—", m.p2Level, p2 ? m.p2Games : "", w2, !p2, done ? (w2 ? "win" : "lose") : "");
   }
 
   /* Schedule / results tables grouped by day. opts.dayLong: label per day key. */

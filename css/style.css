@@ -340,3 +340,12 @@ body.archive .sv-conn{stroke:#d9c49c}
 body.archive .sv-name.win{fill:#7a5410}
 body.archive .sv-score.win{fill:#b8862b}
 body.archive h3.day{color:#8f6414}
+
+/* bracket: make the winner of each played match obvious */
+.sv-winbg{fill:#d6efff}
+.sv-name.win{font-weight:800}
+.sv-name.lose{fill:#9fb3c0;font-weight:500}
+.sv-score.lose{fill:#b5c5cf}
+body.archive .sv-winbg{fill:#f3dfb2}
+body.archive .sv-name.lose{fill:#b3a083}
+body.archive .sv-score.lose{fill:#c9b896}

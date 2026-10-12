@@ -55,7 +55,7 @@ In **Realtime Database → Rules**, paste this and Publish. It lets anyone regis
 
 ### Registration deadline & closing
 
-Applications auto-close at the time set in `REGISTRATION_DEADLINE` in `js/firebase-config.js` (currently Monday 19 Oct 2026, 17:00 Athens). The registration page shows an open/closed status live. From **Admin → 1 · Εγγραφές** you can also **close now**, **open / extend** (overrides the deadline), or switch back to **auto** (close at the deadline).
+Applications auto-close at the time set in `REGISTRATION_DEADLINE` in `js/firebase-config.js` (currently Monday 19 Oct 2026, 15:00 Athens). The registration page shows an open/closed status live. From **Admin → 1 · Εγγραφές** you can also **close now**, **open / extend** (overrides the deadline), or switch back to **auto** (close at the deadline).
 
 > This is open write access, which is fine for a friendly internal cup. The admin passcode is a light gate on the score page, **not** real security — don't put anything sensitive here. If you want it locked down, enable Firebase Auth (out of scope for this simple build).
 

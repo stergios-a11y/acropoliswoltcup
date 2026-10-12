@@ -71,7 +71,7 @@
   <div class="deadline" id="deadlineBox">
     <div class="dl-txt">
       <span class="cal">🗓️</span>
-      <div><b>Οι δηλώσεις γίνονται δεκτές μέχρι τη Δευτέρα 19 Οκτωβρίου, 17:00</b>
+      <div><b>Οι δηλώσεις γίνονται δεκτές μέχρι τη Δευτέρα 19 Οκτωβρίου, 15:00</b>
       <span id="deadlineSub">Μετά τη λήξη το τραπέζι κλείνει για νέες εγγραφές.</span></div>
     </div>
     <span class="status-pill open" id="statusPill">Ανοιχτές</span>
@@ -132,7 +132,7 @@
 
     <form id="regForm">
       <label for="name">Το όνομά σου στο Slack</label>
-      <input type="text" id="name" placeholder="π.χ. Νίκος Κούκος" maxlength="40" autocomplete="off" required>
+      <input type="text" id="name" placeholder="π.χ. Nikos Koukos" maxlength="40" autocomplete="off" required>
 
       <label id="levelLabel">Διάλεξε το επίπεδό σου <span style="color:#e0245e">*</span></label>
       <div class="levels" role="radiogroup" aria-labelledby="levelLabel">
@@ -206,7 +206,7 @@
   var regClosed=false;
   function fmtDeadline(){
     try{ return new Date(REGISTRATION_DEADLINE).toLocaleString('el-GR',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}); }
-    catch(e){ return 'τη Δευτέρα, 17:00'; }
+    catch(e){ return 'τη Δευτέρα, 15:00'; }
   }
   function applyRegState(open){
     // open: true (forced open) / false (forced closed) / undefined (auto by deadline)
@@ -222,7 +222,7 @@
     if(regClosed){
       box.classList.add('closed');
       pill.className='status-pill closed'; pill.textContent='Έκλεισαν';
-      sub.textContent = (open===false) ? 'Οι εγγραφές έκλεισαν από τη διοργάνωση.' : 'Η προθεσμία (Δευτέρα 19/10, 17:00) έληξε.';
+      sub.textContent = (open===false) ? 'Οι εγγραφές έκλεισαν από τη διοργάνωση.' : 'Η προθεσμία (Δευτέρα 19/10, 15:00) έληξε.';
       banner.classList.remove('hidden');
       form.classList.add('closed');
       document.getElementById('submitBtn').disabled=true;

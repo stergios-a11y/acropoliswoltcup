@@ -37,7 +37,7 @@ var CUP = {
 };
 
 // Registration deadline — applications auto-close at this time (Athens time).
-var REGISTRATION_DEADLINE = new Date("2026-10-19T17:00:00+03:00").getTime();
+var REGISTRATION_DEADLINE = new Date("2026-10-19T15:00:00+03:00").getTime();
 
 // --- init (leave as-is) ---
 var DB = null, DB_READY = false, DB_ERROR = "";

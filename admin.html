@@ -84,7 +84,6 @@
     </div>
   </div>
 
-  <div class="footer">Δεδομένα του τρέχοντος cup στον φάκελο <code id="dbroot"></code> της βάσης · το 1ο cup είναι αρχειοθετημένο και δεν επηρεάζεται από τίποτα εδώ.</div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -97,7 +96,6 @@
   function note(t,txt){statusEl.innerHTML='<div class="note '+t+'">'+esc(txt)+'</div>';}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 
-  document.getElementById('dbroot').textContent=CUP.dbRoot;
   if(!DB_READY){ note('err',DB_ERROR); document.getElementById('gate').classList.add('hidden'); return; }
 
   (function(){ var el=document.getElementById('connLost'),was=false;

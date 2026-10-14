@@ -361,3 +361,7 @@ body.archive .sv-score.lose{fill:#c9b896}
 .hero:has(.hero-photo) .hero-mark{display:none}
 .hero:has(.hero-photo) .htext{max-width:56%}
 @media(max-width:720px){.hero-photo{width:100%}.hero:has(.hero-photo) .htext{max-width:100%}}
+/* winner = green everywhere (distinct from the level colours) */
+.sv-winbg,body.archive .sv-winbg{fill:#d9f5e6}
+.sv-name.win,body.archive .sv-name.win{fill:#0a5c3a;font-weight:800}
+.sv-score.win,body.archive .sv-score.win{fill:#0a8f5b}

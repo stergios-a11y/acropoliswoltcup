@@ -54,14 +54,6 @@
     var cnt={advanced:0,intermediary:0,novice:0}; c.players.forEach(function(p){cnt[p.level]++;});
     var sets=played.reduce(function(s,m){return s+(+m.p1Games)+(+m.p2Games);},0);
 
-    // upsets: lower level beat higher level (biggest gap first)
-    var ups=played.map(function(m){
-      var wP1=m.winnerId===m.p1Id;
-      var w={n:wP1?m.p1Name:m.p2Name,l:wP1?m.p1Level:m.p2Level,g:wP1?m.p1Games:m.p2Games};
-      var lo={n:wP1?m.p2Name:m.p1Name,l:wP1?m.p2Level:m.p1Level,g:wP1?m.p2Games:m.p1Games};
-      return {w:w,lo:lo,gap:LV[lo.l]-LV[w.l],round:m.round};
-    }).filter(function(u){return u.gap>0;}).sort(function(a,b){return b.gap-a.gap||a.lo.g-b.lo.g;});
-
     var hof='<div class="hof">'+BV.confettiHTML(18)+
       (c.photo?'<img class="hof-photo" src="'+esc(c.photo)+'" alt="'+esc(f?f.winner:'')+' με τη νέα του ρακέτα">':'<div class="hof-photo ph">🏆</div>')+
       '<div class="hof-txt">'+
@@ -78,18 +70,13 @@
       '<div><b>'+cnt.advanced+' / '+cnt.intermediary+' / '+cnt.novice+'</b><span>προχ. / μέσοι / αρχ.</span></div>'+
     '</div>';
 
-    var upsHTML = ups.length ? '<h3 class="day">⚡ Οι εκπλήξεις</h3><div class="upsets">'+ups.map(function(u){
-      return '<div class="ups"><b>'+esc(u.w.n)+'</b> '+badge(u.w.l)+' <span class="muted">νίκησε</span> '+esc(u.lo.n)+' '+badge(u.lo.l)+
-        ' <span class="ups-sc">'+u.w.g+'–'+u.lo.g+'</span> <span class="muted">· '+BV.roundName(u.round,c.rounds)+'</span></div>';
-    }).join('')+'</div>' : '';
-
     return '<section class="cup-arch">'+hof+
       '<div class="card">'+
-        '<h2>📊 '+esc(c.name)+' σε αριθμούς</h2>'+stats+upsHTML+
+        '<h2>📊 '+esc(c.name)+' σε αριθμούς</h2>'+stats+
       '</div>'+
       '<div class="card"><h2>Τελικό ταμπλό</h2><p class="sub">Όπως έκλεισε — με τα σκορ κάθε αγώνα.</p>'+
         '<div class="bracket-scroll">'+BV.buildSVG(c.size,BV.toMap(ms),c.rounds,{dayShort:c.dayShort})+'</div>'+
-        '<div class="legend"><span>'+badge('novice')+'</span><span>'+badge('intermediary')+'</span><span>'+badge('advanced')+'</span><span>χρωματιστή γραμμή = νικητής · γκρι = αποκλεισμός · ΡΕΠΟ = πρόκριση χωρίς αγώνα</span></div>'+
+        '<div class="legend"><span>'+badge('novice')+'</span><span>'+badge('intermediary')+'</span><span>'+badge('advanced')+'</span><span>πράσινο = νικητής · γκρι = αποκλεισμός · ΡΕΠΟ = πρόκριση χωρίς αγώνα</span></div>'+
       '</div>'+
     '</section>';
   }).join('');

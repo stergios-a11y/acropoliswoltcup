@@ -166,14 +166,21 @@
     return { id: m.p2Id, name: m.p2Name, level: m.p2Level };
   }
 
-  /* Record a best-of-5 result (first to 3 games). Sets winner + advances. */
+  /* Sets needed to win: 3 (best of 5), but the grand final is best of 7 (first to 4). */
+  function setsToWin(round, totalRounds) { return round === totalRounds ? 4 : 3; }
+
+  /* Record a result. Sets winner + advances. */
   function recordResult(matches, matchId, p1Games, p2Games) {
     var m = null;
     for (var i = 0; i < matches.length; i++) if (matches[i].id === matchId) { m = matches[i]; break; }
     if (!m) return { ok: false, error: "Match not found." };
     if (!m.p1Id || !m.p2Id) return { ok: false, error: "Both players not set yet." };
     p1Games = +p1Games; p2Games = +p2Games;
-    if (Math.max(p1Games, p2Games) !== 3) return { ok: false, error: "Best of 5 — the winner must reach 3 games." };
+    var total = 0;
+    for (var j = 0; j < matches.length; j++) total = Math.max(total, matches[j].round);
+    var need = setsToWin(m.round, total);
+    if (isNaN(p1Games) || isNaN(p2Games) || p1Games < 0 || p2Games < 0) return { ok: false, error: "Invalid score." };
+    if (Math.max(p1Games, p2Games) !== need) return { ok: false, error: "WIN_" + need };
     if (p1Games === p2Games) return { ok: false, error: "Games can't be tied." };
     m.p1Games = p1Games; m.p2Games = p2Games;
     m.winnerId = p1Games > p2Games ? m.p1Id : m.p2Id;
@@ -192,7 +199,8 @@
     dayForRound: dayForRound,
     buildBracket: buildBracket,
     advanceWinner: advanceWinner,
-    recordResult: recordResult
+    recordResult: recordResult,
+    setsToWin: setsToWin
   };
 
   if (typeof module !== "undefined" && module.exports) module.exports = api;

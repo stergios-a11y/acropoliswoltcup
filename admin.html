@@ -79,7 +79,7 @@
 
     <div class="card">
       <h2>4 · Καταχώρηση σκορ</h2>
-      <p class="sub">Στα 3 νικηφόρα σετ — γράψε τα σετ που κέρδισε ο καθένας (ο νικητής φτάνει τα 3). Οι νικητές προχωρούν αυτόματα. Οι μέρες είναι ενδεικτικές — αν ένα ζευγάρι παίξει νωρίτερα, καταχώρησε το σκορ όποτε γίνει το ματς.</p>
+      <p class="sub">Στα 3 νικηφόρα σετ — γράψε τα σετ που κέρδισε ο καθένας (ο νικητής φτάνει τα 3). <b>Ο μεγάλος τελικός είναι στα 4 νικηφόρα</b> (ο νικητής φτάνει τα 4). Οι νικητές προχωρούν αυτόματα. Οι μέρες είναι ενδεικτικές — αν ένα ζευγάρι παίξει νωρίτερα, καταχώρησε το σκορ όποτε γίνει το ματς.</p>
       <div id="matches"><span class="muted">Κάνε πρώτα την κλήρωση.</span></div>
     </div>
   </div>
@@ -276,7 +276,7 @@
     var html='';
     for(var r=1;r<=tourney.rounds;r++){
       var list=(byRound[r]||[]).sort(function(a,b){return a.index-b.index;});
-      html+='<h3 class="day">'+roundName(r,tourney.rounds)+' · '+(list[0]?list[0].day:'')+'</h3>';
+      html+='<h3 class="day">'+roundName(r,tourney.rounds)+' · '+(list[0]?list[0].day:'')+' · στα '+TT.setsToWin(r,tourney.rounds)+' νικηφόρα</h3>';
       list.forEach(function(m){ html+=matchRow(m); });
     }
     box.innerHTML=html;
@@ -319,7 +319,7 @@
     var arr=tourney.matches.map(function(m){return Object.assign({},m);});
     var res=TT.recordResult(arr, matchId, g1, g2);
     if(!res.ok){
-      var map={"Match not found.":"Ο αγώνας δεν βρέθηκε.","Both players not set yet.":"Δεν έχουν οριστεί και οι δύο παίκτες.","Best of 5 — the winner must reach 3 games.":"Στα 3 νικηφόρα — ο νικητής πρέπει να φτάσει τα 3 σετ.","Games can't be tied.":"Τα σετ δεν γίνεται να είναι ισόπαλα."};
+      var map={"Match not found.":"Ο αγώνας δεν βρέθηκε.","Both players not set yet.":"Δεν έχουν οριστεί και οι δύο παίκτες.","WIN_3":"Στα 3 νικηφόρα — ο νικητής πρέπει να φτάσει τα 3 σετ.","WIN_4":"Ο τελικός είναι στα 4 νικηφόρα — ο νικητής πρέπει να φτάσει τα 4 σετ.","Invalid score.":"Μη έγκυρο σκορ.","Games can't be tied.":"Τα σετ δεν γίνεται να είναι ισόπαλα."};
       note('err', map[res.error]||res.error); return;
     }
     R('tournament/matches').set(arrToObj(arr))
